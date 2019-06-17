@@ -8,7 +8,7 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
-import Home from './src/HomeScreen/index.js'
+import Home from './src/Student/HomeScreen/index.js'
 import {createAppContainer} from 'react-navigation'
 
 const instructions = Platform.select({
