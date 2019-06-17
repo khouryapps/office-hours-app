@@ -1,6 +1,6 @@
 import React from "react";
 import { StatusBar } from "react-native";
-import {Form, Item, Input} from 'native-base/index'
+import {Form, Item, Input} from 'native-base'
 import {
   Button,
   Text,
@@ -18,7 +18,7 @@ import {
     FooterTab,
     List,
     ListItem
-} from "native-base/index";
+} from "native-base";
 
 import JoinedOfficeHours from './OfficeHours'
 

@@ -3,7 +3,7 @@ import HomeScreen from "./HomeScreen.js";
 import MainScreenNavigator from "../ChatScreen";
 import ProfileScreen from "../ProfileScreen";
 import SideBar from "../SideBar/SideBar.js";
-import { createDrawerNavigator } from "react-navigation/typescript/react-navigation";
+import { createDrawerNavigator } from "react-navigation";
 
 const HomeScreenRouter = createDrawerNavigator(
   {

@@ -1,6 +1,6 @@
 import React from "react";
 import { AppRegistry, View, StatusBar } from "react-native";
-import { NavigationActions } from "react-navigation/typescript/react-navigation";
+import { NavigationActions } from "react-navigation";
 import {
   Button,
   Text,
@@ -22,7 +22,7 @@ import {
   Footer,
   FooterTab,
   Label
-} from "native-base/index";
+} from "native-base";
 import HomeScreen from "../HomeScreen";
 
 export default class JadeChat extends React.Component {

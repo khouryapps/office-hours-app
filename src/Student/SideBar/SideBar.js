@@ -8,7 +8,7 @@ import {
   ListItem,
   Content, Thumbnail,
   Icon
-} from "native-base/index";
+} from "native-base";
 const routes = ["", "Chat", "Profile"];
 export default class SideBar extends React.Component {
     state = {

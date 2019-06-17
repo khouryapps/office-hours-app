@@ -15,9 +15,9 @@ import {
   Title,
   Button,
   H1
-} from "native-base/index";
+} from "native-base";
 
-import { StackNavigator } from "react-navigation/typescript/react-navigation";
+import { StackNavigator } from "react-navigation";
 import EditScreenOne from "./EditScreenOne.js";
 import EditScreenTwo from "./EditScreenTwo.js";
 

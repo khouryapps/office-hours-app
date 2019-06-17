@@ -15,7 +15,7 @@ import {
   Title,
   Button,
   H1
-} from "native-base/index";
+} from "native-base";
 
 export default class EditScreenOne extends React.Component {
   static navigationOptions = ({ navigation }) => ({

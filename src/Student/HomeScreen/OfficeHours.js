@@ -1,6 +1,6 @@
 import React from 'react'
-import {Text, Container, Card} from 'native-base/index'
-import moment from 'moment/moment'
+import {Text, Container, Card} from 'native-base'
+import moment from 'moment'
 
 
 
