@@ -20,7 +20,7 @@ import {
     ListItem
 } from "native-base";
 
-import JoinedOfficeHours from './OfficeHours'
+import JoinedOfficeHours from './Schedule'
 
 export default class Root extends React.Component {
   state = {
@@ -59,6 +59,7 @@ class HomeScreen extends React.Component {
   }
 
 
+
   render() {
     console.log(this.state.officeHours);
     return (
@@ -84,7 +85,8 @@ class HomeScreen extends React.Component {
               <Icon name='calendar'/>
               <Text>Schedule</Text>
             </Button>
-            <Button light>
+            <Button light
+            onPress={() =>this.props.navigation.navigate("Queue")}>
               <Icon name='clock'/>
               <Text>Queue</Text>
             </Button>

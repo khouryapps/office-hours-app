@@ -1,5 +1,6 @@
 import React from "react";
-import { AppRegistry, Image, StatusBar } from "react-native";
+import {AsyncStorage, AppRegistry, Image, StatusBar } from "react-native";
+
 import {
   Button,
   Text,
@@ -51,6 +52,14 @@ export default class SideBar extends React.Component {
               );
             }}
           />
+          <Button primary>
+              <Text>Settings</Text>
+          </Button>
+            <Button danger onPress = {() => { AsyncStorage.removeItem('userToken', (err) => {
+                this.props.navigation.navigate('AuthLoading')
+            });}}>
+                <Text>Log Out</Text>
+                </Button>
         </Content>
       </Container>
     );

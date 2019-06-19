@@ -7,9 +7,12 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
-import Home from './src/Student/HomeScreen/index.js'
-import {createAppContainer} from 'react-navigation'
+import {AsyncStorage, Platform, StyleSheet, Text, View} from 'react-native';
+import {createAppContainer, createSwitchNavigator} from 'react-navigation'
+import HomeScreen from "./src/Student/HomeScreen/index.js"
+
+import {isSignedIn} from "./src/auth";
+import {Button, Container, Content, Form, Header, Input, Item} from "native-base";
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -18,24 +21,99 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
+class SignIn extends React.Component {
+  state = {
+    username: '',
+    password: '',
+    login_error: ''
+  };
+
+  handle_login() {
+    const body = {username: this.state.username, password: this.state.password};
+    console.log('trying to log in')
+    console.log(body)
+
+    fetch('http://127.0.0.1:8000/api/rest-auth/login/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    }).then(res => res.json())
+        .then(json => {
+          console.log('here is the json', json)
+          if (json.key) {
+            AsyncStorage.setItem('userToken', json.key);
+            console.log('got the token');
+            this.props.navigation.navigate('App')
+          } else if (json.error || json.detail){
+            this.setState({
+              login_error: json.error ? json.error : json.detail,
+            })
+          }
+        }).catch(error => console.log('here is the error', error))
+  }
+
+  render() {
+    return (
+        <Container>
+          <Header />
+          <Content>
+            <Form>
+              <Item>
+                <Input onChangeText={e => this.setState({username: e})} placeholder="Username" />
+              </Item>
+              <Item last>
+                <Input onChangeText={e => this.setState({password: e})} placeholder="Password" />
+              </Item>
+                <Button onPress={() => {this.handle_login()}}>
+                  <Text>Login</Text>
+                </Button>
+            </Form>
+          </Content>
+        </Container>
+    );
+  }
+}
+
+class AuthLoadingScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this._fetchToken()
+  }
+
+  _fetchToken = async () => {
+    try {
+      const userToken = await AsyncStorage.getItem('userToken');
+
+      this.props.navigation.navigate(userToken ? 'App' : 'Auth')
+    } catch (error) {
+      console.log('Having an error with the token', error)
+    }
+
+  };
+
+  render() {
+    return <Text>Loading...</Text>
+  }
+}
 
 
-type Props = {};
-// export default class App extends Component<Props> {
-//   render() {
-//     return (<Home/>)
-//
-//     //   <View style={styles.container}>
-//     //     <Text style={styles.welcome}>Welcome to React Native!</Text>
-//     //     <Text style={styles.instructions}>To get started, edit App.js</Text>
-//     //     <Text style={styles.instructions}>{instructions}</Text>
-//     //   </View>)
-//     // return <HomeScreen />;
-//     // );
-//   }
-// }
+// Implementation of HomeScreen, OtherScreen, SignInScreen, AuthLoadingScreen
+// goes here.
 
-const App = createAppContainer(Home);
+const Root = createSwitchNavigator(
+    {
+      AuthLoading: AuthLoadingScreen,
+      App: HomeScreen,
+      Auth: SignIn,
+    },
+    {
+      initialRouteName: 'AuthLoading',
+    }
+);
+
+
+
+const App = createAppContainer(Root);
 export default App;
 
 const styles = StyleSheet.create({

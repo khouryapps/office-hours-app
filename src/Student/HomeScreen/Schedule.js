@@ -4,7 +4,7 @@ import moment from 'moment'
 
 
 
-class OfficeHours extends React.Component {
+class Schedule extends React.Component {
     render() {
         console.log(this.props);
         return(
@@ -56,7 +56,7 @@ class JoinedOfficeHours extends React.Component {
         return <Container>
             {keys.map(k => <Container>
                 <Text style={{fontSize: 20}}>{groups[k][0].start_time}</Text>
-            {groups[k].map(el => <OfficeHours {...el}/>)}
+            {groups[k].map(el => <Schedule {...el}/>)}
             </Container>)}
             </Container>
     }
