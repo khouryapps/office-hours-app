@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Container, Header, Left, Right, Body, Button, Icon, Title, Text } from 'native-base';
-import { OfficeHours } from '../../Student/HomeScreen/OfficeHours'
+//import { Schedule } from '../../Student/HomeScreen/Schedule'
 
 export default class TAHomeScreen extends React.Component {
     constructor(props){
@@ -68,7 +68,6 @@ export default class TAHomeScreen extends React.Component {
                     <Right/>
                 </Header>
                 <Text>Upcoming Office Hours:</Text>
-                <OfficeHours {...nextOfficeHours} />
                 <Text></Text>
                 <Button onPress={this.I_AM_HERE}>
                     <Text>I AM HERE</Text>
