@@ -22,11 +22,11 @@ class ShowTicket extends React.Component {
                 </CardItem>
                 <CardItem>
                     {status === "Open" ?
-                        <Button onPress={() => this.props.beginHelp(id)}>
+                        <Button onPress={() => this.props.updateStatus(id, "In Progress")}>
                             <Text>Begin Helping</Text>
                         </Button>
                         : status === "In Progress" ?
-                        <Button warning onPress={() => this.props.finishHelp(id)}>
+                        <Button warning onPress={() => this.props.updateStatus(id, "Closed")}>
                             <Text>Finish Helping</Text>
                         </Button>
                             : null}
@@ -37,35 +37,15 @@ class ShowTicket extends React.Component {
 }
 
 export default class QueueList extends React.Component {
-    beginHelp = async (ticket_id) => {
-        try {
-            const apiCall = await fetch('http://127.0.0.1:8002/api/officehours/ticket/edit/' + ticket_id + '/',
-                {
-                    method: 'PATCH',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': "Token a891e91d45001088b201b3c2ebe8a5e87a9121f9"
-                    },
-                    body: JSON.stringify({
-                        status: "In Progress",
-                    }),
-                });
-            const api_response = await apiCall.json()
-            console.log("Begin Help Response: ", api_response)
-        }
-        catch (err) {
-            console.log("ERROR Fetching Data: ", err)
-        }
-    }
+
 
     render() {
         const {tickets} = this.props
         console.log("tickets: ", tickets)
         return (
             <Container>
-                <H2>Current Queue Size: {tickets.length}</H2>
-                {tickets.filter(el => {return el.status === "Open" || el.status === "In Progress"}).map(el => <ShowTicket beginHelp={this.beginHelp} key={el.id} {...el}/>)}
+                <H2>Current Queue Size: {tickets.filter((ticket) => { return ticket.status === "Open" || ticket.status === "In Progress" }).length }</H2>
+                {tickets.filter(el => {return el.status === "Open" || el.status === "In Progress"}).map(el => <ShowTicket updateStatus={this.props.updateStatus} key={el.id} {...el}/>)}
             </Container>
         )
     }
