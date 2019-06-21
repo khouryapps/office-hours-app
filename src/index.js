@@ -1,13 +1,14 @@
 
 
 import {createSwitchNavigator} from 'react-navigation';
-import StudentHomeScreen from './Student/HomeScreen/index.js'
-import TAHomeScreen from './TA/index.js'
+import HomeScreenRouter from './Student/HomeScreen/index.js'
+import TAHomeScreen from './TA/HomeScreen/index.js'
+
 
 export default createSwitchNavigator(
     {
         Student: {
-            screen: StudentHomeScreen
+            screen: HomeScreenRouter
         },
         TA: {
             screen: TAHomeScreen

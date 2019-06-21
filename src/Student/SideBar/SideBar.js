@@ -52,7 +52,8 @@ export default class SideBar extends React.Component {
               );
             }}
           />
-          <Button primary>
+          <Button primary
+                    onPress = {() => {this.props.navigation.navigate('Settings')}}>
               <Text>Settings</Text>
           </Button>
             <Button danger onPress = {() => { AsyncStorage.removeItem('userToken', (err) => {

@@ -1,65 +1,73 @@
-import React from 'react'
-import {Text, Container, Card} from 'native-base'
-import moment from 'moment'
+import React from "react";
+import { StatusBar } from "react-native";
+import {Form, Item, Input} from 'native-base'
+import {
+  Button,
+  Text,
+  Container,
+  Card,
+  CardItem,
+  Body,
+  Content,
+  Header,
+  Title,
+  Left,
+  Icon,
+  Right,
+    Footer,
+    FooterTab,
+    List,
+    ListItem
+} from "native-base";
+
+import JoinedOfficeHours from './OfficeHours'
 
 
 
-class Schedule extends React.Component {
-    render() {
-        console.log(this.props);
-        return(
-            <Card>
-                <Text>{this.props.ta_application.name}</Text>
-                <Text>{this.props.start_time}-{this.props.end_time} - {this.props.room}</Text>
-            </Card>
-        )
-    }
+export default class Schedule extends React.Component {
+  state = {
+    officeHours: [{ta_application: {"name": "Will"}, id:1, room: "WVH 220", date: '06/10/2019', start_time: "10:00", end_time: "11:00"},
+      {ta_application: {"name": "Grisha"}, id:2, room: "WVH 130", date: "06/10/2019", start_time: "11:00", end_time:"12:00"},
+      {ta_application: {"name": "Alex"},id:3, room: "WVH 220", date: "06/11/2019", start_time: "15:00",end_time: "15:40"}],
+    loading: true
+  };
 
+  async componentDidMount() {
+
+    // //Have a try and catch block for catching errors.
+    // try {
+    //   //Assign the promise unresolved first then get the data using the json method.
+    //   const apiCall = await fetch('http://127.0.0.1:8000/api/oht/tahours/', {method: 'GET'});
+    //
+    //   const officeHours = await apiCall.json();
+    //   this.setState({officeHours: officeHours, loading: false});
+    // } catch (err) {
+    //   console.log("Error fetching data-----------", err);
+    // }
+  }
+
+  render() {
+    const {officeHours} = this.state;
+    console.log(officeHours)
+
+    return (
+      <Container>
+        <Header>
+          <Left>
+            <Button
+              transparent
+              onPress={() => this.props.navigation.openDrawer()}
+            >
+              <Icon name="menu" />
+            </Button>
+          </Left>
+          <Body>
+            <Title>Schedule</Title>
+          </Body>
+          <Right />
+        </Header>
+          <JoinedOfficeHours officeHours = {officeHours}/>
+      </Container>
+    );
+  }
 }
-
-class JoinedOfficeHours extends React.Component {
-    state = {
-        groups: {}
-    };
-
-    componentDidMount() {
-        this.representHours()
-    }
-
-    representHours = () => {
-        const {officeHours} = this.props;
-        const sorted = officeHours.sort((a, b) => {
-            return moment(a.start_time) > moment(b.start_time)
-        });
-
-        let groupId = 0;
-        const groups = {};
-        sorted.forEach(hours => {
-            if (groups[groupId] &&
-                (moment(hours.start_time) > moment(groups[groupId].start_time)
-                    && moment(hours.end_time) < moment(groups[groupId].end_time))) {
-                groups[groupId].push(hours);
-            }
-
-            groupId++;
-            groups[groupId] = [hours]
-        });
-        this.setState({groups})
-        //here is going to be some filtering depending on the props
-    };
-
-    render() {
-        const {groups} = this.state;
-
-        const keys = Object.keys(groups);
-
-        return <Container>
-            {keys.map(k => <Container>
-                <Text style={{fontSize: 20}}>{groups[k][0].start_time}</Text>
-            {groups[k].map(el => <Schedule {...el}/>)}
-            </Container>)}
-            </Container>
-    }
-}
-
-export default JoinedOfficeHours;
