@@ -11,7 +11,13 @@ export default class QueueScreen extends React.Component {
     async componentDidMount(){
         try {
             //Assign the promise unresolved first then get the data using the json method.
-            const apiCall = await fetch('http://127.0.0.1:8002/api/officehours/queue/2/', {method: 'GET', headers: {Authorization: "Token a891e91d45001088b201b3c2ebe8a5e87a9121f9"}});
+            const apiCall = await fetch('http://127.0.0.1:8002/api/officehours/queue/2/',
+                {method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': "Token a891e91d45001088b201b3c2ebe8a5e87a9121f9"
+                }});
             const queue_info = await apiCall.json();
             this.setState({
                 tickets: queue_info.tickets,
