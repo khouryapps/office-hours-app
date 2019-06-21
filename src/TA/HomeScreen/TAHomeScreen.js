@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Container, Header, Left, Right, Body, Button, Icon, Title, Text } from 'native-base';
-import { OfficeHours } from '../../Student/HomeScreen/OfficeHours'
+//import { Schedule } from '../../Student/HomeScreen/Schedule'
 
 export default class TAHomeScreen extends React.Component {
     constructor(props){
@@ -13,9 +13,9 @@ export default class TAHomeScreen extends React.Component {
         return fetch('http://127.0.0.1:8002/api/officehours/schedule/upcoming/', {
             method: 'GET',
             headers: {
-                Accept: 'application/json',
+                'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                Authorization: "Token a891e91d45001088b201b3c2ebe8a5e87a9121f9",
+                'Authorization': "Token a891e91d45001088b201b3c2ebe8a5e87a9121f9",
             }
         })
             .then((response) => response.json())
@@ -26,7 +26,6 @@ export default class TAHomeScreen extends React.Component {
                 }, function(){
 
                 });
-                console.log("compontent did mount", responseJson)
             })
             .catch((error) =>{
                 console.error(error);
@@ -37,9 +36,9 @@ export default class TAHomeScreen extends React.Component {
         fetch('http://127.0.0.1:8002/api/officehours/changestatus/', {
             method: 'POST',
             headers: {
-                Accept: 'application/json',
+                'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                Authorization: "Token a891e91d45001088b201b3c2ebe8a5e87a9121f9",
+                'Authorization': "Token a891e91d45001088b201b3c2ebe8a5e87a9121f9",
             },
             body: JSON.stringify({
                 office_hours_id: 5,
@@ -47,7 +46,6 @@ export default class TAHomeScreen extends React.Component {
             }),
         }).then((response) => response.json())
             .then((responseJson) => {
-            console.log("I AM HERE RESPONSE:", responseJson)
         });
     }
 
@@ -68,7 +66,6 @@ export default class TAHomeScreen extends React.Component {
                     <Right/>
                 </Header>
                 <Text>Upcoming Office Hours:</Text>
-                <OfficeHours {...nextOfficeHours} />
                 <Text></Text>
                 <Button onPress={this.I_AM_HERE}>
                     <Text>I AM HERE</Text>
