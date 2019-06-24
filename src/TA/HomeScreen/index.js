@@ -2,7 +2,7 @@ import TAHomeScreen from "./TAHomeScreen";
 import QueueScreen from "../QueueScreen/QueueScreen"
 import { createDrawerNavigator } from "react-navigation";
 
-const HomeScreenRouter = createDrawerNavigator(
+const TAHomeScreenRouter = createDrawerNavigator(
     {
         Home: { screen: TAHomeScreen },
         QueueScreen: {screen: QueueScreen }
@@ -11,4 +11,4 @@ const HomeScreenRouter = createDrawerNavigator(
     },
 );
 
-export default HomeScreenRouter;
+export default TAHomeScreenRouter;

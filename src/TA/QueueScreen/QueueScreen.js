@@ -2,6 +2,8 @@ import React from "react"
 
 import { Button, Container, Icon, Left, Body, Title, Right, Header } from 'native-base';
 import QueueList from './QueueList'
+import CurrentlyHelping from './CurrentlyHelping'
+import {AsyncStorage} from "react-native";
 
 
 export default class QueueScreen extends React.Component {
@@ -9,6 +11,8 @@ export default class QueueScreen extends React.Component {
         tickets: []
     };
     async componentDidMount(){
+        const userToken = await AsyncStorage.getItem('userToken');
+        const username = await AsyncStorage.getItem('username');
         try {
             //Assign the promise unresolved first then get the data using the json method.
             const apiCall = await fetch('http://127.0.0.1:8002/api/officehours/queue/2/',
@@ -21,6 +25,8 @@ export default class QueueScreen extends React.Component {
             const queue_info = await apiCall.json();
             this.setState({
                 tickets: queue_info.tickets,
+                userToken: userToken,
+                username: username,
             });
             console.log("tickets,", this.state.tickets)
         } catch (err) {
@@ -57,8 +63,15 @@ export default class QueueScreen extends React.Component {
         }
     }
 
+    retrieveTicketsCurrentlyHelping = () => {
+        const ticketsCurrentlyHelping = this.state.tickets.filter(ticket => (ticket.ta_helped === this.state.username && ticket.status === "In Progress"))
+        console.log("tickets Currently Helping: ", ticketsCurrentlyHelping)
+        return ticketsCurrentlyHelping
+    }
+
     render() {
-        console.log("tickets state", this.state.tickets)
+        const ticketsCurrentlyHelping = this.state.tickets.filter(ticket => (ticket.ta_helped === this.state.username && ticket.status === "In Progress"))
+        const ticketsShownInQueue = this.state.tickets.filter(ticket => (ticket.status !== "Closed" && !(ticket.ta_helped === this.state.username && ticket.status === "In Progress")))
         return (
             <Container>
                 <Header>
@@ -72,7 +85,8 @@ export default class QueueScreen extends React.Component {
                     </Body>
                     <Right style={{flex:1}}/>
                 </Header>
-                <QueueList tickets={this.state.tickets} updateStatus={this.updateStatus}/>
+                <CurrentlyHelping tickets={ticketsCurrentlyHelping} updateStatus={this.updateStatus}/>
+                <QueueList tickets={ticketsShownInQueue} updateStatus={this.updateStatus}/>
             </Container>
         )
     }

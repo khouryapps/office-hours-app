@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Container, Header, Left, Right, Body, Button, Icon, Title, Text } from 'native-base';
+import {AsyncStorage} from "react-native";
 //import { Schedule } from '../../Student/HomeScreen/Schedule'
 
 export default class TAHomeScreen extends React.Component {
