@@ -18,7 +18,7 @@ export default class QueueList extends React.Component {
                 </Container>
             )
         } else {
-            return null
+            return <H2>The current queue is empty</H2>
         }
 
     }
