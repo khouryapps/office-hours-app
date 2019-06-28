@@ -8,7 +8,6 @@ export default class QueueCode extends React.Component {
     render() {
         return (
             <Container>
-
                 <View style={styles.container}>
                     <Modal
                         visible={this.props.modalVisible}

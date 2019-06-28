@@ -84,9 +84,9 @@ export default class TAHomeScreen extends React.Component {
                          <Container>
                              <Header>
                                  <Left>
-                                     <Button transparent>
-                                         <Icon name='menu'/>
-                                     </Button>
+                                     {/*<Button transparent>*/}
+                                     {/*    <Icon name='menu'/>*/}
+                                     {/*</Button>*/}
                                  </Left>
                                  <Body>
                                      <Title>TA Overview</Title>
@@ -117,9 +117,9 @@ export default class TAHomeScreen extends React.Component {
                      <Container>
                          <Header>
                              <Left>
-                                 <Button transparent>
-                                     <Icon name='menu'/>
-                                 </Button>
+                                 {/*<Button transparent>*/}
+                                 {/*    <Icon name='menu'/>*/}
+                                 {/*</Button>*/}
                              </Left>
                              <Body>
                                  <Title>TA Overview</Title>
