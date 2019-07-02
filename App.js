@@ -9,9 +9,8 @@
 import React, {Component} from 'react';
 import {AsyncStorage, Platform, StyleSheet, Text, View} from 'react-native';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation'
-import HomeScreen from "./src/Student/HomeScreen/index.js"
+import HomeScreenRouter from "./src/index.js"
 
-import {isSignedIn} from "./src/auth";
 import {Button, Container, Content, Form, Header, Input, Item} from "native-base";
 
 const instructions = Platform.select({
@@ -31,7 +30,6 @@ class SignIn extends React.Component {
   handle_login() {
     const body = {username: this.state.username, password: this.state.password};
     console.log('trying to log in')
-    console.log(body)
 
     fetch('http://127.0.0.1:8000/api/rest-auth/login/', {
       method: 'POST',
@@ -39,17 +37,17 @@ class SignIn extends React.Component {
       body: JSON.stringify(body),
     }).then(res => res.json())
         .then(json => {
-          console.log('here is the json', json)
           if (json.key) {
+            console.log("user token: ", json)
             AsyncStorage.setItem('userToken', json.key);
-            console.log('got the token');
-            this.props.navigation.navigate('App')
+            AsyncStorage.setItem('username', this.state.username);
+            this.props.navigation.navigate('App',)
           } else if (json.error || json.detail){
             this.setState({
               login_error: json.error ? json.error : json.detail,
             })
           }
-        }).catch(error => console.log('here is the error', error))
+        }).catch(error => console.log('Error Logging In: ', error))
   }
 
   render() {
@@ -62,7 +60,7 @@ class SignIn extends React.Component {
                 <Input onChangeText={e => this.setState({username: e})} placeholder="Username" />
               </Item>
               <Item last>
-                <Input onChangeText={e => this.setState({password: e})} placeholder="Password" />
+                <Input secureTextEntry={true} onChangeText={e => this.setState({password: e})} placeholder="Password" />
               </Item>
                 <Button onPress={() => {this.handle_login()}}>
                   <Text>Login</Text>
@@ -84,9 +82,9 @@ class AuthLoadingScreen extends React.Component {
     try {
       const userToken = await AsyncStorage.getItem('userToken');
 
-      this.props.navigation.navigate(userToken ? 'App' : 'Auth')
+      this.props.navigation.navigate(userToken ? 'HomeScreen' : 'Auth')
     } catch (error) {
-      console.log('Having an error with the token', error)
+      console.log('Error fetching token ', error)
     }
 
   };
@@ -103,7 +101,7 @@ class AuthLoadingScreen extends React.Component {
 const Root = createSwitchNavigator(
     {
       AuthLoading: AuthLoadingScreen,
-      App: HomeScreen,
+      HomeScreen: HomeScreenRouter,
       Auth: SignIn,
     },
     {
