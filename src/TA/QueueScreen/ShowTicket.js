@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Text, Card, CardItem, Button } from 'native-base'
+import { Image } from "react-native";
 
 export default class ShowTicket extends React.Component {
 
@@ -27,9 +28,18 @@ export default class ShowTicket extends React.Component {
     };
 
     render() {
-        const { id, question, tags, status} = this.props
+        const { id, creator, question, tags, status} = this.props;
         return (
             <Card>
+                <CardItem>
+                    <Image
+                        style={{width: 50, height: 50}}
+                        source={{uri: creator.photo_url}}
+                        />
+                </CardItem>
+                <CardItem>
+                    <Text>Name: {creator.full_name}</Text>
+                </CardItem>
                 <CardItem>
                     <Text>Question: {question}</Text>
                 </CardItem>
