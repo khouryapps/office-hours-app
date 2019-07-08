@@ -1,4 +1,6 @@
 //setup.js
+import {createBottomTabNavigator} from "react-navigation";
+
 jest.mock('Linking', () => {
     return {
         addEventListener: jest.fn(),
@@ -15,6 +17,8 @@ jest.mock('react-navigation', () => {
         createDrawerNavigator: jest.fn(),
         createMaterialTopTabNavigator: jest.fn(),
         createStackNavigator: jest.fn(),
+        createSwitchNavigator: jest.fn(),
+        createBottomTabNavigator: jest.fn(),
         StackActions: {
             push: jest.fn().mockImplementation(x => ({...x,  "type": "Navigation/PUSH"})),
             replace: jest.fn().mockImplementation(x => ({...x,  "type": "Navigation/REPLACE"})),
