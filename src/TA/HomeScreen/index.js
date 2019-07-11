@@ -1,14 +1,18 @@
 import TAHomeScreen from "./TAHomeScreen";
 import QueueScreen from "../QueueScreen/QueueScreen"
 import { createDrawerNavigator } from "react-navigation";
+import Settings from "../../Student/ProfileScreen";
+import SideBar from "../../Student/SideBar/SideBar";
+import React from "react";
 
-const TAHomeScreenRouter = createDrawerNavigator(
+
+export default TAHomeScreenRouter = createDrawerNavigator(
     {
-        Home: { screen: TAHomeScreen },
-        QueueScreen: {screen: QueueScreen }
-        // OfficeHoursOverview: { screen: OfficeHoursOverview }
-        // this screen should contain the queue code, current queue size, how quickly students are being helped
+        TAHome: { screen: TAHomeScreen },
+        TAQueueScreen: {screen: QueueScreen },
+        Settings: { screen: Settings },
     },
+    {
+        contentComponent: props => <SideBar {...props} />
+    }
 );
-
-export default TAHomeScreenRouter;
