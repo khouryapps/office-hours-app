@@ -1,5 +1,5 @@
 //setup.js
-import {createBottomTabNavigator} from "react-navigation";
+
 
 jest.mock('Linking', () => {
     return {
