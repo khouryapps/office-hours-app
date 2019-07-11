@@ -1,5 +1,5 @@
 import React from "react";
-import moment from 'moment'
+import Moment from 'moment'
 
 import {Container, Header, Left, Right, Body, Button, Icon, Title, Text, Card} from 'native-base';
 import {AsyncStorage} from "react-native";
@@ -50,18 +50,13 @@ export default class TAHomeScreen extends React.Component {
                 'Authorization': "Token a891e91d45001088b201b3c2ebe8a5e87a9121f9",
             },
             body: JSON.stringify({
-                office_hours_id: this.state.upcomingOfficeHours[0].id,
+                office_hours_id: this.state.upcomingOfficeHours[0].id, // fix this to check if there are any upcoming office hours
                 status: new_status,
             }),
         }).then((response) => response.json())
             .then((responseJson) => {
                 if (new_status === 'arrived') {
                     queue_id = responseJson.id
-                    console.log("navigating to queue screen")
-                    // updateQueueScreen = this.props.navigation.getParam('updateComponent', 'false')
-                    // if (updateQueueScreen) {
-                    //     updateQueueScreen()
-                    // } 
                     this.props.navigation.navigate('QueueScreen',
                         {
                             queue_id: queue_id,
@@ -96,8 +91,8 @@ export default class TAHomeScreen extends React.Component {
                              <Text>Upcoming Office Hours:</Text>
                              <Card>
                                  <Text>TA: {nextOfficeHours.ta_name}</Text>
-                                 <Text>Start: {nextOfficeHours.start}</Text>
-                                 <Text>End: {(nextOfficeHours.end)}</Text>
+                                 <Text>Start: {Moment(nextOfficeHours.start).format('h:mm a, MMMM d')}</Text>
+                                 <Text>End: {Moment(nextOfficeHours.end).format('h:mm a, MMMM d')}</Text>
                                  <Text> Room: {nextOfficeHours.room}</Text>
                              </Card>
                              <Button onPress={() => this.updateTAStatus("arrived")}>
