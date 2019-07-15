@@ -90,7 +90,7 @@ export default class QueueScreen extends React.Component {
         const updateStatus = this.props.navigation.getParam('updateStatus')
         updateStatus('departed')
         console.log('navigating back to homescreen')
-        this.props.navigation.navigate('Home', )
+        this.props.navigation.navigate('TAHome', )
     }
 
     closeModal = () => {

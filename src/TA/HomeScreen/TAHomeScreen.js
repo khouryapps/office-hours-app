@@ -6,14 +6,13 @@ import {AsyncStorage} from "react-native";
 //import { Schedule } from '../../Student/HomeScreen/Schedule'
 
 export default class TAHomeScreen extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state ={ isLoading: true }
+        this.state = {isLoading: true}
     }
 
 
-
-    componentDidMount(){
+    componentDidMount() {
         console.log("rendering TA Home Screen")
         this.fetchUpcomingOfficeHours()
     }
@@ -32,11 +31,11 @@ export default class TAHomeScreen extends React.Component {
                 this.setState({
                     isLoading: false,
                     upcomingOfficeHours: responseJson,
-                }, function(){
+                }, function () {
                     console.log("upcoming offfice hours, ", responseJson)
                 });
             })
-            .catch((error) =>{
+            .catch((error) => {
                 console.error("Error retrieving upcoming office hours", error);
             });
     }
@@ -57,7 +56,7 @@ export default class TAHomeScreen extends React.Component {
             .then((responseJson) => {
                 if (new_status === 'arrived') {
                     queue_id = responseJson.id
-                    this.props.navigation.navigate('QueueScreen',
+                    this.props.navigation.navigate('TAQueueScreen',
                         {
                             queue_id: queue_id,
                             show_modal: true,
@@ -71,66 +70,59 @@ export default class TAHomeScreen extends React.Component {
 
     render() {
         const {isLoading, upcomingOfficeHours} = this.state;
-         if ( !isLoading ) {
-             if (upcomingOfficeHours.length) {
-                 nextOfficeHours = upcomingOfficeHours[0]
-                 if (nextOfficeHours.queue == null) {
-                     return (
-                         <Container>
-                             <Header>
-                                 <Left>
-                                     <Button
-                                         transparent
-                                         onPress={() => this.props.navigation.openDrawer()}>
-                                         <Icon name="menu" />
-                                     </Button>
-                                 </Left>
-                                 <Body>
-                                     <Title>TA Overview</Title>
-                                 </Body>
-                                 <Right/>
-                             </Header>
-                             <Text>Upcoming Office Hours:</Text>
-                             <Card>
-                                 <Text>TA: {nextOfficeHours.ta_name}</Text>
-                                 <Text>Start: {Moment(nextOfficeHours.start).format('h:mm a, MMMM d')}</Text>
-                                 <Text>End: {Moment(nextOfficeHours.end).format('h:mm a, MMMM d')}</Text>
-                                 <Text> Room: {nextOfficeHours.room}</Text>
-                             </Card>
-                             <Button onPress={() => this.updateTAStatus("arrived")}>
-                                 <Text>I AM HERE</Text>
-                             </Button>
-                         </Container>
-                     );
-                 } else {
-                     console.log("Went straight to queue")
-                     this.props.navigation.navigate('QueueScreen',
-                         {'updateStatus': this.updateTAStatus,
-                             queue_id: nextOfficeHours.queue})
-                     return null
-                 }
-             } else {
-                 return (
-                     <Container>
-                         <Header>
-                             <Left>
-                                 <Button
-                                     transparent
-                                     onPress={() => this.props.navigation.openDrawer()}>
-                                     <Icon name="menu" />
-                                 </Button>
-                             </Left>
-                             <Body>
-                                 <Title>TA Overview</Title>
-                             </Body>
-                             <Right/>
-                         </Header>
-                         <Text>You have no upcoming office hours</Text>
-                     </Container>
-                 )
-             }
-         } else {
-             return null
-         }
+        if (!isLoading) {
+                if (nextOfficeHours.queue == null) {
+                    return (
+                        <Container>
+                            <Header>
+                                <Left>
+                                    <Button
+                                        transparent
+                                        onPress={() => this.props.navigation.openDrawer()}>
+                                        <Icon name="menu"/>
+                                    </Button>
+                                </Left>
+                                <Body>
+                                    <Title>TA Office Hours</Title>
+                                </Body>
+                                <Right/>
+                            </Header>
+                            { upcomingOfficeHours.length ?
+                                upcomingOfficeHours.map((el, index) => (<OfficeHoursCard key={index} id={el.id} index={index} {...el}/>))
+                            : <Text>You have no upcoming office hours</Text>}
+                        </Container>
+                    );
+                } else {
+                    console.log("Went straight to queue")
+                    this.props.navigation.navigate('TAQueueScreen',
+                        {
+                            'updateStatus': this.updateTAStatus,
+                            queue_id: nextOfficeHours.queue
+                        })
+                    return null
+                }
+        } else {
+            return null
+        }
+    }
+}
+
+class OfficeHoursCard extends React.Component {
+    render() {
+        const {ta_name, start, end, room, index} = this.props;
+            console.log("index", index);
+        return (
+            <Card>
+                <Text>TA: {ta_name}</Text>
+                <Text>Start: {Moment(start).format('h:mm a, MMMM Do')}</Text>
+                <Text>End: {Moment(end).format('h:mm a, MMMM Do')}</Text>
+                <Text> Room: {room}</Text>
+                {index === 0 ?
+                    <Button onPress={() => this.updateTAStatus("arrived")}>
+                        <Text>I AM HERE</Text>
+                    </Button>
+                : null}
+            </Card>)
+
     }
 }
