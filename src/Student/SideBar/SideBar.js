@@ -17,11 +17,16 @@ export default class SideBar extends React.Component {
     state = {
         photo: "http://s3.amazonaws.com/37assets/svn/765-default-avatar.png",
         student_name: 'Will Stenzel',
-        courses_list: ["CS3500", "CS5000", "CS1700"]
-
+        courses_list: ["CS3500", "CS5000", "CS1700"],
+        isTA: false
     };
 
+    async componentDidMount(){
+        this.setState({isTA: await AsyncStorage.getItem('isTA')})
+    }
+
     render() {
+        const {isTA} = this.state
         return (
             <Container>
                 <Content>
@@ -42,6 +47,7 @@ export default class SideBar extends React.Component {
                         marginTop: 200, alignSelf: 'center', padding: 20, borderColor: 'black',
                         borderWidth: 1, borderRadius: 3
                     }}>{this.state.student_name}</Text>
+                    {isTA ?
                     <Segment>
                         <Button first active={this.props.activeItemKey==='StudentHome'}
                                 onPress={() => {
@@ -58,6 +64,7 @@ export default class SideBar extends React.Component {
                             <Text>TA</Text>
                         </Button>
                     </Segment>
+                        : null }
                     <Text style={{marginTop: 100, alignSelf: 'center'}}>Courses List</Text>
                     <List
                         dataArray={this.state.courses_list}
