@@ -1,8 +1,8 @@
 import React from "react";
 import Moment from 'moment'
 
-import {Container, Header, Left, Right, Body, Button, Icon, Title, Text, Card} from 'native-base';
-import {AsyncStorage} from "react-native";
+import {Container, Header, Left, Right, Body, Button, Icon, Title, Text, Card, Tabs, Tab} from 'native-base';
+import {AsyncStorage, ScrollView} from "react-native";
 //import { Schedule } from '../../Student/HomeScreen/Schedule'
 
 export default class TAHomeScreen extends React.Component {
@@ -29,8 +29,8 @@ export default class TAHomeScreen extends React.Component {
             .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({
-                    isLoading: false,
                     upcomingOfficeHours: responseJson,
+                    isLoading: false,
                 }, function () {
                     console.log("upcoming offfice hours, ", responseJson)
                 });
@@ -55,7 +55,7 @@ export default class TAHomeScreen extends React.Component {
         }).then((response) => response.json())
             .then((responseJson) => {
                 if (new_status === 'arrived') {
-                    queue_id = responseJson.id
+                    const queue_id = responseJson.id
                     this.props.navigation.navigate('TAQueueScreen',
                         {
                             queue_id: queue_id,
@@ -64,43 +64,98 @@ export default class TAHomeScreen extends React.Component {
                         })
                     console.log('finished navigating to queue screen ')
                 }
-                this.fetchUpcomingOfficeHours() // figure out why this only works here and not above the this.props.navigation.navigate 
+                this.fetchUpcomingOfficeHours() // figure out why this only works here and not above the this.props.navigation.navigate
             });
+    }
+
+    filterHours = (interval) => {
+        const {upcomingOfficeHours} = this.state;
+
+        if (interval === "all") {
+            if (upcomingOfficeHours.length) {
+                return (upcomingOfficeHours.map((el, index) => (<OfficeHoursCard key={index} id={el.id} index={index}
+                                                                           updateStatus={this.updateTAStatus} {...el}/>)))
+            } else {
+                return (<Text>You have no upcoming office hours</Text>)
+            }
+        }
+
+        const intervals_to_num = {day: 1, week: 7};
+
+        let now = new Date();
+
+        let date_interval = new Date(now);
+        date_interval.setDate(date_interval.getDate() + intervals_to_num[interval]);
+        date_interval.setHours(0, 0, 0, 0);
+
+
+        const filteredHours = upcomingOfficeHours.filter(officeHourBlock => {
+            const end_date = new Date(officeHourBlock.end)
+            return (end_date < date_interval)
+        })
+
+        if (filteredHours.length) {
+            return (filteredHours.map((el, index) => (<OfficeHoursCard key={index} id={el.id} index={index}
+                                                                             updateStatus={this.updateTAStatus} {...el}/>)))
+        } else {
+            return (<Text>You have no upcoming office hours for the {interval}</Text>)
+        }
+
+    }
+
+    hasCurrentlyOpenOfficeHours = () => {
+        const {upcomingOfficeHours} = this.state;
+        return upcomingOfficeHours.length && upcomingOfficeHours[0].queue !== null
     }
 
     render() {
         const {isLoading, upcomingOfficeHours} = this.state;
         if (!isLoading) {
-                if (nextOfficeHours.queue == null) {
-                    return (
-                        <Container>
-                            <Header>
-                                <Left>
-                                    <Button
-                                        transparent
-                                        onPress={() => this.props.navigation.openDrawer()}>
-                                        <Icon name="menu"/>
-                                    </Button>
-                                </Left>
-                                <Body>
-                                    <Title>TA Office Hours</Title>
-                                </Body>
-                                <Right/>
-                            </Header>
-                            { upcomingOfficeHours.length ?
-                                upcomingOfficeHours.map((el, index) => (<OfficeHoursCard key={index} id={el.id} index={index} {...el}/>))
-                            : <Text>You have no upcoming office hours</Text>}
-                        </Container>
-                    );
-                } else {
-                    console.log("Went straight to queue")
-                    this.props.navigation.navigate('TAQueueScreen',
-                        {
-                            'updateStatus': this.updateTAStatus,
-                            queue_id: nextOfficeHours.queue
-                        })
-                    return null
-                }
+            if (!this.hasCurrentlyOpenOfficeHours()) {
+                return (
+                    <Container>
+                        <Header hasTabs>
+                            <Left>
+                                <Button
+                                    transparent
+                                    onPress={() => this.props.navigation.openDrawer()}>
+                                    <Icon name="menu"/>
+                                </Button>
+                            </Left>
+                            <Body>
+                                <Title>TA Office Hours</Title>
+                            </Body>
+                            <Right/>
+
+                        </Header>
+                        <Tabs>
+                            <Tab heading="Today">
+                                <ScrollView>
+                                    {this.filterHours('day')}
+                                </ScrollView>
+                            </Tab>
+                            <Tab heading="This Week">
+                                <ScrollView>
+                                    {this.filterHours('week')}
+                                </ScrollView>
+                            </Tab>
+                            <Tab heading="All">
+                                <ScrollView>
+                                    {this.filterHours('all')}
+                                </ScrollView>
+                            </Tab>
+                        </Tabs>
+                    </Container>
+                );
+            } else {
+                console.log("Went straight to queue")
+                this.props.navigation.navigate('TAQueueScreen',
+                    {
+                        'updateStatus': this.updateTAStatus,
+                        queue_id: upcomingOfficeHours[0].queue
+                    })
+                return null
+            }
         } else {
             return null
         }
@@ -110,7 +165,7 @@ export default class TAHomeScreen extends React.Component {
 class OfficeHoursCard extends React.Component {
     render() {
         const {ta_name, start, end, room, index} = this.props;
-            console.log("index", index);
+        console.log("index", index);
         return (
             <Card>
                 <Text>TA: {ta_name}</Text>
@@ -118,10 +173,10 @@ class OfficeHoursCard extends React.Component {
                 <Text>End: {Moment(end).format('h:mm a, MMMM Do')}</Text>
                 <Text> Room: {room}</Text>
                 {index === 0 ?
-                    <Button onPress={() => this.updateTAStatus("arrived")}>
+                    <Button onPress={() => this.props.updateStatus('arrived')}>
                         <Text>I AM HERE</Text>
                     </Button>
-                : null}
+                    : null}
             </Card>)
 
     }
