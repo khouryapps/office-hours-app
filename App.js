@@ -31,7 +31,7 @@ class SignIn extends React.Component {
     const body = {username: this.state.username, password: this.state.password};
     console.log('trying to log in')
 
-    fetch('http://127.0.0.1:8000/api/rest-auth/login/', {
+    fetch('http://127.0.0.1:8002/api/rest-auth/login/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
