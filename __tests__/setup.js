@@ -1,5 +1,7 @@
 //setup.js
 
+global.fetch = require('jest-fetch-mock');
+
 
 jest.mock('Linking', () => {
     return {
@@ -9,7 +11,7 @@ jest.mock('Linking', () => {
         canOpenURL: jest.fn(),
         getInitialURL: jest.fn(),
     }
-})
+});
 
 jest.mock('react-navigation', () => {
     return {
@@ -32,3 +34,5 @@ jest.mock('react-navigation', () => {
 jest.mock('WebView', () => 'WebView');
 
 jest.mock('DatePickerIOS', () => 'DatePickerIOS');
+
+

@@ -24,13 +24,16 @@
     "jest": "24.8.0",
     "jest-environment-enzyme": "^7.0.2",
     "jest-enzyme": "^7.0.2",
+    "jest-fetch-mock": "^2.1.2",
     "metro-react-native-babel-preset": "0.54.1",
     "react-dom": "^16.8.6",
     "react-test-renderer": "16.8.3"
   },
   "jest": {
     "preset": "react-native",
-    "setupFilesAfterEnv": ["jest-enzyme"],
+    "setupFilesAfterEnv": [
+      "jest-enzyme"
+    ],
     "testEnvironment": "enzyme",
     "testEnvironmentOptions": {
       "enzymeAdapter": "react16"
@@ -41,6 +44,7 @@
     ],
     "setupFiles": [
       "./__tests__/setup.js"
-    ]
+    ],
+    "automock": false
   }
 }
