@@ -4,6 +4,7 @@ import {AsyncStorage, AppRegistry, Image, StatusBar} from "react-native";
 import {
     Button,
     Text,
+    Input,
     Container,
     List,
     ListItem,
@@ -12,19 +13,19 @@ import {
     Icon
 } from "native-base";
 
-const routes = ["", "Chat", "Profile"];
 export default class SideBar extends React.Component {
     state = {
         photo: "http://s3.amazonaws.com/37assets/svn/765-default-avatar.png",
         student_name: null,
         courses_list: [],
         isTA: false,
+        edit_courses: false,
+        add_course_text: '',
         loading: true,
     };
 
     fetch_courses_list = async () => {
         try {
-            //Assign the promise unresolved first then get the data using the json method.
             const studentAPICall = await fetch('http://127.0.0.1:8002/api/officehours/me/',
                 {
                     method: 'GET',
@@ -41,13 +42,35 @@ export default class SideBar extends React.Component {
         }
     }
 
+    updateCourseList = async (method_type, course_name) => {
+        console.log("update course list")
+        try {
+            const apiCall = await fetch('http://127.0.0.1:8002/api/officehours/courses/',
+                {
+                    method: method_type,
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': "Token a891e91d45001088b201b3c2ebe8a5e87a9121f9"
+                    },
+                    body: JSON.stringify({
+                        course: course_name,
+                    }),
+                });
+            const new_student_details = await apiCall.json()
+            this.setState({courses_list: new_student_details.courses})
+        } catch (err) {
+            console.log("Error Updating Course List: ", err)
+        }
+    }
+
     async componentDidMount(){
         await this.fetch_courses_list();
         this.setState({isTA: await AsyncStorage.getItem('isTA')})
     }
 
     render() {
-        const {isTA} = this.state
+        const {isTA, courses_list, edit_courses} = this.state
         return (
             <Container>
                 <Content>
@@ -88,20 +111,43 @@ export default class SideBar extends React.Component {
                         : null }
                     <Text style={{marginTop: 100, alignSelf: 'center'}}>Courses List</Text>
                     <List
-                        dataArray={this.state.courses_list}
-                        contentContainerStyle={{marginTop: 50}}
-                        renderRow={data => {
+                        contentContainerStyle={{marginTop: 50}}>
+                        {courses_list.map((course, index) => {
                             return (
                                 <ListItem
                                     button
-                                    onPress={() => this.props.navigation.navigate(data)}
+                                    key={index}
+                                    onPress={() => this.props.navigation.navigate(course)}
                                 >
-                                    <Text>{data}</Text>
+                                    <Text>{course}</Text>
+                                    {edit_courses ? <Text style={{textAlign: 'right'}}
+                                                          onPress={() => {
+                                                              console.log("remove course", course)
+                                                              this.updateCourseList("DELETE", course)
+                                                          }}>(Delete)</Text> : null}
                                 </ListItem>
-                            );
-                        }}
-                    />
+                            )
+                        })}
+                        {edit_courses ?
+                            <ListItem>
 
+                                <Input placeholder={"e.g. CS 2500"}
+                                       onChangeText={(add_course_text) => this.setState({add_course_text})}
+                                       value={this.state.add_course_text}/>
+                                <Button onPress={() => {this.updateCourseList("PATCH", this.state.add_course_text);
+                                this.setState({add_course_text: ''})}}>
+                                <Text>Add</Text>
+                                </Button>
+                                </ListItem>
+                            : null}
+                    </List>
+
+                    <Button primary
+                            onPress={() => {
+                                this.setState({edit_courses: !edit_courses})
+                            }}>
+                        <Text>Edit Courses</Text>
+                    </Button>
 
 
                     <Button primary
