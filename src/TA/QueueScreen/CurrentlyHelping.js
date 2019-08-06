@@ -1,6 +1,7 @@
 import React from "react"
 import {Button, Card, CardItem, View, H2, Text} from "native-base"
 import ShowTicket from "./ShowTicket";
+import TAHomeScreen from "../HomeScreen/TAHomeScreen";
 
 export default class CurrentlyHelping extends React.Component {
 
@@ -22,7 +23,11 @@ export default class CurrentlyHelping extends React.Component {
                         null}
                 </View>)
         } else {
-            return null
+            return (
+                <View>
+                    <Text>There are no students that you are currently helping</Text>
+                </View>
+            )
         }
     }
 }

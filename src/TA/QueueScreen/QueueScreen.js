@@ -1,6 +1,20 @@
 import React from "react"
 
-import {Button, Container, Content, Icon, Left, Body, Title, Right, Text, Header, Footer, View, H3, List, ListItem} from 'native-base';
+import {
+    Button,
+    Container,
+    Content,
+    Icon,
+    Left,
+    Body,
+    Title,
+    Right,
+    Text,
+    Header,
+    Footer,
+    View,
+    Tab, Tabs
+} from 'native-base';
 import QueueList from './QueueList'
 import QueueCode from './QueueCode'
 import CurrentlyHelping from './CurrentlyHelping'
@@ -129,10 +143,18 @@ export default class QueueScreen extends React.Component {
                     { (show_modal) ?
                         <QueueCode modalVisible={true} closeModal={this.closeModal} queueCode={queue_code}/>
                         : null }
-                    <ScrollView style={styles.content}>
-                        <CurrentlyHelping tickets={ticketsCurrentlyHelping} updateStatus={this.updateTicketStatus}/>
-                        <QueueList tickets={ticketsShownInQueue} updateStatus={this.updateTicketStatus}/>
-                    </ScrollView>
+                    <Tabs>
+                        <Tab heading="Currently Helping">
+                            <ScrollView style={styles.content}>
+                                <CurrentlyHelping tickets={ticketsCurrentlyHelping} updateStatus={this.updateTicketStatus}/>
+                            </ScrollView>
+                        </Tab>
+                        <Tab heading="Queue">
+                            <ScrollView style={styles.content}>
+                                <QueueList tickets={ticketsShownInQueue} updateStatus={this.updateTicketStatus}/>
+                            </ScrollView>
+                        </Tab>
+                    </Tabs>
                     <Footer>
                         <Button onPress={this.handleUpdateStatus} style={{flex:1, justifyContent: 'center'}}>
                             <Text>Leave Office Hours</Text>
