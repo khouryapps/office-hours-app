@@ -124,7 +124,7 @@ export default class SideBar extends React.Component {
                                                           onPress={() => {
                                                               console.log("remove course", course)
                                                               this.updateCourseList("DELETE", course)
-                                                          }}>(Delete)</Text> : null}
+                                                          }}>  (X)</Text> : null}
                                 </ListItem>
                             )
                         })}
@@ -146,7 +146,7 @@ export default class SideBar extends React.Component {
                             onPress={() => {
                                 this.setState({edit_courses: !edit_courses})
                             }}>
-                        <Text>Edit Courses</Text>
+                        <Text>{edit_courses ? "Stop Editing" : "Edit Courses"}</Text>
                     </Button>
 
 

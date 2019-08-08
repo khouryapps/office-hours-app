@@ -132,7 +132,7 @@ export default class QueueScreen extends React.Component {
                             {/*</Button>*/}
                         </Left>
                         <Body style={{flex: 1}}>
-                            <Title>Student Queue</Title>
+                            <Title>Queue</Title>
                         </Body>
                         <Right style={{flex: 1}}>
                             <Button transparent onPress={() => this.updateQueue()}>
