@@ -7,6 +7,8 @@ node_modules/
 build/
 *.pbxuser
 !default.pbxuser
+*.ttf
+*.pbxproj
 *.mode1v3
 !default.mode1v3
 *.mode2v3

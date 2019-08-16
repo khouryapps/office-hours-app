@@ -1,8 +1,9 @@
 import React from "react";
-import Moment from 'moment'
+import moment from 'moment'
 
 import {Container, Header, Left, Right, Body, Button, Icon, Title, Text, Card, Tabs, Tab} from 'native-base';
 import {AsyncStorage, ScrollView} from "react-native";
+import OfficeHoursCard from '../../Common/components/OfficeHoursCard'
 //import { Schedule } from '../../Student/HomeScreen/Schedule'
 
 export default class TAHomeScreen extends React.Component {
@@ -74,7 +75,13 @@ export default class TAHomeScreen extends React.Component {
         if (interval === "all") {
             if (upcomingOfficeHours.length) {
                 return (upcomingOfficeHours.map((el, index) => (<OfficeHoursCard key={index} id={el.id} index={index}
-                                                                           updateStatus={this.updateTAStatus} {...el}/>)))
+                                                                                 updateStatus={this.updateTAStatus} {...el}>
+                    {index === 0 ?
+                    <Button onPress={() => this.props.updateStatus('arrived')}>
+                        <Text>I AM HERE</Text>
+                    </Button>
+                    : null}
+                </OfficeHoursCard>)))
             } else {
                 return (<Text>You have no upcoming office hours</Text>)
             }
@@ -93,10 +100,15 @@ export default class TAHomeScreen extends React.Component {
             const end_date = new Date(officeHourBlock.end)
             return (end_date < date_interval)
         })
-
         if (filteredHours.length) {
             return (filteredHours.map((el, index) => (<OfficeHoursCard key={index} id={el.id} index={index}
-                                                                             updateStatus={this.updateTAStatus} {...el}/>)))
+                                                                       updateStatus={this.updateTAStatus} {...el}>
+                {index === 0 ?
+                    <Button onPress={() => this.props.updateStatus('arrived')}>
+                        <Text>I AM HERE</Text>
+                    </Button>
+                    : null}
+            </OfficeHoursCard>)))
         } else {
             return (<Text>You have no upcoming office hours for the {interval}</Text>)
         }
@@ -162,22 +174,3 @@ export default class TAHomeScreen extends React.Component {
     }
 }
 
-class OfficeHoursCard extends React.Component {
-    render() {
-        const {ta_name, start, end, room, index} = this.props;
-        console.log("index", index);
-        return (
-            <Card>
-                <Text>TA: {ta_name}</Text>
-                <Text>Start: {Moment(start).format('h:mm a, MMMM Do')}</Text>
-                <Text>End: {Moment(end).format('h:mm a, MMMM Do')}</Text>
-                <Text> Room: {room}</Text>
-                {index === 0 ?
-                    <Button onPress={() => this.props.updateStatus('arrived')}>
-                        <Text>I AM HERE</Text>
-                    </Button>
-                    : null}
-            </Card>)
-
-    }
-}

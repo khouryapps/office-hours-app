@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import HomeScreen from "./Schedule.js";
-import Settings from "../ProfileScreen/index.js";
+import HomeScreen from "./StudentHomeScreen.js";
+import Settings from "../SettingsScreen/index.js";
 import SideBar from "../SideBar/SideBar.js";
 import { createDrawerNavigator, createBottomTabNavigator} from "react-navigation";
-import Schedule from "./Schedule";
+import Schedule from "./StudentHomeScreen";
 import Queue from "./Queue";
 import {Button, Footer, FooterTab, Icon, Text} from "native-base";
 
