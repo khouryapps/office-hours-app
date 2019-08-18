@@ -27,8 +27,6 @@ import GroupedOfficeHours from './OfficeHoursSchedule'
 export default class StudentHomeScreen extends React.Component {
 
   render() {
-    const {officeHours} = this.state;
-    console.log(officeHours)
 
     return (
       <Container>

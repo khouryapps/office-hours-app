@@ -27,42 +27,39 @@ class GroupedOfficeHours extends React.Component {
             const officeHours = await apiCall.json();
             this.setState({officeHours: officeHours, loading: false});
             console.log('office hours', officeHours)
-            this.representHours()
         } catch (err) {
             console.log("Error fetching office hours", err);
         }
+        this.representHours();
     }
 
     representHours = () => {
         const {officeHours} = this.state;
-        const sorted = officeHours.sort((a, b) => {
-            return moment(a.start) > moment(b.start)
-        });
+        console.log("sorted", officeHours)
 
         let groupId = 0;
         const groups = {};
-        sorted.forEach(hours => {
-            if (groups[groupId] &&
-                (moment(hours.start) > moment(groups[groupId].start)
-                    && moment(hours.end) < moment(groups[groupId].end))) {
-                groups[groupId].push(hours);
+        // Group the office hours for each dat
+        officeHours.map(hours => {
+            if (!groups[moment(hours.start).date()]) {
+                groups[moment(hours.start).date()] = [hours]
             }
+                groups[moment(hours.start).date()].push(hours)
+        })
+        console.log("groups ", groups)
 
-            groupId++;
-            groups[groupId] = [hours]
-        });
         this.setState({groups})
+
     };
 
     render() {
-        this.representHours();
         const {groups} = this.state;
-
+        console.log("groups ", groups)
         const keys = Object.keys(groups);
 
         return <ScrollView>
             {keys.map(k => <View>
-                <Text style={{fontSize: 20}}>{moment(groups[k][0].start).format('MMMM Do, h:mm a')}</Text>
+                <Text style={{fontSize: 20}}>{moment(groups[k][0].start).format('dddd, MMMM Do')}</Text>
             {groups[k].map((el, index) => (<OfficeHoursCard key={index} id={el.id} index={index}
                                                             updateStatus={this.updateTAStatus} {...el}/>))}
             </View>)}

@@ -14,7 +14,7 @@ const HomeScreenRouter = createSwitchNavigator(
         }
     },
     {
-        initialRouteName: 'TA'
+        initialRouteName: 'Student'
     }
 )
 
