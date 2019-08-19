@@ -10,7 +10,7 @@ export default class ShowTicket extends React.Component {
         if (showButtonOnStatus === current_status) {
             if (current_status === "Open") {
                 return (
-                    <Button onPress={() => this.props.updateStatus(id, "In Progress")}>
+                    <Button onPress={() => this.props.updateTAStatus(id, "In Progress")}>
                         <Text>Begin Helping</Text>
                     </Button>
                 )

@@ -61,7 +61,7 @@ export default class TAHomeScreen extends React.Component {
                         {
                             queue_id: queue_id,
                             show_modal: true,
-                            'updateStatus': this.updateTAStatus,
+                            'updateTAStatus': this.updateTAStatus,
                         })
                     console.log('finished navigating to queue screen ')
                 }
@@ -77,7 +77,7 @@ export default class TAHomeScreen extends React.Component {
                 return (upcomingOfficeHours.map((el, index) => (<OfficeHoursCard key={index} id={el.id} index={index}
                                                                                  updateStatus={this.updateTAStatus} {...el}>
                     {index === 0 ?
-                    <Button onPress={() => this.props.updateStatus('arrived')}>
+                    <Button onPress={() => this.updateTAStatus('arrived')}>
                         <Text>I AM HERE</Text>
                     </Button>
                     : null}
@@ -104,7 +104,7 @@ export default class TAHomeScreen extends React.Component {
             return (filteredHours.map((el, index) => (<OfficeHoursCard key={index} id={el.id} index={index}
                                                                        updateStatus={this.updateTAStatus} {...el}>
                 {index === 0 ?
-                    <Button onPress={() => this.props.updateStatus('arrived')}>
+                    <Button onPress={() => this.updateTAStatus('arrived')}>
                         <Text>I AM HERE</Text>
                     </Button>
                     : null}

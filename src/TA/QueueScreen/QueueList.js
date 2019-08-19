@@ -14,7 +14,7 @@ export default class QueueList extends React.Component {
             return (
                 <View>
                     <H2>Current Queue Size: {tickets.filter((ticket) => { return ticket.status === "Open" || ticket.status === "In Progress" }).length }</H2>
-                    {tickets.map(el => <ShowTicket updateStatus={this.props.updateStatus} showButtonOnStatus={"Open"} key={el.id} {...el}/>)}
+                    {tickets.map(el => <ShowTicket updateTicket={this.props.updateTicket} showButtonOnStatus={"Open"} key={el.id} {...el}/>)}
                 </View>
             )
         } else {

@@ -60,8 +60,7 @@ class GroupedOfficeHours extends React.Component {
         return <ScrollView>
             {keys.map(k => <View>
                 <Text style={{fontSize: 20}}>{moment(groups[k][0].start).format('dddd, MMMM Do')}</Text>
-            {groups[k].map((el, index) => (<OfficeHoursCard key={index} id={el.id} index={index}
-                                                            updateStatus={this.updateTAStatus} {...el}/>))}
+            {groups[k].map((el, index) => (<OfficeHoursCard key={index} id={el.id} index={index} {...el}/>))}
             </View>)}
             </ScrollView>
     }

@@ -72,7 +72,7 @@ export default class QueueScreen extends React.Component {
         }
     }
 
-    updateTicketStatus = async (ticket_id, new_status) => {
+    updateTicket = async (ticket_id, new_status) => {
         try {
             const apiCall = await fetch('http://127.0.0.1:8002/api/officehours/ticket/edit/' + ticket_id + '/',
                 {
@@ -100,9 +100,9 @@ export default class QueueScreen extends React.Component {
         }
     }
 
-    handleUpdateStatus = async () => {
-        const updateStatus = this.props.navigation.getParam('updateStatus')
-        updateStatus('departed')
+    handleUpdateTAStatus = async () => {
+        const updateTAStatus = this.props.navigation.getParam('updateTAStatus')
+        updateTAStatus('departed')
         console.log('navigating back to homescreen')
         this.props.navigation.navigate('TAHome', )
     }
@@ -118,7 +118,7 @@ export default class QueueScreen extends React.Component {
     }
 
     render() {
-        const ticketsCurrentlyHelping = this.state.tickets.filter(ticket => (ticket.ta_helped === this.state.username && ticket.status === "In Progress"))
+        const ticketsCurrentlyHelping = this.retrieveTicketsCurrentlyHelping()
         const ticketsShownInQueue = this.state.tickets.filter(ticket => (ticket.status !== "Closed"))
         const {loading, show_modal, queue_code} = this.state
         console.log("queue id:", this.state.queue_id)
@@ -127,9 +127,6 @@ export default class QueueScreen extends React.Component {
                 <Container>
                     <Header>
                         <Left style={{flex: 1}}>
-                            {/*<Button transparent>*/}
-                            {/*    <Icon name='menu'/>*/}
-                            {/*</Button>*/}
                         </Left>
                         <Body style={{flex: 1}}>
                             <Title>Queue</Title>
@@ -146,17 +143,17 @@ export default class QueueScreen extends React.Component {
                     <Tabs>
                         <Tab heading="Currently Helping">
                             <ScrollView style={styles.content}>
-                                <CurrentlyHelping tickets={ticketsCurrentlyHelping} updateStatus={this.updateTicketStatus}/>
+                                <CurrentlyHelping tickets={ticketsCurrentlyHelping} updateTicket={this.updateTicket}/>
                             </ScrollView>
                         </Tab>
                         <Tab heading="Queue">
                             <ScrollView style={styles.content}>
-                                <QueueList tickets={ticketsShownInQueue} updateStatus={this.updateTicketStatus}/>
+                                <QueueList tickets={ticketsShownInQueue} updateTicket={this.updateTicket}/>
                             </ScrollView>
                         </Tab>
                     </Tabs>
                     <Footer>
-                        <Button onPress={this.handleUpdateStatus} style={{flex:1, justifyContent: 'center'}}>
+                        <Button onPress={this.handleUpdateTAStatus} style={{flex:1, justifyContent: 'center'}}>
                             <Text>Leave Office Hours</Text>
                         </Button>
                     </Footer>
