@@ -6,10 +6,11 @@ import moment from 'moment';
 
 class OfficeHoursCard extends React.Component {
     render() {
-        const {ta_name, start, end, room, index} = this.props;
+        const {ta_name, start, end, room, course_name} = this.props;
         return (
             <Card>
                 <Text>TA: {ta_name}</Text>
+                <Text>Course: {course_name}</Text>
                 <Text>Start: {moment(start).format('h:mm a, MMMM Do')}</Text>
                 <Text>End: {moment(end).format('h:mm a, MMMM Do')}</Text>
                 <Text>Room: {room}</Text>

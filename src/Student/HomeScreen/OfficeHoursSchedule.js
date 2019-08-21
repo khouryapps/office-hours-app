@@ -43,8 +43,8 @@ class GroupedOfficeHours extends React.Component {
         officeHours.map(hours => {
             if (!groups[moment(hours.start).date()]) {
                 groups[moment(hours.start).date()] = [hours]
+            } else {                groups[moment(hours.start).date()].push(hours)
             }
-                groups[moment(hours.start).date()].push(hours)
         })
         console.log("groups ", groups)
 
