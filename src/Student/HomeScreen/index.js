@@ -39,6 +39,7 @@ const MainScreenNavigator = createBottomTabNavigator(
 export default HomeScreenRouter = createDrawerNavigator(
   {
     StudentHome: { screen: MainScreenNavigator },
+    Schedule: { screen: Schedule},
     Settings: { screen: Settings },
   },
   {

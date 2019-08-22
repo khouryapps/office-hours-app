@@ -5,32 +5,40 @@ import moment from 'moment'
 import OfficeHoursCard from "../../Common/components/OfficeHoursCard";
 
 
-class GroupedOfficeHours extends React.Component {
+class OfficeHoursSchedule extends React.Component {
     state = {
+        course_id: null,
         officeHours: [],
         loading: true,
         groups: {}
     };
 
     async componentDidMount() {
+        await this.fetchHours()
+        this.representHours()
+    }
 
-        try {
-            //Assign the promise unresolved first then get the data using the json method.
-            const apiCall = await fetch('http://127.0.0.1:8002/api/officehours/schedule/', {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': "Token a891e91d45001088b201b3c2ebe8a5e87a9121f9",
-                }});
+    fetchHours = async () => {
+        const course_id = this.props.course_id
+        this.setState({course_id: course_id})
+        if (course_id) {
+            try {
+                //Assign the promise unresolved first then get the data using the json method.
+                const apiCall = await fetch('http://127.0.0.1:8002/api/officehours/schedule/?course_id=' + course_id, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': "Token a891e91d45001088b201b3c2ebe8a5e87a9121f9",
+                    }});
 
-            const officeHours = await apiCall.json();
-            this.setState({officeHours: officeHours, loading: false});
-            console.log('office hours', officeHours)
-        } catch (err) {
-            console.log("Error fetching office hours", err);
+                const officeHours = await apiCall.json();
+                this.setState({officeHours: officeHours, loading: false});
+                console.log('office hours', officeHours)
+            } catch (err) {
+                console.log("Error fetching office hours", err);
+            }    this.representHours();
         }
-        this.representHours();
     }
 
     representHours = () => {
@@ -52,7 +60,13 @@ class GroupedOfficeHours extends React.Component {
 
     };
 
+
     render() {
+        if (this.props.course_id !== this.state.course_id) {
+            this.fetchHours()
+            this.representHours()
+        }
+        console.log("rerendered schedule")
         const {groups} = this.state;
         console.log("groups ", groups)
         const keys = Object.keys(groups);
@@ -66,4 +80,4 @@ class GroupedOfficeHours extends React.Component {
     }
 }
 
-export default GroupedOfficeHours;
+export default OfficeHoursSchedule;

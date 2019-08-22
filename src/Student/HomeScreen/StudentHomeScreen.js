@@ -20,13 +20,20 @@ import {
     ListItem
 } from "native-base";
 
-import GroupedOfficeHours from './OfficeHoursSchedule'
+import OfficeHoursSchedule from './OfficeHoursSchedule'
 
 
 
 export default class StudentHomeScreen extends React.Component {
 
   render() {
+
+
+    const course_name = this.props.navigation.getParam('course_name', '')
+    const course_id = this.props.navigation.getParam('course_id', null)
+
+    console.log("course_name", course_name)
+    console.log("course_id", course_id)
 
     return (
       <Container>
@@ -40,11 +47,11 @@ export default class StudentHomeScreen extends React.Component {
             </Button>
           </Left>
           <Body>
-            <Title>Schedule</Title>
+            <Title>{course_name}</Title>
           </Body>
           <Right />
         </Header>
-          <GroupedOfficeHours/>
+          <OfficeHoursSchedule course_name={course_name} course_id={course_id}/>
       </Container>
     );
   }

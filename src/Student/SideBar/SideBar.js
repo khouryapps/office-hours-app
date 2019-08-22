@@ -71,6 +71,7 @@ export default class SideBar extends React.Component {
 
     render() {
         const {isTA, courses_list, edit_courses} = this.state
+        console.log("navigation", this.props.navigation)
         return (
             <Container>
                 <Content>
@@ -113,13 +114,14 @@ export default class SideBar extends React.Component {
                     <List
                         contentContainerStyle={{marginTop: 50}}>
                         {courses_list.map((course, index) => {
+                            console.log("course id", course.id)
                             return (
                                 <ListItem
                                     button
                                     key={index}
-                                    onPress={() => this.props.navigation.navigate(course)}
+                                    onPress={() => this.props.navigation.navigate('Schedule', {'course_name': course.name, 'course_id': course.id})}
                                 >
-                                    <Text>{course}</Text>
+                                    <Text>{course.name}</Text>
                                     {edit_courses ? <Text style={{textAlign: 'right'}}
                                                           onPress={() => {
                                                               console.log("remove course", course)
