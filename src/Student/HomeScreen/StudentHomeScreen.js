@@ -28,12 +28,10 @@ export default class StudentHomeScreen extends React.Component {
 
   render() {
 
-
+    // looks for the course_id param passed
     const course_name = this.props.navigation.getParam('course_name', '')
     const course_id = this.props.navigation.getParam('course_id', null)
 
-    console.log("course_name", course_name)
-    console.log("course_id", course_id)
 
     return (
       <Container>

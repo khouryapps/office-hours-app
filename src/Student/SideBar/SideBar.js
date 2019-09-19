@@ -71,7 +71,6 @@ export default class SideBar extends React.Component {
 
     render() {
         const {isTA, courses_list, edit_courses} = this.state
-        console.log("navigation", this.props.navigation)
         return (
             <Container>
                 <Content>
@@ -114,7 +113,6 @@ export default class SideBar extends React.Component {
                     <List
                         contentContainerStyle={{marginTop: 50}}>
                         {courses_list.map((course, index) => {
-                            console.log("course id", course.id)
                             return (
                                 <ListItem
                                     button
