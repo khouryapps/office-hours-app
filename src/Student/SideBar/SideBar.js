@@ -1,6 +1,5 @@
 import React from "react";
 import {AsyncStorage, AppRegistry, Image, StatusBar} from "react-native";
-
 import {
     Button,
     Text,
@@ -24,23 +23,7 @@ export default class SideBar extends React.Component {
         loading: true,
     };
 
-    fetch_courses_list = async () => {
-        try {
-            const studentAPICall = await fetch('http://127.0.0.1:8002/api/officehours/me/',
-                {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': "Token a891e91d45001088b201b3c2ebe8a5e87a9121f9"
-                    },
-                    });
-            const student_details = await studentAPICall.json()
-            this.setState({courses_list: student_details.courses, student_name: student_details.full_name, loading: false});
-        } catch(err) {
-            console.log("Error fetching data-----------", err);
-        }
-    }
+
 
     updateCourseList = async (method_type, course_name) => {
         console.log("update course list")
@@ -117,7 +100,13 @@ export default class SideBar extends React.Component {
                                 <ListItem
                                     button
                                     key={index}
-                                    onPress={() => this.props.navigation.navigate('Schedule', {'course_name': course.name, 'course_id': course.id})}
+                                    onPress={() => {
+                                        // AsyncStorage.setItem('last_visited_course_name', course.name);
+                                        // AsyncStorage.setItem('last_visited_course_id', course.id);
+                                        this.props.navigation.navigate('ScheduleHome', {'course_name': course.name, 'course_id': course.id});
+                                        this.props.navigation.closeDrawer();
+                                    }
+                                    }
                                 >
                                     <Text>{course.name}</Text>
                                     {edit_courses ? <Text style={{textAlign: 'right'}}

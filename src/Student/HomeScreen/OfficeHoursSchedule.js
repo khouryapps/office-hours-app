@@ -1,7 +1,7 @@
 import React from 'react'
 import {Text, View, Card} from 'native-base'
 import {ScrollView} from 'react-native';
-import {getCourseSchedule, generateRequest} from '../api';
+import {fetchCourseSchedule, generateRequest} from '../api';
 import moment from 'moment'
 import OfficeHoursCard from "../../Common/components/OfficeHoursCard";
 import axios from "axios";
@@ -12,34 +12,43 @@ class OfficeHoursSchedule extends React.Component {
         course_id: null,
         officeHours: [],
         loading: true,
+        fetch_error: null,
         groups: {}
     };
 
     async componentDidMount() {
         await this.fetchHours();
-        console.log("component did mount state", this.state)
-        console.log("schedule")
-        this.representHours()
+        // this.representHours()
     }
 
     fetchHours = async () => {
         const course_id = this.props.course_id
-        // const course_id = this.props.course_id
         this.setState({course_id: course_id})
         if (course_id) {
-            const request = generateRequest('GET', 'officehours/schedule/', query_params={"course_id": course_id})
-            console.log('request', request)
-            // Q: Why is the await key word necessary here?
-            await axios(request)
-                .then(response => {
-                    console.log("Fetched office hours data", response.data);
-                    this.setState({officeHours: response.data, loading: false})
-                })
-                .catch(error => {
-                    console.log("Error fetching office hours schedule:", error);
-                });
+            const data = await fetchCourseSchedule(course_id);
+            console.log("from schedule component", data)
+            this.setState({officeHours: data.officeHours, fetch_error: data.error, loading: false});
         }
+        this.representHours();  // Q: Why doesn't it render correctly without the represent hours here?
     }
+
+    // fetchHours = async () => {
+    //     const course_id = this.props.course_id
+    //     this.setState({course_id: course_id})
+    //     if (course_id) {
+    //         const request = generateRequest('GET', 'officehours/schedule/', query_params={"course_id": course_id})
+    //         console.log('request', request)
+    //         // Q: Why is the await key word necessary here?
+    //         await axios(request)
+    //             .then(response => {
+    //                 console.log("Fetched office hours data", response.data);
+    //                 this.setState({officeHours: response.data, loading: false})
+    //             })
+    //             .catch(error => {
+    //                 console.log("Error fetching office hours schedule:", error);
+    //             });
+    //     }
+    // }
 
     representHours = () => {
         const {officeHours} = this.state;
@@ -47,14 +56,13 @@ class OfficeHoursSchedule extends React.Component {
 
         let groupId = 0;
         const groups = {};
-        // Group the office hours for each dat
+        // Group the office hours for each day
         officeHours.map(hours => {
             if (!groups[moment(hours.start).date()]) {
                 groups[moment(hours.start).date()] = [hours]
             } else {                groups[moment(hours.start).date()].push(hours)
             }
         })
-        console.log("groups ", groups)
 
         this.setState({groups})
 
@@ -62,12 +70,11 @@ class OfficeHoursSchedule extends React.Component {
 
 
     render() {
-        // if (this.props.course_id !== this.state.course_id) {
-        //     this.fetchHours()
-        //     this.representHours()
-        // }
+        if (this.props.course_id !== this.state.course_id) {
+            this.fetchHours()
+            // this.representHours()
+        }
         const {groups} = this.state;
-        console.log("groups ", groups)
         const keys = Object.keys(groups);
 
         return <ScrollView>
