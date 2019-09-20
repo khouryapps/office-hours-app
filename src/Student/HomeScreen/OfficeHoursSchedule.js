@@ -24,6 +24,7 @@ class OfficeHoursSchedule extends React.Component {
     fetchHours = async () => {
         const course_id = this.props.course_id
         this.setState({course_id: course_id})
+        console.log("course id", course_id)
         if (course_id) {
             const data = await fetchCourseSchedule(course_id);
             console.log("from schedule component", data)

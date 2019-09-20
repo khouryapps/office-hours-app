@@ -21,6 +21,6 @@ export const generateRequest = (method, url, query_params={}, body={}) => {
         method: method,
         url: full_url,
         headers: HEADERS,
-        data: body,
+        // data: body,
     };
 }

@@ -11,6 +11,7 @@ import {
     Content, Thumbnail,
     Icon
 } from "native-base";
+import {fetchStudentCourseList} from "../api";
 
 export default class SideBar extends React.Component {
     state = {
@@ -22,8 +23,6 @@ export default class SideBar extends React.Component {
         add_course_text: '',
         loading: true,
     };
-
-
 
     updateCourseList = async (method_type, course_name) => {
         console.log("update course list")
@@ -48,7 +47,8 @@ export default class SideBar extends React.Component {
     }
 
     async componentDidMount(){
-        await this.fetch_courses_list();
+        const data = await fetchStudentCourseList();
+        this.setState({courses_list: data.courses, student_name: data.full_name, loading: false})
         this.setState({isTA: await AsyncStorage.getItem('isTA')})
     }
 
