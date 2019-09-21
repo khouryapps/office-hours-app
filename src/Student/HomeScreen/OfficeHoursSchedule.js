@@ -26,9 +26,9 @@ class OfficeHoursSchedule extends React.Component {
         this.setState({course_id: course_id})
         console.log("course id", course_id)
         if (course_id) {
-            const data = await fetchCourseSchedule(course_id);
+            const {data, error} = await fetchCourseSchedule(course_id);
             console.log("from schedule component", data)
-            this.setState({officeHours: data.officeHours, fetch_error: data.error, loading: false});
+            this.setState({officeHours: data, fetch_error: error, loading: false});
         }
         this.representHours();  // Q: Why doesn't it render correctly without the represent hours here?
     }

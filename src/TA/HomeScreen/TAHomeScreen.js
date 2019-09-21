@@ -4,41 +4,17 @@ import moment from 'moment'
 import {Container, Header, Left, Right, Body, Button, Icon, Title, Text, Card, Tabs, Tab} from 'native-base';
 import {AsyncStorage, ScrollView} from "react-native";
 import OfficeHoursCard from '../../Common/components/OfficeHoursCard'
-//import { Schedule } from '../../Student/HomeScreen/Schedule'
+import {fetchUpcomingOfficeHours} from "../api";
 
 export default class TAHomeScreen extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {isLoading: true}
+        this.state = {loading: true}
     }
 
-
-    componentDidMount() {
-        console.log("rendering TA Home Screen")
-        this.fetchUpcomingOfficeHours()
-    }
-
-    fetchUpcomingOfficeHours = () => {
-        fetch('http://127.0.0.1:8002/api/officehours/schedule/upcoming/', {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': "Token a891e91d45001088b201b3c2ebe8a5e87a9121f9",
-            }
-        })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                this.setState({
-                    upcomingOfficeHours: responseJson,
-                    isLoading: false,
-                }, function () {
-                    console.log("upcoming offfice hours, ", responseJson)
-                });
-            })
-            .catch((error) => {
-                console.error("Error retrieving upcoming office hours", error);
-            });
+    async componentDidMount() {
+        const {data, error} = await fetchUpcomingOfficeHours()
+        this.setState({upcomingOfficeHours: data, fetch_error: error, loading: false})
     }
 
     updateTAStatus = new_status => {
@@ -121,8 +97,8 @@ export default class TAHomeScreen extends React.Component {
     }
 
     render() {
-        const {isLoading, upcomingOfficeHours} = this.state;
-        if (!isLoading) {
+        const {loading, upcomingOfficeHours} = this.state;
+        if (!loading) {
             if (!this.hasCurrentlyOpenOfficeHours()) {
                 return (
                     <Container>

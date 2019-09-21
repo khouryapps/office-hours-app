@@ -47,8 +47,8 @@ export default class SideBar extends React.Component {
     }
 
     async componentDidMount(){
-        const data = await fetchStudentCourseList();
-        this.setState({courses_list: data.courses, student_name: data.full_name, loading: false})
+        const {data, error} = await fetchStudentCourseList();
+        this.setState({courses_list: data.courses, student_name: data.full_name, fetch_error: error, loading: false})
         this.setState({isTA: await AsyncStorage.getItem('isTA')})
     }
 
