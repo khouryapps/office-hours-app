@@ -3,25 +3,16 @@ import {AsyncStorage} from "react-native";
 import {Form, Item, Input} from 'native-base'
 import {
   Button,
-  Text,
   Container,
-  Card,
-  CardItem,
   Body,
-  Content,
   Header,
   Title,
   Left,
   Icon,
   Right,
-    Footer,
-    FooterTab,
-    List,
-    ListItem
 } from "native-base";
 
 import OfficeHoursSchedule from './OfficeHoursSchedule'
-
 
 
 export default class ScheduleHome extends React.Component {

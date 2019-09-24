@@ -1,10 +1,9 @@
 import React from 'react'
 import {Text, View, Card} from 'native-base'
 import {ScrollView} from 'react-native';
-import {fetchCourseSchedule, generateRequest} from '../api';
+import {apiFetchCourseSchedule} from '../api';
 import moment from 'moment'
 import OfficeHoursCard from "../../Common/components/OfficeHoursCard";
-import axios from "axios";
 
 
 class OfficeHoursSchedule extends React.Component {
@@ -17,45 +16,24 @@ class OfficeHoursSchedule extends React.Component {
     };
 
     async componentDidMount() {
-        await this.fetchHours();
-        // this.representHours()
+        await this.fetchCourseSchedule();
     }
 
-    fetchHours = async () => {
+    fetchCourseSchedule = async () => {
         const course_id = this.props.course_id
         this.setState({course_id: course_id})
-        console.log("course id", course_id)
         if (course_id) {
-            const {data, error} = await fetchCourseSchedule(course_id);
-            console.log("from schedule component", data)
+            const {data, error} = await apiFetchCourseSchedule(course_id);
             this.setState({officeHours: data, fetch_error: error, loading: false});
         }
         this.representHours();  // Q: Why doesn't it render correctly without the represent hours here?
     }
 
-    // fetchHours = async () => {
-    //     const course_id = this.props.course_id
-    //     this.setState({course_id: course_id})
-    //     if (course_id) {
-    //         const request = generateRequest('GET', 'officehours/schedule/', query_params={"course_id": course_id})
-    //         console.log('request', request)
-    //         // Q: Why is the await key word necessary here?
-    //         await axios(request)
-    //             .then(response => {
-    //                 console.log("Fetched office hours data", response.data);
-    //                 this.setState({officeHours: response.data, loading: false})
-    //             })
-    //             .catch(error => {
-    //                 console.log("Error fetching office hours schedule:", error);
-    //             });
-    //     }
-    // }
 
     representHours = () => {
         const {officeHours} = this.state;
         console.log("sorted", officeHours)
 
-        let groupId = 0;
         const groups = {};
         // Group the office hours for each day
         officeHours.map(hours => {
@@ -66,14 +44,12 @@ class OfficeHoursSchedule extends React.Component {
         })
 
         this.setState({groups})
-
     };
 
 
     render() {
         if (this.props.course_id !== this.state.course_id) {
-            this.fetchHours()
-            // this.representHours()
+            this.fetchCourseSchedule()
         }
         const {groups} = this.state;
         const keys = Object.keys(groups);

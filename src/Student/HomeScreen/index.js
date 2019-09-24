@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Settings from "../SettingsScreen/index.js";
-import SideBar from "../SideBar/SideBar.js";
+import SideBar from "../../Common/SideBar/SideBar";
 import { createDrawerNavigator, createBottomTabNavigator} from "react-navigation";
 import ScheduleHome from "./ScheduleHome";
 import Queue from "./Queue";

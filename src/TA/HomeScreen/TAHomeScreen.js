@@ -4,7 +4,7 @@ import moment from 'moment'
 import {Container, Header, Left, Right, Body, Button, Icon, Title, Text, Card, Tabs, Tab} from 'native-base';
 import {AsyncStorage, ScrollView} from "react-native";
 import OfficeHoursCard from '../../Common/components/OfficeHoursCard'
-import {fetchUpcomingOfficeHours} from "../api";
+import {apiFetchUpcomingOfficeHours, apiUpdateTAStatus} from "../api";
 
 export default class TAHomeScreen extends React.Component {
     constructor(props) {
@@ -12,37 +12,35 @@ export default class TAHomeScreen extends React.Component {
         this.state = {loading: true}
     }
 
-    async componentDidMount() {
-        const {data, error} = await fetchUpcomingOfficeHours()
-        this.setState({upcomingOfficeHours: data, fetch_error: error, loading: false})
+    componentDidMount() {
+        apiFetchUpcomingOfficeHours().then(({data, error}) => {
+            this.setState({upcomingOfficeHours: data, fetch_error: error, loading: false})
+        })
     }
 
-    updateTAStatus = new_status => {
-        fetch('http://127.0.0.1:8002/api/officehours/changestatus/', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': "Token a891e91d45001088b201b3c2ebe8a5e87a9121f9",
-            },
-            body: JSON.stringify({
-                office_hours_id: this.state.upcomingOfficeHours[0].id, // fix this to check if there are any upcoming office hours
-                status: new_status,
-            }),
-        }).then((response) => response.json())
-            .then((responseJson) => {
-                if (new_status === 'arrived') {
-                    const queue_id = responseJson.id
-                    this.props.navigation.navigate('TAQueueScreen',
-                        {
-                            queue_id: queue_id,
-                            show_modal: true,
-                            'updateTAStatus': this.updateTAStatus,
-                        })
-                    console.log('finished navigating to queue screen ')
-                }
-                this.fetchUpcomingOfficeHours() // figure out why this only works here and not above the this.props.navigation.navigate
-            });
+    taDeparted = async () => {
+        const current_office_hours_id = this.state.upcomingOfficeHours[0].id
+        const {data, error} = await apiUpdateTAStatus(current_office_hours_id, 'departed')
+        console.log("taDeparted data:", data)
+        this.props.navigation.navigate('TAHome')
+        apiFetchUpcomingOfficeHours().then(({data, error}) => {
+            this.setState({upcomingOfficeHours: data, fetch_error: error, loading: false})
+        })
+    }
+
+    taArrived = async () => {
+        const current_office_hours_id = this.state.upcomingOfficeHours[0].id
+        const {data, error} = await apiUpdateTAStatus(current_office_hours_id, 'arrived')
+        console.log("taArrived data", data)
+        const queue_id = data.id
+        this.props.navigation.navigate('TAQueueScreen',
+            {
+                queue_id: queue_id,
+                office_hours_id: current_office_hours_id,
+                show_modal: true,
+                'taDeparted': this.taDeparted,
+            })
+        this.setState({loading: true})
     }
 
     filterHours = (interval) => {
@@ -50,10 +48,9 @@ export default class TAHomeScreen extends React.Component {
 
         if (interval === "all") {
             if (upcomingOfficeHours.length) {
-                return (upcomingOfficeHours.map((el, index) => (<OfficeHoursCard key={index} id={el.id} index={index}
-                                                                                 updateStatus={this.updateTAStatus} {...el}>
+                return (upcomingOfficeHours.map((el, index) => (<OfficeHoursCard key={index} id={el.id} index={index} {...el}>
                     {index === 0 ?
-                    <Button onPress={() => this.updateTAStatus('arrived')}>
+                    <Button onPress={this.taArrived}>
                         <Text>I AM HERE</Text>
                     </Button>
                     : null}
@@ -77,10 +74,9 @@ export default class TAHomeScreen extends React.Component {
             return (end_date < date_interval)
         })
         if (filteredHours.length) {
-            return (filteredHours.map((el, index) => (<OfficeHoursCard key={index} id={el.id} index={index}
-                                                                       updateStatus={this.updateTAStatus} {...el}>
+            return (filteredHours.map((el, index) => (<OfficeHoursCard key={index} id={el.id} index={index} {...el}>
                 {index === 0 ?
-                    <Button onPress={() => this.updateTAStatus('arrived')}>
+                    <Button onPress={this.taArrived}>
                         <Text>I AM HERE</Text>
                     </Button>
                     : null}
@@ -139,13 +135,14 @@ export default class TAHomeScreen extends React.Component {
                 console.log("Went straight to queue")
                 this.props.navigation.navigate('TAQueueScreen',
                     {
-                        'updateStatus': this.updateTAStatus,
-                        queue_id: upcomingOfficeHours[0].queue
+                        queue_id: upcomingOfficeHours[0].queue,
+                        office_hours_id:  upcomingOfficeHours[0].id,
+                        'ta_departed': this.taDeparted()
                     })
                 return null
             }
         } else {
-            return null
+            return <Header><Text>Loading</Text></Header>
         }
     }
 }

@@ -6,7 +6,7 @@ import TAHomeScreen from "../HomeScreen/TAHomeScreen";
 export default class CurrentlyHelping extends React.Component {
 
     updateAllStatus = () => {
-        this.props.tickets.map(el => this.props.updateStatus(el.id, "Closed"))
+        this.props.tickets.map(el => this.props.updateTicket(el.id, "Closed"))
     }
     render() {
         const {tickets} = this.props;
@@ -14,7 +14,7 @@ export default class CurrentlyHelping extends React.Component {
             return (
                 <View>
                     <H2>Currently Helping</H2>
-                    {tickets.map(el => <ShowTicket updateStatus={this.props.updateStatus}
+                    {tickets.map(el => <ShowTicket updateTicket={this.props.updateTicket}
                                                    showButtonOnStatus={"In Progress"} key={el.id} {...el}/>)}
                     {tickets.length > 1 ?
                         (<Button onPress={() => this.updateAllStatus()} style={{flex:1, justifyContent: 'center'}}>
