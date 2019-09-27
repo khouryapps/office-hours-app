@@ -83,11 +83,11 @@ export default class SideBar extends React.Component {
                                     button
                                     key={index}
                                     onPress={() => {
-                                        // AsyncStorage.setItem('last_visited_course_name', course.name);
-                                        // AsyncStorage.setItem('last_visited_course_id', course.id);
+                                        AsyncStorage.setItem('last_visited_course_name', course.name);
+                                        AsyncStorage.setItem('last_visited_course_id', course.id);
                                         this.props.navigation.navigate('ScheduleHome', {
                                             'course_name': course.name,
-                                            'course_id': course.id
+                                            'course_id': '' + course.id
                                         });
                                         this.props.navigation.closeDrawer();
                                     }

@@ -1,5 +1,5 @@
 import React from 'react'
-import {Text, View, Card} from 'native-base'
+import {Text, View, Card, Header} from 'native-base'
 import {ScrollView} from 'react-native';
 import {apiFetchCourseSchedule} from '../api';
 import moment from 'moment'
@@ -7,58 +7,33 @@ import OfficeHoursCard from "../../Common/components/OfficeHoursCard";
 
 
 class OfficeHoursSchedule extends React.Component {
-    state = {
-        course_id: null,
-        officeHours: [],
-        loading: true,
-        fetch_error: null,
-        groups: {}
-    };
 
-    async componentDidMount() {
-        await this.fetchCourseSchedule();
-    }
+    representHours = (office_hours) => {
 
-    fetchCourseSchedule = async () => {
-        const course_id = this.props.course_id
-        this.setState({course_id: course_id})
-        if (course_id) {
-            const {data, error} = await apiFetchCourseSchedule(course_id);
-            this.setState({officeHours: data, fetch_error: error, loading: false});
-        }
-        this.representHours();  // Q: Why doesn't it render correctly without the represent hours here?
-    }
-
-
-    representHours = () => {
-        const {officeHours} = this.state;
-        console.log("sorted", officeHours)
-
-        const groups = {};
+        const grouped_hours = {};
         // Group the office hours for each day
-        officeHours.map(hours => {
-            if (!groups[moment(hours.start).date()]) {
-                groups[moment(hours.start).date()] = [hours]
-            } else {                groups[moment(hours.start).date()].push(hours)
+        office_hours.map(hours => {
+            if (!grouped_hours[moment(hours.start).date()]) {
+                grouped_hours[moment(hours.start).date()] = [hours]
+            } else {                grouped_hours[moment(hours.start).date()].push(hours)
             }
         })
 
-        this.setState({groups})
+        return grouped_hours
     };
 
 
     render() {
-        if (this.props.course_id !== this.state.course_id) {
-            this.fetchCourseSchedule()
-        }
-        const {groups} = this.state;
-        const keys = Object.keys(groups);
+            const grouped_hours = this.representHours(this.props.office_hours)
+            console.log("grouped hours", grouped_hours)
+            const keys = Object.keys(grouped_hours);
 
-        return <ScrollView>
-            {keys.map(k => <View>
-                <Text style={{fontSize: 20}}>{moment(groups[k][0].start).format('dddd, MMMM Do')}</Text>
-            {groups[k].map((el, index) => (<OfficeHoursCard key={index} id={el.id} index={index} {...el}/>))}
-            </View>)}
+            return <ScrollView>
+                {keys.map((k, index) => <View key={index}>
+                    <Text style={{fontSize: 20}}>{moment(grouped_hours[k][0].start).format('dddd, MMMM Do')}</Text>
+                    {grouped_hours[k].map(el => (
+                        <OfficeHoursCard key={el.id} id={el.id} index={index} {...el}/>))}
+                </View>)}
             </ScrollView>
     }
 }
