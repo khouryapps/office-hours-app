@@ -1,9 +1,9 @@
 import {AsyncStorage} from "react-native";
 import axios from "axios";
 
-export const makeRequest = async ({method, url, query_params=null, body=null}) => {
-    const BASE_URL = 'http://127.0.0.1:8002/api/';
+export const BASE_URL = 'http://127.0.0.1:8002/api/';
 
+export const makeRequest = async ({method, url, query_params=null, body=null}) => {
     const userToken = await AsyncStorage.getItem('userToken');
 
     const HEADERS = {
@@ -34,7 +34,7 @@ export const makeRequest = async ({method, url, query_params=null, body=null}) =
     console.log("request", request)
     try {
         const response = await axios(request)
-        return {data: response.data, error: ""}
+        return {data: response.data, error: null}
     } catch (error) {
         return {data: null, error: error}
     }

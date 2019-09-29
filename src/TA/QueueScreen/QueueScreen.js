@@ -27,6 +27,7 @@ export default class QueueScreen extends React.Component {
         tickets: [],
         loading: true,
         show_modal: false,
+        fetch_error: null,
     };
 
     async componentDidMount() {
@@ -53,7 +54,7 @@ export default class QueueScreen extends React.Component {
             tickets: data.tickets,
             queue_id: queue_id,
             queue_code: data.code,
-            error: error,
+            fetch_error: error,
             loading: false})
 
     }

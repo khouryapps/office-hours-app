@@ -22,6 +22,7 @@ export default class SideBar extends React.Component {
         edit_courses: false,
         add_course_text: '',
         loading: true,
+        fetch_error: null,
     };
 
     updateStudentCourseList = async (method_type, course_name) => {
