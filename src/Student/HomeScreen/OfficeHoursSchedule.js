@@ -9,13 +9,15 @@ import OfficeHoursCard from "../../Common/components/OfficeHoursCard";
 class OfficeHoursSchedule extends React.Component {
 
     representHours = (office_hours) => {
-
+        console.log("office_hours", office_hours)
         const grouped_hours = {};
         // Group the office hours for each day
         office_hours.map(hours => {
-            if (!grouped_hours[moment(hours.start).date()]) {
-                grouped_hours[moment(hours.start).date()] = [hours]
-            } else {                grouped_hours[moment(hours.start).date()].push(hours)
+            console.log("grouped hours", grouped_hours)
+            if (!grouped_hours[moment(hours.start)]) {
+                grouped_hours[moment(hours.start)] = [hours]
+            } else {
+                grouped_hours[moment(hours.start)].push(hours)
             }
         })
 
@@ -25,13 +27,12 @@ class OfficeHoursSchedule extends React.Component {
 
     render() {
             const grouped_hours = this.representHours(this.props.office_hours)
-            console.log("grouped hours", grouped_hours)
-            const keys = Object.keys(grouped_hours);
+            const start_times = Object.keys(grouped_hours);
 
             return <ScrollView>
-                {keys.map((k, index) => <View key={index}>
-                    <Text style={{fontSize: 20}}>{moment(grouped_hours[k][0].start).format('dddd, MMMM Do')}</Text>
-                    {grouped_hours[k].map(el => (
+                {start_times.map((start_time, index) => <View key={index}>
+                    <Text style={{fontSize: 20}}>{moment(grouped_hours[start_time][0].start).format('dddd, MMMM Do')}</Text>
+                    {grouped_hours[start_time].map(el => (
                         <OfficeHoursCard key={el.id} id={el.id} index={index} {...el}/>))}
                 </View>)}
             </ScrollView>
