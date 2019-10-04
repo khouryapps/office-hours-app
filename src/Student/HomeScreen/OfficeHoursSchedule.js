@@ -1,7 +1,6 @@
 import React from 'react'
 import {Text, View, Card, Header} from 'native-base'
 import {ScrollView} from 'react-native';
-import {apiFetchCourseSchedule} from '../api';
 import moment from 'moment'
 import OfficeHoursCard from "../../Common/components/OfficeHoursCard";
 
@@ -9,11 +8,9 @@ import OfficeHoursCard from "../../Common/components/OfficeHoursCard";
 class OfficeHoursSchedule extends React.Component {
 
     representHours = (office_hours) => {
-        console.log("office_hours", office_hours)
         const grouped_hours = {};
         // Group the office hours for each day
         office_hours.map(hours => {
-            console.log("grouped hours", grouped_hours)
             if (!grouped_hours[moment(hours.start)]) {
                 grouped_hours[moment(hours.start)] = [hours]
             } else {
