@@ -22,18 +22,24 @@ export default class TAHomeScreen extends React.Component {
 
     taDeparted = async () => {
         const current_office_hours_id = this.state.upcomingOfficeHours[0].id
-        const {data_ta_status, error_ta_status} = await apiUpdateTAStatus(current_office_hours_id, 'departed')
-        console.log("taDeparted data:", data_ta_status)
-        this.setState({fetch_error: error_ta_status})
+        let data, error;
+        let update_status_response = await apiUpdateTAStatus(current_office_hours_id, 'departed')
+        // FIXME -- Is there a way to declare "const {data, error}" twice in one function?
+        data = update_status_response.data;
+        error = update_status_response.error;
+        console.log("taDeparted data:", data)
+        this.setState({fetch_error: error})
         this.props.navigation.navigate('TAHome')
-        let {upcoming_hours_data, upcoming_hours_error} = await apiFetchUpcomingOfficeHours()
-        this.setState({upcomingOfficeHours: upcoming_hours_data, fetch_error: upcoming_hours_error, loading: false})
+        let upcoming_hours_response = await apiFetchUpcomingOfficeHours()
+        data = upcoming_hours_response.data
+        error = upcoming_hours_response.error
+        this.setState({upcomingOfficeHours: data, fetch_error: error, loading: false})
     }
 
     taArrived = async () => {
         const current_office_hours_id = this.state.upcomingOfficeHours[0].id
         const {data, error} = await apiUpdateTAStatus(current_office_hours_id, 'arrived')
-        console.log("taArrived data", data)
+        console.log("taArrived data:", data)
         const queue_id = data.id
         this.props.navigation.navigate('TAQueueScreen',
             {
@@ -91,6 +97,7 @@ export default class TAHomeScreen extends React.Component {
     }
 
     hasCurrentlyOpenOfficeHours = () => {
+        console.log("home screeen state", this.state);
         const {upcomingOfficeHours} = this.state;
         return upcomingOfficeHours.length && upcomingOfficeHours[0].queue !== null
     }
@@ -140,7 +147,7 @@ export default class TAHomeScreen extends React.Component {
                     {
                         queue_id: upcomingOfficeHours[0].queue,
                         office_hours_id: upcomingOfficeHours[0].id,
-                        'ta_departed': this.taDeparted()
+                        'ta_departed': this.taDeparted
                     })
                 return null
             }

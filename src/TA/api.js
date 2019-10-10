@@ -21,7 +21,7 @@ export const apiUpdateTAStatus = async (office_hours_id, new_status) => {
         }
     })
 
-    console.log("api Update TA status response", response)
+    console.log("Update TA status response", response)
     return response
 }
 

@@ -104,7 +104,7 @@ export default class QueueScreen extends React.Component {
                             <Title>Queue</Title>
                         </Body>
                         <Right style={{flex: 1}}>
-                            <Button transparent onPress={() => this.updateQueue()}>
+                            <Button transparent onPress={() => this.fetchQueueData()}>
                                 <Icon name='refresh'/>
                             </Button>
                         </Right>
