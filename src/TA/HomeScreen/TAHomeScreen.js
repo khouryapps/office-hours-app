@@ -45,7 +45,6 @@ export default class TAHomeScreen extends React.Component {
             {
                 queue_id: queue_id,
                 office_hours_id: current_office_hours_id,
-                show_modal: true,
                 'taDeparted': this.taDeparted,
             })
         this.setState({loading: true})
@@ -147,7 +146,7 @@ export default class TAHomeScreen extends React.Component {
                     {
                         queue_id: upcomingOfficeHours[0].queue,
                         office_hours_id: upcomingOfficeHours[0].id,
-                        'ta_departed': this.taDeparted
+                        'taDeparted': this.taDeparted
                     })
                 return null
             }

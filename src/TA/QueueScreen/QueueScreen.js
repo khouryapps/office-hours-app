@@ -26,20 +26,17 @@ export default class QueueScreen extends React.Component {
         office_hours_id: null,
         tickets: [],
         loading: true,
-        show_modal: false,
         fetch_error: null,
     };
 
     async componentDidMount() {
         const username = await AsyncStorage.getItem('username');
-        const show_modal = await this.props.navigation.getParam('show_modal', 'false');
         const queue_id = await this.props.navigation.getParam('queue_id', null);
         const office_hours_id = await this.props.navigation.getParam('office_hours_id', null);
         this.setState({
             username: username,
             queue_id: queue_id,
             office_hours_id: office_hours_id,
-            show_modal: show_modal,
         })
 
         this.fetchQueueData()
@@ -79,20 +76,16 @@ export default class QueueScreen extends React.Component {
         this.props.navigation.navigate('TAHome')
     }
 
-    closeModal = () => {
-        this.setState({show_modal: false});
-    }
-
-    retrieveTicketsCurrentlyHelping = () => {
+    getTicketsCurrentlyHelping = () => {
         const ticketsCurrentlyHelping = this.state.tickets.filter(ticket => (ticket.ta_helped === this.state.username && ticket.status === "In Progress"))
         console.log("tickets Currently Helping: ", ticketsCurrentlyHelping)
         return ticketsCurrentlyHelping
     }
 
     render() {
-        const ticketsCurrentlyHelping = this.retrieveTicketsCurrentlyHelping()
+        const ticketsCurrentlyHelping = this.getTicketsCurrentlyHelping()
         const ticketsShownInQueue = this.state.tickets.filter(ticket => (ticket.status !== "Closed"))
-        const {loading, show_modal, queue_code} = this.state
+        const {loading} = this.state
         console.log("queue id:", this.state.queue_id)
         if (!loading) {
             return (
@@ -109,9 +102,6 @@ export default class QueueScreen extends React.Component {
                             </Button>
                         </Right>
                     </Header>
-                    { (show_modal) ?
-                        <QueueCode modalVisible={true} closeModal={this.closeModal} queueCode={queue_code}/>
-                        : null }
                     <Tabs>
                         <Tab heading="Currently Helping">
                             <ScrollView style={styles.content}>
