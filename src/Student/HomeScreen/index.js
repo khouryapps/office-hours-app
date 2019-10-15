@@ -1,15 +1,14 @@
 import React, { Component } from "react";
-import HomeScreen from "./StudentHomeScreen.js";
 import Settings from "../SettingsScreen/index.js";
-import SideBar from "../SideBar/SideBar.js";
+import SideBar from "../../Common/SideBar/SideBar";
 import { createDrawerNavigator, createBottomTabNavigator} from "react-navigation";
-import Schedule from "./StudentHomeScreen";
+import ScheduleHome from "./ScheduleHome";
 import Queue from "./Queue";
 import {Button, Footer, FooterTab, Icon, Text} from "native-base";
 
 const MainScreenNavigator = createBottomTabNavigator(
     {
-        Schedule: {screen: Schedule},
+        Schedule: {screen: ScheduleHome},
         Queue: {screen: Queue}
     },
     {
@@ -33,13 +32,16 @@ const MainScreenNavigator = createBottomTabNavigator(
             )
 
         }
+    },
+    {
+        initialRouteName: 'Schedule'
     }
 );
 
 export default HomeScreenRouter = createDrawerNavigator(
   {
     StudentHome: { screen: MainScreenNavigator },
-    Schedule: { screen: Schedule},
+    ScheduleHome: { screen: ScheduleHome},
     Settings: { screen: Settings },
   },
   {

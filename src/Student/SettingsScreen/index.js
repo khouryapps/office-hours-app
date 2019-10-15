@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Profile from "./Settings";
+import Settings from "./Settings";
 import { createStackNavigator } from "react-navigation";
 
-export default Profile
+export default Settings

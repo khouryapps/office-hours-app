@@ -31,8 +31,6 @@ jest.mock('react-navigation', () => {
     }
 });
 
-jest.mock('WebView', () => 'WebView');
-
 jest.mock('DatePickerIOS', () => 'DatePickerIOS');
 
 

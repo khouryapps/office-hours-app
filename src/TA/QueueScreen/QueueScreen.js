@@ -3,7 +3,6 @@ import React from "react"
 import {
     Button,
     Container,
-    Content,
     Icon,
     Left,
     Body,
@@ -12,99 +11,72 @@ import {
     Text,
     Header,
     Footer,
-    View,
     Tab, Tabs
 } from 'native-base';
 import QueueList from './QueueList'
 import QueueCode from './QueueCode'
 import CurrentlyHelping from './CurrentlyHelping'
 import { AsyncStorage, Modal, StyleSheet, ScrollView} from "react-native";
-
-
-
+import {apiFetchQueueData, apiUpdateTAStatus, apiUpdateTicket} from "../api";
 
 
 export default class QueueScreen extends React.Component {
     state = {
+        queue_id: null,
+        office_hours_id: null,
         tickets: [],
         loading: true,
         show_modal: false,
+        fetch_error: null,
     };
 
     async componentDidMount() {
-        const userToken = await AsyncStorage.getItem('userToken');
         const username = await AsyncStorage.getItem('username');
         const show_modal = await this.props.navigation.getParam('show_modal', 'false');
+        const queue_id = await this.props.navigation.getParam('queue_id', null);
+        const office_hours_id = await this.props.navigation.getParam('office_hours_id', null);
         this.setState({
-            userToken: userToken,
             username: username,
-            loading: false,
+            queue_id: queue_id,
+            office_hours_id: office_hours_id,
             show_modal: show_modal,
         })
-        this.updateQueue()
+
+        this.fetchQueueData()
 
     }
 
-    updateQueue = async () => {
-        const queue_id = await this.props.navigation.getParam('queue_id', 'no_id');  // fixme: change the default to something else
-        console.log("rendering queue screen with queue id:", queue_id);
-        try {
-            //Assign the promise unresolved first then get the data using the json method.
-            const apiCall = await fetch('http://127.0.0.1:8002/api/officehours/queue/'+queue_id+'/',
-                {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': "Token " + this.state.userToken
-                    }
-                });
-            const queue_info = await apiCall.json();
-            console.log("queue info,", queue_info)
-            this.setState({
-                tickets: queue_info.tickets,
-                queue_id: queue_id,
-                queue_code: queue_info.code,
-            });
-            console.log("tickets,", this.state.tickets)
-        } catch (err) {
-            console.log("Error fetching data:", err);
-        }
+    fetchQueueData = async () => {
+        const {queue_id} = this.state
+
+        const {data, error} = await apiFetchQueueData(queue_id)
+        this.setState({
+            tickets: data.tickets,
+            queue_id: queue_id,
+            queue_code: data.code,
+            fetch_error: error,
+            loading: false})
+
     }
 
     updateTicket = async (ticket_id, new_status) => {
-        try {
-            const apiCall = await fetch('http://127.0.0.1:8002/api/officehours/ticket/edit/' + ticket_id + '/',
-                {
-                    method: 'PATCH',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': "Token a891e91d45001088b201b3c2ebe8a5e87a9121f9"
-                    },
-                    body: JSON.stringify({
-                        status: new_status,
-                    }),
-                });
-            const updated_ticket = await apiCall.json()
-            const new_ticket_arr = [...this.state.tickets]
-            for (let i = 0; i < new_ticket_arr.length; i++) {
-                if (new_ticket_arr[i].id === updated_ticket.id) {
-                    new_ticket_arr[i] = updated_ticket
-                    break
-                }
+        const {data, error} = await apiUpdateTicket(ticket_id, new_status)
+        const updated_ticket = data
+        const new_ticket_arr = [...this.state.tickets]
+        for (let i = 0; i < new_ticket_arr.length; i++) {
+            if (new_ticket_arr[i].id === updated_ticket.id) {
+                new_ticket_arr[i] = updated_ticket
+                break
             }
-            this.setState({tickets: new_ticket_arr})
-        } catch (err) {
-            console.log("Error Updating Ticket: ", err)
         }
+        this.setState({tickets: new_ticket_arr, error: error})
     }
 
-    handleUpdateTAStatus = async () => {
-        const updateTAStatus = this.props.navigation.getParam('updateTAStatus')
-        updateTAStatus('departed')
-        console.log('navigating back to homescreen')
-        this.props.navigation.navigate('TAHome', )
+    handleTADeparted = async () => {
+        const office_hours_id = await this.props.navigation.getParam('office_hours_id', null);
+        const taDeparted = this.props.navigation.getParam('taDeparted')
+        taDeparted();
+        this.props.navigation.navigate('TAHome')
     }
 
     closeModal = () => {
@@ -153,7 +125,7 @@ export default class QueueScreen extends React.Component {
                         </Tab>
                     </Tabs>
                     <Footer>
-                        <Button onPress={this.handleUpdateTAStatus} style={{flex:1, justifyContent: 'center'}}>
+                        <Button onPress={() => this.handleTADeparted()} style={{flex:1, justifyContent: 'center'}}>
                             <Text>Leave Office Hours</Text>
                         </Button>
                     </Footer>
