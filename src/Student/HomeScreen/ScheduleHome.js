@@ -1,6 +1,5 @@
 import React from "react";
 import {AsyncStorage} from "react-native";
-import {Form, Item, Input} from 'native-base'
 import {
     Button,
     Container,
@@ -41,34 +40,17 @@ class ScheduleHome extends React.Component {
         }, () => {
             this.fetchOfficeHoursSchedule()
         });
-
-        this.focusListener = this.props.navigation.addListener('didFocus', () => {
-            console.log("SCHEDULE HOME IS FOCUSED")
-            // this.fetchOfficeHoursSchedule();
-        });
     }
 
-    // static getDerivedStateFromProps(props, state) {
-    //     const course_name = props.navigation.getParam('course_name');
-    //     const course_id = props.navigation.getParam('course_id');
-    //
-    //     if (course_id !== state.course_id || course_name !== state.course_name) {
-    //         return {
-    //             refresh: true, ??
-    //             course_id: course_id,
-    //             course_name: course_name
-    //         }
-    //     }
-    // }
 
     fetchOfficeHoursSchedule = async () => {
         const course_id = this.state.course_id
-        console.log("course_id for fetch", course_id)
         if (course_id) {
             const {data, error} = await apiFetchOfficeHoursSchedule(course_id);
             this.setState({office_hours: data, fetch_error: error, loading: false});
         }
     }
+
 
     checkForRefetch = () => {
         let course_id = this.props.navigation.getParam('course_id')
@@ -92,9 +74,6 @@ class ScheduleHome extends React.Component {
         const {loading, fetch_error, office_hours, course_name, course_id} = this.state
 
         if (!loading && !fetch_error) {
-            // console.log("schedule home state", this.state)
-            // console.log("props", this.props)
-
             this.checkForRefetch();
 
             return (
