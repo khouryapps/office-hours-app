@@ -71,9 +71,9 @@ class ScheduleHome extends React.Component {
 
 
     render() {
-        const {loading, office_hours, course_name, course_id} = this.state
+        const {loading, fetch_error, office_hours, course_name, course_id} = this.state
 
-        if (!loading) {
+        if (!loading && !fetch_error) {
             this.checkForRefetch();
 
             return (
@@ -96,9 +96,17 @@ class ScheduleHome extends React.Component {
                 </Container>
             );
         } else {
-            return <Header><Text>Loading...</Text></Header>
+            return (
+                <Container>
+                    <Header>
+                        <Text>Loading...</Text>
+                    </Header>
+                    {fetch_error ? <Body><Text>{fetch_error.stack}</Text></Body> : null}
+                </Container>
+            )
         }
     }
 }
 
 export default withNavigation(ScheduleHome)
+
