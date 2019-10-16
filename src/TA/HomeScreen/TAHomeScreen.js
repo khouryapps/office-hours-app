@@ -22,17 +22,8 @@ export default class TAHomeScreen extends React.Component {
 
     taDeparted = async () => {
         const current_office_hours_id = this.state.upcomingOfficeHours[0].id
-        let data, error;
-        let update_status_response = await apiUpdateTAStatus(current_office_hours_id, 'departed')
-        // FIXME -- Is there a way to declare "const {data, error}" twice in one function?
-        data = update_status_response.data;
-        error = update_status_response.error;
-        console.log("taDeparted data:", data)
-        this.setState({fetch_error: error})
+        const {data, error} = await apiUpdateTAStatus(current_office_hours_id, 'departed')
         this.props.navigation.navigate('TAHome')
-        let upcoming_hours_response = await apiFetchUpcomingOfficeHours()
-        data = upcoming_hours_response.data
-        error = upcoming_hours_response.error
         this.setState({upcomingOfficeHours: data, fetch_error: error, loading: false})
     }
 
