@@ -3,6 +3,7 @@ import {Text, View, Card, Header} from 'native-base'
 import {ScrollView} from 'react-native';
 import moment from 'moment'
 import OfficeHoursCard from "../../Common/components/OfficeHoursCard";
+import {WhiteSpace} from "@ant-design/react-native";
 
 
 class OfficeHoursSchedule extends React.Component {
@@ -11,10 +12,11 @@ class OfficeHoursSchedule extends React.Component {
         const grouped_hours = {};
         // Group the office hours for each day
         office_hours.map(hours => {
-            if (!grouped_hours[moment(hours.start)]) {
-                grouped_hours[moment(hours.start)] = [hours]
+            const date = moment(hours.start).format('L')
+            if (!grouped_hours[moment(date)]) {
+                grouped_hours[moment(date)] = [hours]
             } else {
-                grouped_hours[moment(hours.start)].push(hours)
+                grouped_hours[moment(date)].push(hours)
             }
         })
 
