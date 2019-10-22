@@ -1,27 +1,23 @@
-import React, { Component } from "react";
-import { createMaterialTopTabNavigator } from "react-navigation";
-import {
-    Button,
-    Text,
-    Icon,
-    Item,
-    Footer,
-    FooterTab,
-    Label, Container, Left, Body, Title, Header, Right
-} from "native-base";
-import HeaderBar from "../../Common/components/HeaderBar";
+import React from "react";
+import {View, Text} from 'react-native';
+import {Button} from "@ant-design/react-native";
 
 
 export default class Queue extends React.Component {
     static navigationOptions = {
-        title: 'Home',
+        title: 'Queue',
+        headerLeft: () => (
+            <Button
+                onPress={() => navigation.openDrawer()}>*</Button>
+        ),
     };
 
 
     render() {
-        return <Container>
-            {/*<HeaderBar title="Queue"/>*/}
+        return (
+        <View>
             <Text>This would be the queue</Text>
-        </Container>
+        </View>
+        )
     }
 }

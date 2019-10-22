@@ -1,5 +1,5 @@
 import React from "react";
-import {AsyncStorage, AppRegistry, Image, StatusBar} from "react-native";
+import {AsyncStorage, Image} from "react-native";
 import {NavigationActions} from 'react-navigation';
 import {Button, List, SegmentedControl, InputItem, WhiteSpace, WingBlank, Icon} from '@ant-design/react-native'
 import {View, Text} from 'react-native';

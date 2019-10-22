@@ -1,22 +1,22 @@
 import React from 'react'
-import {Text, Container, Button, Icon, Left, Header} from 'native-base'
+import {View, Text} from "react-native";
+import {Button} from "@ant-design/react-native";
 
 export default class Settings extends React.Component {
+    static navigationOptions = {
+        title: 'Settings',
+        headerLeft: () => (
+            <Button
+                onPress={() => navigation.openDrawer()}>*</Button>
+        ),
+    };
+
 
     render() {
-        const { goBack } = this.props.navigation;
-        return <Container>
-            <Header>
-                <Left>
-                    <Button
-                        transparent
-                        onPress={() => goBack(null)}
-                    >
-                        <Icon name="arrow-back" />
-                    </Button>
-                </Left>
-            </Header>
-            <Text> These would be settings </Text>
-        </Container>
+        return (
+            <View>
+                <Text>This would be the Settings</Text>
+            </View>
+        )
     }
 }

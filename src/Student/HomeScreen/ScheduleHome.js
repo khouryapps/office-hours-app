@@ -1,20 +1,10 @@
 import React from "react";
-import {AsyncStorage} from "react-native";
-import {
-    Button,
-    Container,
-    Body,
-    Header,
-    Title,
-    Text,
-    Left,
-    Icon,
-    Right,
-} from "native-base";
+import {AsyncStorage, View, Text} from 'react-native';
+
+import {Button} from "@ant-design/react-native";
 import {withNavigation} from 'react-navigation';
 
 import OfficeHoursSchedule from './OfficeHoursSchedule'
-import HeaderBar from '../../Common/components/HeaderBar'
 import {apiFetchOfficeHoursSchedule} from "../api";
 
 
@@ -30,8 +20,20 @@ class ScheduleHome extends React.Component {
         }
     }
 
+    static navigationOptions = ({ navigation }) => {
+        return {
+            title: navigation.getParam('course_name'),
+            headerLeft: () => (
+                <Button
+                    onPress={() => navigation.openDrawer()}>*</Button>
+            ),
+        }
+    };
+
     componentDidMount = async () => {
         let course_name = await AsyncStorage.getItem("last_visited_course_name")
+        // Line below sets the navigation param so that the course name can be picked up my the header in the navigation options
+        this.props.navigation.setParams({'course_name': course_name})
         let course_id = await AsyncStorage.getItem("last_visited_course_id")
         console.log("course_name component did mount", course_name)
         console.log("course_id component did mount", course_id)
@@ -78,19 +80,19 @@ class ScheduleHome extends React.Component {
             this.checkForRefetch();
 
             return (
-                <Container>
-                    <HeaderBar title={course_name}/>
+                <View>
+
                     <OfficeHoursSchedule course_name={course_name} course_id={course_id} office_hours={office_hours}/>
-                </Container>
+                </View>
             );
         } else {
             return (
-                <Container>
-                    <Header>
+                <View>
+                    <Text>
                         <Text>Loading...</Text>
-                    </Header>
-                    {fetch_error ? <Body><Text>{fetch_error.stack}</Text></Body> : null}
-                </Container>
+                    </Text>
+                    {fetch_error ? <Text>{fetch_error.stack}</Text>: null}
+                </View>
             )
         }
     }

@@ -1,51 +1,56 @@
-import React, { Component } from "react";
+import React from "react";
 import Settings from "../SettingsScreen/index.js";
 import SideBar from "../../Common/SideBar/SideBar";
-import { createDrawerNavigator, createBottomTabNavigator} from "react-navigation";
+import {createDrawerNavigator, createStackNavigator} from "react-navigation";
 import ScheduleHome from "./ScheduleHome";
 import Queue from "./Queue";
-import {Button, Footer, FooterTab, Icon, Text} from "native-base";
 
-const MainScreenNavigator = createBottomTabNavigator(
+
+const MainScreenNavigator = createStackNavigator(
     {
         Schedule: {screen: ScheduleHome},
         Queue: {screen: Queue}
     },
     {
-        tabBarPosition: 'bottom',
-        tabBarComponent: props => {
-            return(
-                <Footer>
-                    <FooterTab>
-                        <Button light
-                                onPress = {() => props.navigation.navigate("Schedule")}>
-                            <Icon name='calendar'/>
-                            <Text>Schedule</Text>
-                        </Button>
-                        <Button light
-                                onPress={() => props.navigation.navigate("Queue")}>
-                            <Icon name='clock'/>
-                            <Text>Queue</Text>
-                        </Button>
-                    </FooterTab>
-                </Footer>
-            )
+        defaultNavigationOptions: {
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+        },
+    }
+);
 
+
+const SettingsStack = createStackNavigator(
+    {
+        Settings: {
+            screen: Settings,
         }
     },
     {
-        initialRouteName: 'Schedule'
+        navigationOptions: ({ navigation }) => ({
+            initialRouteName: 'Setting',
+            headerMode: 'screen',
+            headerTitle: 'Settings',
+            drawerLabel: 'Settings',
+        }),
     }
 );
 
 export default HomeScreenRouter = createDrawerNavigator(
   {
-    StudentHome: { screen: MainScreenNavigator },
-    Settings: { screen: Settings },
+    StudentHome: {
+        name: MainScreenNavigator,
+        screen: MainScreenNavigator },
+    Settings: {
+        name: 'SettingsStack',
+        screen: SettingsStack
+    },
+
   },
   {
     contentComponent: props => <SideBar {...props} />
-  }
+  },
 );
 
 
