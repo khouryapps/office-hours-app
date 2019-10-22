@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { Card, WhiteSpace, WingBlank } from '@ant-design/react-native';
+import {View} from "react-native";
 
 
 const formatTime = (start, end) => {
@@ -10,8 +11,7 @@ const formatTime = (start, end) => {
 const OfficeHoursCard = (props) => {
         const {ta_name, ta_photo, start, end, room} = props;
 
-        return (
-                <WingBlank size="md">
+        return (<View>
                     <WhiteSpace size="sm" />
                     <Card>
                         <Card.Header
@@ -22,7 +22,7 @@ const OfficeHoursCard = (props) => {
                         />
                     </Card>
                     {props.children}
-                </WingBlank>
+            </View>
         );
 }
 

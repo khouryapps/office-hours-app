@@ -1,9 +1,8 @@
 import React from 'react'
-import {Text, View, Card, Header} from 'native-base'
-import {ScrollView} from 'react-native';
+import {ScrollView, View, Text} from 'react-native';
 import moment from 'moment'
 import OfficeHoursCard from "../../Common/components/OfficeHoursCard";
-import {WhiteSpace} from "@ant-design/react-native";
+import {WhiteSpace, WingBlank} from "@ant-design/react-native";
 
 
 class OfficeHoursSchedule extends React.Component {
@@ -25,16 +24,22 @@ class OfficeHoursSchedule extends React.Component {
 
 
     render() {
-            const grouped_hours = this.representHours(this.props.office_hours)
-            const start_times = Object.keys(grouped_hours);
+        const grouped_hours = this.representHours(this.props.office_hours)
+        const start_times = Object.keys(grouped_hours);
 
-            return <ScrollView>
+        return (
+        <ScrollView>
+            <WingBlank size="md">
                 {start_times.map((start_time, index) => <View key={index}>
-                    <Text style={{fontSize: 20}}>{moment(grouped_hours[start_time][0].start).format('dddd, MMMM Do')}</Text>
+                    <WhiteSpace/>
+                    <Text
+                        style={{fontSize: 20}}>{moment(grouped_hours[start_time][0].start).format('dddd, MMMM Do')}</Text>
                     {grouped_hours[start_time].map(el => (
                         <OfficeHoursCard key={el.id} id={el.id} index={index} {...el}/>))}
                 </View>)}
-            </ScrollView>
+            </WingBlank>
+        </ScrollView>
+        )
     }
 }
 

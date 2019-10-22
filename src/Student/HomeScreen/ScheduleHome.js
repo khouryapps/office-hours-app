@@ -14,6 +14,7 @@ import {
 import {withNavigation} from 'react-navigation';
 
 import OfficeHoursSchedule from './OfficeHoursSchedule'
+import HeaderBar from '../../Common/components/HeaderBar'
 import {apiFetchOfficeHoursSchedule} from "../api";
 
 
@@ -78,20 +79,7 @@ class ScheduleHome extends React.Component {
 
             return (
                 <Container>
-                    <Header>
-                        <Left>
-                            <Button
-                                transparent
-                                onPress={() => this.props.navigation.openDrawer()}
-                            >
-                                <Icon name="menu"/>
-                            </Button>
-                        </Left>
-                        <Body>
-                            <Title>{course_name}</Title>
-                        </Body>
-                        <Right/>
-                    </Header>
+                    <HeaderBar title={course_name}/>
                     <OfficeHoursSchedule course_name={course_name} course_id={course_id} office_hours={office_hours}/>
                 </Container>
             );

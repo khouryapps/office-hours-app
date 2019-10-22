@@ -9,26 +9,18 @@ import {
     FooterTab,
     Label, Container, Left, Body, Title, Header, Right
 } from "native-base";
+import HeaderBar from "../../Common/components/HeaderBar";
 
 
 export default class Queue extends React.Component {
+    static navigationOptions = {
+        title: 'Home',
+    };
+
 
     render() {
         return <Container>
-            <Header>
-                <Left>
-                    <Button
-                        transparent
-                        onPress={() => this.props.navigation.openDrawer()}
-                    >
-                        <Icon name="menu" />
-                    </Button>
-                </Left>
-                <Body>
-                    <Title>Queue</Title>
-                </Body>
-                <Right />
-            </Header>
+            {/*<HeaderBar title="Queue"/>*/}
             <Text>This would be the queue</Text>
         </Container>
     }
