@@ -1,10 +1,11 @@
 import React from "react";
 import moment from 'moment'
-
-import {Container, Header, Left, Right, Body, Button, Icon, Title, Text, Card, Tabs, Tab} from 'native-base';
-import {AsyncStorage, ScrollView} from "react-native";
+import {AsyncStorage, ScrollView, View, Text} from "react-native";
 import OfficeHoursCard from '../../Common/components/OfficeHoursCard'
 import {apiFetchUpcomingOfficeHours, apiUpdateTAStatus} from "../api";
+
+import {Container} from 'native-base';
+import {Button, Tabs} from "@ant-design/react-native"
 
 export default class TAHomeScreen extends React.Component {
     constructor(props) {
@@ -14,6 +15,16 @@ export default class TAHomeScreen extends React.Component {
             fetch_error: null
         }
     }
+
+    static navigationOptions = ({navigation}) => {
+        return {
+            title: 'TA Home',
+            headerLeft: () => (
+                <Button
+                    onPress={() => navigation.openDrawer()}><Text>*</Text></Button>
+            ),
+        }
+    };
 
     componentDidMount = async () => {
         const {data, error} = await apiFetchUpcomingOfficeHours()
@@ -72,6 +83,7 @@ export default class TAHomeScreen extends React.Component {
             const end_date = new Date(officeHourBlock.end)
             return (end_date < date_interval)
         })
+
         if (filteredHours.length) {
             return (filteredHours.map((el, index) => (<OfficeHoursCard key={index} id={el.id} index={index} {...el}>
                 {index === 0 ?
@@ -98,37 +110,18 @@ export default class TAHomeScreen extends React.Component {
             if (!this.hasCurrentlyOpenOfficeHours()) {
                 return (
                     <Container>
-                        <Header hasTabs>
-                            <Left>
-                                <Button
-                                    transparent
-                                    onPress={() => this.props.navigation.openDrawer()}>
-                                    <Icon name="menu"/>
-                                </Button>
-                            </Left>
-                            <Body>
-                                <Title>TA Office Hours</Title>
-                            </Body>
-                            <Right/>
-
-                        </Header>
-                        <Tabs>
-                            <Tab heading="Today">
-                                <ScrollView>
-                                    {this.filterHours('day')}
-                                </ScrollView>
-                            </Tab>
-                            <Tab heading="This Week">
-                                <ScrollView>
-                                    {this.filterHours('week')}
-                                </ScrollView>
-                            </Tab>
-                            <Tab heading="All">
-                                <ScrollView>
-                                    {this.filterHours('all')}
-                                </ScrollView>
-                            </Tab>
+                        <Tabs tabs={[{title: "Today"}, {title: "This Week"}, {title: "All"}]}>
+                            <ScrollView>
+                                {this.filterHours('day')}
+                            </ScrollView>
+                            <ScrollView>
+                                {this.filterHours('week')}
+                            </ScrollView>
+                            <ScrollView>
+                                {this.filterHours('all')}
+                            </ScrollView>
                         </Tabs>
+
                     </Container>
                 );
             } else {
@@ -142,7 +135,7 @@ export default class TAHomeScreen extends React.Component {
                 return null
             }
         } else {
-            return <Header><Text>Loading</Text></Header>
+            return <Text>Loading</Text>
         }
     }
 }

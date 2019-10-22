@@ -1,8 +1,8 @@
 import React from "react";
-import {AsyncStorage, Image} from "react-native";
+import {AsyncStorage, Image, View, Text} from "react-native";
 import {NavigationActions} from 'react-navigation';
 import {Button, List, SegmentedControl, InputItem, WhiteSpace, WingBlank, Icon} from '@ant-design/react-native'
-import {View, Text} from 'react-native';
+
 
 import {apiFetchStudentCourseList, apiUpdateStudentCourseList} from "../../Common/api";
 
@@ -131,7 +131,6 @@ export default class SideBar extends React.Component {
 
                 <WhiteSpace/>
                 <Button type="warning"
-                        style={{textColor: 'red'}}
                     onPress={() => {
                     AsyncStorage.removeItem('userToken', (err) => {
                         this.props.navigation.navigate('AuthLoading')
