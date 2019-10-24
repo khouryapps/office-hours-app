@@ -1,7 +1,7 @@
 import React from "react"
-import {Button, Card, CardItem, View, H2, Text} from "native-base"
-import ShowTicket from "./ShowTicket";
-import TAHomeScreen from "../HomeScreen/TAHomeScreen";
+import {View, Text} from "react-native"
+import {Button} from "@ant-design/react-native"
+import TicketList from "./TicketList"
 
 export default class CurrentlyHelping extends React.Component {
 
@@ -13,9 +13,7 @@ export default class CurrentlyHelping extends React.Component {
         if (tickets.length) {
             return (
                 <View>
-                    <H2>Currently Helping</H2>
-                    {tickets.map(el => <ShowTicket updateTicket={this.props.updateTicket}
-                                                   showButtonOnStatus={"In Progress"} key={el.id} {...el}/>)}
+                    <TicketList tickets={tickets} updateTicket={this.props.updateTicket} showButtonOnStatus={"In Progress"} />
                     {tickets.length > 1 ?
                         (<Button onPress={() => this.updateAllStatus()} style={{flex:1, justifyContent: 'center'}}>
                             <Text>Finish Helping All</Text>

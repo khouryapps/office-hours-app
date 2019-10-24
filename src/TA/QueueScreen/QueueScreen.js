@@ -1,22 +1,13 @@
 import React from "react"
 
 import {
-    Button,
     Container,
-    Icon,
-    Left,
-    Body,
-    Title,
-    Right,
-    Text,
-    Header,
     Footer,
-    Tab, Tabs
 } from 'native-base';
-import QueueList from './QueueList'
-import QueueCode from './QueueCode'
+import {Button, Tabs} from "@ant-design/react-native"
 import CurrentlyHelping from './CurrentlyHelping'
-import { AsyncStorage, Modal, StyleSheet, ScrollView} from "react-native";
+import TicketList from './TicketList'
+import { AsyncStorage, Modal, StyleSheet, ScrollView, Text} from "react-native";
 import {apiFetchQueueData, apiUpdateTAStatus, apiUpdateTicket} from "../api";
 
 
@@ -27,6 +18,19 @@ export default class QueueScreen extends React.Component {
         tickets: [],
         loading: true,
         fetch_error: null,
+    };
+
+    static navigationOptions = ({navigation}) => {
+        return {
+            title: 'Queue Screen',
+            headerLeft: () => (
+                <Button
+                    onPress={() => navigation.openDrawer()}><Text>*</Text></Button>
+            ),
+            headerRight: () => (
+                <Button onPress={() => this.fetchQueueData()}><Text>&&</Text></Button>
+            )
+        }
     };
 
     async componentDidMount() {
@@ -90,30 +94,27 @@ export default class QueueScreen extends React.Component {
         if (!loading) {
             return (
                 <Container>
-                    <Header>
-                        <Left style={{flex: 1}}>
-                        </Left>
-                        <Body style={{flex: 1}}>
-                            <Title>Queue</Title>
-                        </Body>
-                        <Right style={{flex: 1}}>
-                            <Button transparent onPress={() => this.fetchQueueData()}>
-                                <Icon name='refresh'/>
-                            </Button>
-                        </Right>
-                    </Header>
-                    <Tabs>
-                        <Tab heading="Currently Helping">
-                            <ScrollView style={styles.content}>
-                                <CurrentlyHelping tickets={ticketsCurrentlyHelping} updateTicket={this.updateTicket}/>
-                            </ScrollView>
-                        </Tab>
-                        <Tab heading="Queue">
-                            <ScrollView style={styles.content}>
-                                <QueueList tickets={ticketsShownInQueue} updateTicket={this.updateTicket}/>
-                            </ScrollView>
-                        </Tab>
+                    {/*<Header>*/}
+                    {/*    <Left style={{flex: 1}}>*/}
+                    {/*    </Left>*/}
+                    {/*    <Body style={{flex: 1}}>*/}
+                    {/*        <Title>Queue</Title>*/}
+                    {/*    </Body>*/}
+                    {/*    <Right style={{flex: 1}}>*/}
+                    {/*        <Button transparent onPress={() => this.fetchQueueData()}>*/}
+                    {/*            <Icon name='refresh'/>*/}
+                    {/*        </Button>*/}
+                    {/*    </Right>*/}
+                    {/*</Header>*/}
+                    <Tabs tabs={[{title: "Currently Helping"}, {title: "Queue"}]}>
+                                <ScrollView style={styles.content}>
+                                    <CurrentlyHelping tickets={ticketsCurrentlyHelping} updateTicket={this.updateTicket}/>
+                                </ScrollView>
+                                <ScrollView style={styles.content}>
+                                    <TicketList tickets={ticketsShownInQueue} updateTicket={this.updateTicket} showButtonOnStatus={"Open"}/>
+                                </ScrollView>
                     </Tabs>
+
                     <Footer>
                         <Button onPress={() => this.handleTADeparted()} style={{flex:1, justifyContent: 'center'}}>
                             <Text>Leave Office Hours</Text>

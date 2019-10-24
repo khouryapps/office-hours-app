@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Text, Card, CardItem, Button } from 'native-base'
-import { Image } from "react-native";
+import { Card, Button, Tag } from "@ant-design/react-native"
+import { Image, Text} from "react-native";
 
-export default class ShowTicket extends React.Component {
+export default class Ticket extends React.Component {
 
     generate_button = (current_status) => {
         const {id, showButtonOnStatus} = this.props
@@ -31,28 +31,21 @@ export default class ShowTicket extends React.Component {
         const { id, creator, question, tags, status} = this.props;
         return (
             <Card>
-                <CardItem>
-                    <Image
-                        style={{width: 50, height: 50}}
-                        source={{uri: creator.photo_url}}
-                        />
-                </CardItem>
-                <CardItem>
-                    <Text>Name: {creator.full_name}</Text>
-                </CardItem>
-                <CardItem>
+                <Card.Header
+                    title={creator.full_name}
+                    thumbStyle={{width: 60, height: 60}}
+                    thumb={creator.photo_url}
+                    extra={this.generate_button(status)}
+                />
+                <Card.Body>
                     <Text>Question: {question}</Text>
-                </CardItem>
-                {tags.length ? (<CardItem>
-                        <Text>Tags: {tags}</Text>
-                    </CardItem>)
-                    : null}
-                <CardItem>
-                    <Text>Status: {status}</Text>
-                </CardItem>
-                <CardItem>
-                    {this.generate_button(status)}
-                </CardItem>
+                {/*{tags.length ? (<CardItem>*/}
+                {/*        <Text>Tags: {tags}</Text>*/}
+                {/*    </CardItem>)*/}
+                {/*    : null}*/}
+                </Card.Body>
+                <Card.Footer content={<Tag selected>{status}</Tag>}/>
+
             </Card>
         )
     }
