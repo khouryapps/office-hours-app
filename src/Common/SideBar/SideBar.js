@@ -32,11 +32,13 @@ export default class SideBar extends React.Component {
 
     onValueChange = value => {
         this.props.navigation.navigate(value)
+
     };
 
 
 
     render() {
+
         const {is_ta, courses_list, edit_courses} = this.state
         return (
             <View>
@@ -50,7 +52,7 @@ export default class SideBar extends React.Component {
                             values={['Student', 'TA']}
                             onChange={this.onChange}
                             onValueChange={this.onValueChange}
-                            selectedIndex={['Student', 'TA'].indexOf(this.props.navigation.state.routeName)}
+                            selectedIndex={['Student', 'TA'].indexOf(this.props.activeItemKey)}
                             style={{height: 40, width: 180}}
                         />
                     </View>

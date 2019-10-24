@@ -9,7 +9,7 @@
 import React, {Component} from 'react';
 import {AsyncStorage, Platform, StyleSheet, Text, View} from 'react-native';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation'
-import HomeScreenRouter from "./src/index.js"
+import HomeScreenWithSidebar from "./src/index.js"
 import axios from "axios";
 import {BASE_URL} from './src/utils'
 
@@ -100,7 +100,7 @@ class AuthLoadingScreen
 const Root = createSwitchNavigator(
     {
         AuthLoading: AuthLoadingScreen,
-        HomeScreen: HomeScreenRouter,
+        HomeScreen: HomeScreenWithSidebar,
         Auth: SignIn,
     },
     {
