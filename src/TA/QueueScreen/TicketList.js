@@ -14,9 +14,9 @@ export default class TicketList extends React.Component {
             return (
                 <ScrollView>
                     <WingBlank size="md">
-                        <H2>Current Queue Size: {tickets.filter((ticket) => {
+                        <Text>Current Queue Size: {tickets.filter((ticket) => {
                             return ticket.status === "Open" || ticket.status === "In Progress"
-                        }).length}</H2>
+                        }).length}</Text>
                         {tickets.map(el => <View><WhiteSpace/><Ticket updateTicket={this.props.updateTicket}
                                                                                  showButtonOnStatus={this.props.showButtonOnStatus} key={el.id} {...el}/>
                         </View>)}

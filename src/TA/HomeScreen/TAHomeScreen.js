@@ -4,7 +4,6 @@ import {AsyncStorage, ScrollView, View, Text} from "react-native";
 import OfficeHoursCard from '../../Common/components/OfficeHoursCard'
 import {apiFetchUpcomingOfficeHours, apiUpdateTAStatus} from "../api";
 
-import {Container} from 'native-base';
 import {Button, Tabs} from "@ant-design/react-native"
 
 export default class TAHomeScreen extends React.Component {
@@ -109,7 +108,7 @@ export default class TAHomeScreen extends React.Component {
         if (!loading) {
             if (!this.hasCurrentlyOpenOfficeHours()) {
                 return (
-                    <Container>
+                    <View style={{flex: 1}}>
                         <Tabs tabs={[{title: "Today"}, {title: "This Week"}, {title: "All"}]}>
                             <ScrollView>
                                 {this.filterHours('day')}
@@ -122,10 +121,10 @@ export default class TAHomeScreen extends React.Component {
                             </ScrollView>
                         </Tabs>
 
-                    </Container>
+                    </View>
                 );
             } else {
-                console.log("Went straight to queue")
+                console.log("Went straight to queue: ", upcomingOfficeHours[0].queue)
                 this.props.navigation.navigate('TAQueueScreen',
                     {
                         queue_id: upcomingOfficeHours[0].queue,

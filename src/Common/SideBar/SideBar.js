@@ -35,6 +35,9 @@ export default class SideBar extends React.Component {
 
     };
 
+    renderCourses = () => {
+
+    }
 
 
     render() {

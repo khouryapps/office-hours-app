@@ -1,13 +1,9 @@
 import React from "react"
 
-import {
-    Container,
-    Footer,
-} from 'native-base';
-import {Button, Tabs} from "@ant-design/react-native"
+import {Button, Tabs, WhiteSpace} from "@ant-design/react-native"
 import CurrentlyHelping from './CurrentlyHelping'
 import TicketList from './TicketList'
-import { AsyncStorage, Modal, StyleSheet, ScrollView, Text} from "react-native";
+import { AsyncStorage, StyleSheet, ScrollView, View, Text} from "react-native";
 import {apiFetchQueueData, apiUpdateTAStatus, apiUpdateTicket} from "../api";
 
 
@@ -23,15 +19,17 @@ export default class QueueScreen extends React.Component {
     static navigationOptions = ({navigation}) => {
         return {
             title: 'Queue Screen',
-            headerLeft: () => (
+            headerLeft: (
                 <Button
                     onPress={() => navigation.openDrawer()}><Text>*</Text></Button>
             ),
-            headerRight: () => (
-                <Button onPress={() => this.fetchQueueData()}><Text>&&</Text></Button>
-            )
+            headerRight: (
+                <Button onPress={navigation.getParam('fetchQueueData')}><Text>&&</Text></Button>
+            ),
+            gesturesEnabled: false
         }
     };
+
 
     async componentDidMount() {
         const username = await AsyncStorage.getItem('username');
@@ -42,7 +40,7 @@ export default class QueueScreen extends React.Component {
             queue_id: queue_id,
             office_hours_id: office_hours_id,
         })
-
+        this.props.navigation.setParams({ fetchQueueData: this.fetchQueueData });
         this.fetchQueueData()
 
     }
@@ -93,19 +91,8 @@ export default class QueueScreen extends React.Component {
         console.log("queue id:", this.state.queue_id)
         if (!loading) {
             return (
-                <Container>
-                    {/*<Header>*/}
-                    {/*    <Left style={{flex: 1}}>*/}
-                    {/*    </Left>*/}
-                    {/*    <Body style={{flex: 1}}>*/}
-                    {/*        <Title>Queue</Title>*/}
-                    {/*    </Body>*/}
-                    {/*    <Right style={{flex: 1}}>*/}
-                    {/*        <Button transparent onPress={() => this.fetchQueueData()}>*/}
-                    {/*            <Icon name='refresh'/>*/}
-                    {/*        </Button>*/}
-                    {/*    </Right>*/}
-                    {/*</Header>*/}
+                <View style={{flex: 1}}>
+                    <ScrollView>
                     <Tabs tabs={[{title: "Currently Helping"}, {title: "Queue"}]}>
                                 <ScrollView style={styles.content}>
                                     <CurrentlyHelping tickets={ticketsCurrentlyHelping} updateTicket={this.updateTicket}/>
@@ -114,13 +101,14 @@ export default class QueueScreen extends React.Component {
                                     <TicketList tickets={ticketsShownInQueue} updateTicket={this.updateTicket} showButtonOnStatus={"Open"}/>
                                 </ScrollView>
                     </Tabs>
-
-                    <Footer>
-                        <Button onPress={() => this.handleTADeparted()} style={{flex:1, justifyContent: 'center'}}>
-                            <Text>Leave Office Hours</Text>
+                    </ScrollView>
+                    <View>
+                        <Button type="warning" onPress={() => this.handleTADeparted()}>
+                            Leave Office Hours
                         </Button>
-                    </Footer>
-                </Container>
+                        <WhiteSpace/>
+                    </View>
+                </View>
             )
         } else {
             return null
