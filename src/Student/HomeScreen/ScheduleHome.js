@@ -1,11 +1,12 @@
 import React from "react";
 import {AsyncStorage, View, Text} from 'react-native';
 
-import {Button} from "@ant-design/react-native";
 import {withNavigation} from 'react-navigation';
 
 import OfficeHoursSchedule from './OfficeHoursSchedule'
 import {apiFetchOfficeHoursSchedule} from "../api";
+import HeaderButton from "../../Common/components/HeaderButton";
+import Loading from "../../Common/components/Loading";
 
 
 class ScheduleHome extends React.Component {
@@ -24,8 +25,7 @@ class ScheduleHome extends React.Component {
         return {
             title: navigation.getParam('course_name'),
             headerLeft: () => (
-                <Button
-                    onPress={() => navigation.openDrawer()}>*</Button>
+                <HeaderButton navigation={navigation}/>
             ),
         }
     };
@@ -81,16 +81,13 @@ class ScheduleHome extends React.Component {
 
             return (
                 <View>
-
                     <OfficeHoursSchedule course_name={course_name} course_id={course_id} office_hours={office_hours}/>
                 </View>
             );
         } else {
             return (
                 <View>
-                    <Text>
-                        <Text>Loading...</Text>
-                    </Text>
+                    <Loading/>
                     {fetch_error ? <Text>{fetch_error.stack}</Text>: null}
                 </View>
             )

@@ -1,14 +1,13 @@
 import React from 'react'
 import {View, Text} from "react-native";
-import {Button} from "@ant-design/react-native";
+import HeaderButton from "../../Common/components/HeaderButton";
 
 export default class Settings extends React.Component {
     static navigationOptions = ({ navigation }) => {
         return {
             title: 'Settings',
             headerLeft: () => (
-                <Button
-                    onPress={() => navigation.openDrawer()}>*</Button>
+                <HeaderButton navigation={navigation}/>
             ),
         }
     };

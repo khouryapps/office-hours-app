@@ -1,10 +1,13 @@
 import React from "react"
 
-import {Button, Tabs, WhiteSpace} from "@ant-design/react-native"
+import {Button, Tabs, WhiteSpace, Icon} from "@ant-design/react-native"
 import CurrentlyHelping from './CurrentlyHelping'
+import styles from "../../Style"
 import TicketList from './TicketList'
-import { AsyncStorage, StyleSheet, ScrollView, View, Text} from "react-native";
-import {apiFetchQueueData, apiUpdateTAStatus, apiUpdateTicket} from "../api";
+import { AsyncStorage, ScrollView, View, Text} from "react-native";
+import {apiFetchQueueData, apiUpdateTicket} from "../api";
+import Loading from "../../Common/components/Loading";
+import HeaderButton from "../../Common/components/HeaderButton";
 
 
 export default class QueueScreen extends React.Component {
@@ -20,11 +23,11 @@ export default class QueueScreen extends React.Component {
         return {
             title: 'Queue Screen',
             headerLeft: (
-                <Button
-                    onPress={() => navigation.openDrawer()}><Text>*</Text></Button>
+                <HeaderButton navigation={navigation}/>
             ),
             headerRight: (
-                <Button onPress={navigation.getParam('fetchQueueData')}><Text>&&</Text></Button>
+                <Button style={styles.headerButtonStyle}
+                    onPress={navigation.getParam('fetchQueueData')}><Icon style={styles.iconStyle} name="reload"/></Button>
             ),
             gesturesEnabled: false
         }
@@ -111,14 +114,8 @@ export default class QueueScreen extends React.Component {
                 </View>
             )
         } else {
-            return null
+            return <Loading/>
         }
 
     }
 }
-
-const styles = StyleSheet.create({
-    content:{
-        flex:1,
-    },
-});

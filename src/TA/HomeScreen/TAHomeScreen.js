@@ -1,10 +1,13 @@
 import React from "react";
 import moment from 'moment'
-import {AsyncStorage, ScrollView, View, Text} from "react-native";
+import {AsyncStorage, ScrollView, View, Text, StyleSheet} from "react-native";
 import OfficeHoursCard from '../../Common/components/OfficeHoursCard'
 import {apiFetchUpcomingOfficeHours, apiUpdateTAStatus} from "../api";
 
 import {Button, Tabs} from "@ant-design/react-native"
+import Loading from "../../Common/components/Loading";
+import HeaderButton from "../../Common/components/HeaderButton";
+import styles from "../../Style";
 
 export default class TAHomeScreen extends React.Component {
     constructor(props) {
@@ -19,8 +22,7 @@ export default class TAHomeScreen extends React.Component {
         return {
             title: 'TA Home',
             headerLeft: () => (
-                <Button
-                    onPress={() => navigation.openDrawer()}><Text>*</Text></Button>
+                <HeaderButton navigation={navigation}/>
             ),
         }
     };
@@ -98,7 +100,6 @@ export default class TAHomeScreen extends React.Component {
     }
 
     hasCurrentlyOpenOfficeHours = () => {
-        console.log("home screeen state", this.state);
         const {upcomingOfficeHours} = this.state;
         return upcomingOfficeHours.length && upcomingOfficeHours[0].queue !== null
     }
@@ -131,10 +132,10 @@ export default class TAHomeScreen extends React.Component {
                         office_hours_id: upcomingOfficeHours[0].id,
                         'taDeparted': this.taDeparted
                     })
-                return null
+                return <Loading/>
             }
         } else {
-            return <Text>Loading</Text>
+            return <Loading/>
         }
     }
 }

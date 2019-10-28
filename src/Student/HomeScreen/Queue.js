@@ -1,6 +1,6 @@
 import React from "react";
 import {View, Text} from 'react-native';
-import {Button} from "@ant-design/react-native";
+import HeaderButton from "../../Common/components/HeaderButton";
 
 
 export default class Queue extends React.Component {
@@ -9,8 +9,7 @@ export default class Queue extends React.Component {
         return {
             title: 'Queue',
             headerLeft: () => (
-                <Button
-                    onPress={() => navigation.openDrawer()}>*</Button>
+                <HeaderButton navigation={navigation}/>
             ),
         }
     };
