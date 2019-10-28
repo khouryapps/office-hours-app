@@ -41,7 +41,6 @@ export default class SideBar extends React.Component {
 
 
     render() {
-
         const {is_ta, courses_list, edit_courses} = this.state
         return (
             <View>
@@ -72,7 +71,7 @@ export default class SideBar extends React.Component {
                                 onPress={() => {
                                     AsyncStorage.setItem('last_visited_course_name', course.name);
                                     AsyncStorage.setItem('last_visited_course_id', course.id);
-                                    this.props.navigation.navigate('StudentHome', {},
+                                    this.props.navigation.navigate('Student', {},
                                         NavigationActions.navigate({
                                             routeName: 'Schedule',
                                             params: {
