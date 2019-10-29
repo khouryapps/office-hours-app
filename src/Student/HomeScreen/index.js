@@ -1,51 +1,24 @@
-import React, { Component } from "react";
+import React from "react";
 import Settings from "../SettingsScreen/index.js";
-import SideBar from "../../Common/SideBar/SideBar";
-import { createDrawerNavigator, createBottomTabNavigator} from "react-navigation";
+import {createStackNavigator} from "react-navigation";
 import ScheduleHome from "./ScheduleHome";
 import Queue from "./Queue";
-import {Button, Footer, FooterTab, Icon, Text} from "native-base";
 
-const MainScreenNavigator = createBottomTabNavigator(
+
+export default MainScreenNavigator = createStackNavigator(
     {
         Schedule: {screen: ScheduleHome},
-        Queue: {screen: Queue}
+        Queue: {screen: Queue},
+        Settings: {screen: Settings},
     },
     {
-        tabBarPosition: 'bottom',
-        tabBarComponent: props => {
-            return(
-                <Footer>
-                    <FooterTab>
-                        <Button light
-                                onPress = {() => props.navigation.navigate("Schedule")}>
-                            <Icon name='calendar'/>
-                            <Text>Schedule</Text>
-                        </Button>
-                        <Button light
-                                onPress={() => props.navigation.navigate("Queue")}>
-                            <Icon name='clock'/>
-                            <Text>Queue</Text>
-                        </Button>
-                    </FooterTab>
-                </Footer>
-            )
+        defaultNavigationOptions: {
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+        },
 
-        }
-    },
-    {
-        initialRouteName: 'Schedule'
     }
-);
-
-export default HomeScreenRouter = createDrawerNavigator(
-  {
-    StudentHome: { screen: MainScreenNavigator },
-    Settings: { screen: Settings },
-  },
-  {
-    contentComponent: props => <SideBar {...props} />
-  }
 );
 
 

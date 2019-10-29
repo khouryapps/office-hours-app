@@ -6,14 +6,14 @@
  * @flow
  */
 
-import React, {Component} from 'react';
+import React from 'react';
 import {AsyncStorage, Platform, StyleSheet, Text, View} from 'react-native';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation'
-import HomeScreenRouter from "./src/index.js"
+import HomeScreenWithSidebar from "./src/index.js"
 import axios from "axios";
 import {BASE_URL} from './src/utils'
 
-import {Button, Container, Content, Form, Header, Input, Item} from "native-base";
+import {InputItem, Button} from "@ant-design/react-native"
 
 const instructions = Platform.select({
     ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -27,6 +27,10 @@ class SignIn extends React.Component {
         username: '',
         password: '',
         login_error: ''
+    };
+
+    static navigationOptions = {
+            title: 'Login'
     };
 
     handle_login = async () => {
@@ -46,25 +50,33 @@ class SignIn extends React.Component {
 
     render() {
         return (
-            <Container>
-                <Header/>
-                <Content>
-                    <Form>
-                        <Item>
-                            <Input onChangeText={e => this.setState({username: e})} placeholder="Username"/>
-                        </Item>
-                        <Item last>
-                            <Input secureTextEntry={true} onChangeText={e => this.setState({password: e})}
-                                   placeholder="Password"/>
-                        </Item>
-                        <Button onPress={() => {
+            <View>
+                        <InputItem
+                            clear
+                            value={this.state.username}
+                            onChange={value => {
+                                this.setState({
+                                    username: value,
+                                });
+                            }}
+                            placeholder="Username"
+                        />
+                        <InputItem
+                            type="password"
+                            value={this.state.password}
+                            onChange={value => {
+                                this.setState({
+                                    password: value,
+                                });
+                            }}
+                            placeholder="Password"
+                        />
+                        <Button type="primary" onPress={() => {
                             this.handle_login()
                         }}>
                             <Text>Login</Text>
                         </Button>
-                    </Form>
-                </Content>
-            </Container>
+            </View>
         );
     }
 }
@@ -100,7 +112,7 @@ class AuthLoadingScreen
 const Root = createSwitchNavigator(
     {
         AuthLoading: AuthLoadingScreen,
-        HomeScreen: HomeScreenRouter,
+        HomeScreen: HomeScreenWithSidebar,
         Auth: SignIn,
     },
     {

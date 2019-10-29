@@ -1,10 +1,12 @@
 
 
-import {createSwitchNavigator, createDrawerNavigator} from 'react-navigation';
+import {createDrawerNavigator} from 'react-navigation';
 import StudentHomeScreenRouter from './Student/HomeScreen/index.js'
 import TAHomeScreenRouter from './TA/HomeScreen/index.js'
+import SideBar from "./Common/SideBar/SideBar";
+import React from "react";
 
-const HomeScreenRouter = createSwitchNavigator(
+const HomeScreenWithSidebar = createDrawerNavigator(
     {
         Student: {
             screen: StudentHomeScreenRouter
@@ -12,11 +14,11 @@ const HomeScreenRouter = createSwitchNavigator(
         TA: {
             screen: TAHomeScreenRouter
         }
+    },{
+        contentComponent: props => <SideBar {...props} />,
+        initialRouteName: 'TA',
     },
-    {
-        initialRouteName: 'Student'
-    }
-)
 
+);
 
-export default HomeScreenRouter;
+export default HomeScreenWithSidebar;

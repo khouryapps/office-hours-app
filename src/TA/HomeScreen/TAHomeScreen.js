@@ -1,10 +1,13 @@
 import React from "react";
 import moment from 'moment'
-
-import {Container, Header, Left, Right, Body, Button, Icon, Title, Text, Card, Tabs, Tab} from 'native-base';
-import {AsyncStorage, ScrollView} from "react-native";
+import {AsyncStorage, ScrollView, View, Text, StyleSheet} from "react-native";
 import OfficeHoursCard from '../../Common/components/OfficeHoursCard'
 import {apiFetchUpcomingOfficeHours, apiUpdateTAStatus} from "../api";
+
+import {Button, Tabs} from "@ant-design/react-native"
+import Loading from "../../Common/components/Loading";
+import HeaderButton from "../../Common/components/HeaderButton";
+import styles from "../../Style";
 
 export default class TAHomeScreen extends React.Component {
     constructor(props) {
@@ -14,6 +17,15 @@ export default class TAHomeScreen extends React.Component {
             fetch_error: null
         }
     }
+
+    static navigationOptions = ({navigation}) => {
+        return {
+            title: 'TA Home',
+            headerLeft: () => (
+                <HeaderButton navigation={navigation}/>
+            ),
+        }
+    };
 
     componentDidMount = async () => {
         const {data, error} = await apiFetchUpcomingOfficeHours()
@@ -72,6 +84,7 @@ export default class TAHomeScreen extends React.Component {
             const end_date = new Date(officeHourBlock.end)
             return (end_date < date_interval)
         })
+
         if (filteredHours.length) {
             return (filteredHours.map((el, index) => (<OfficeHoursCard key={index} id={el.id} index={index} {...el}>
                 {index === 0 ?
@@ -87,7 +100,6 @@ export default class TAHomeScreen extends React.Component {
     }
 
     hasCurrentlyOpenOfficeHours = () => {
-        console.log("home screeen state", this.state);
         const {upcomingOfficeHours} = this.state;
         return upcomingOfficeHours.length && upcomingOfficeHours[0].queue !== null
     }
@@ -97,52 +109,33 @@ export default class TAHomeScreen extends React.Component {
         if (!loading) {
             if (!this.hasCurrentlyOpenOfficeHours()) {
                 return (
-                    <Container>
-                        <Header hasTabs>
-                            <Left>
-                                <Button
-                                    transparent
-                                    onPress={() => this.props.navigation.openDrawer()}>
-                                    <Icon name="menu"/>
-                                </Button>
-                            </Left>
-                            <Body>
-                                <Title>TA Office Hours</Title>
-                            </Body>
-                            <Right/>
-
-                        </Header>
-                        <Tabs>
-                            <Tab heading="Today">
-                                <ScrollView>
-                                    {this.filterHours('day')}
-                                </ScrollView>
-                            </Tab>
-                            <Tab heading="This Week">
-                                <ScrollView>
-                                    {this.filterHours('week')}
-                                </ScrollView>
-                            </Tab>
-                            <Tab heading="All">
-                                <ScrollView>
-                                    {this.filterHours('all')}
-                                </ScrollView>
-                            </Tab>
+                    <View style={{flex: 1}}>
+                        <Tabs tabs={[{title: "Today"}, {title: "This Week"}, {title: "All"}]}>
+                            <ScrollView>
+                                {this.filterHours('day')}
+                            </ScrollView>
+                            <ScrollView>
+                                {this.filterHours('week')}
+                            </ScrollView>
+                            <ScrollView>
+                                {this.filterHours('all')}
+                            </ScrollView>
                         </Tabs>
-                    </Container>
+
+                    </View>
                 );
             } else {
-                console.log("Went straight to queue")
+                console.log("Went straight to queue: ", upcomingOfficeHours[0].queue)
                 this.props.navigation.navigate('TAQueueScreen',
                     {
                         queue_id: upcomingOfficeHours[0].queue,
                         office_hours_id: upcomingOfficeHours[0].id,
                         'taDeparted': this.taDeparted
                     })
-                return null
+                return <Loading/>
             }
         } else {
-            return <Header><Text>Loading</Text></Header>
+            return <Loading/>
         }
     }
 }

@@ -1,23 +1,13 @@
 import React from "react"
 
-import {
-    Button,
-    Container,
-    Icon,
-    Left,
-    Body,
-    Title,
-    Right,
-    Text,
-    Header,
-    Footer,
-    Tab, Tabs
-} from 'native-base';
-import QueueList from './QueueList'
-import QueueCode from './QueueCode'
+import {Button, Tabs, WhiteSpace, Icon} from "@ant-design/react-native"
 import CurrentlyHelping from './CurrentlyHelping'
-import { AsyncStorage, Modal, StyleSheet, ScrollView} from "react-native";
-import {apiFetchQueueData, apiUpdateTAStatus, apiUpdateTicket} from "../api";
+import styles from "../../Style"
+import TicketList from './TicketList'
+import { AsyncStorage, ScrollView, View, Text} from "react-native";
+import {apiFetchQueueData, apiUpdateTicket} from "../api";
+import Loading from "../../Common/components/Loading";
+import HeaderButton from "../../Common/components/HeaderButton";
 
 
 export default class QueueScreen extends React.Component {
@@ -29,6 +19,21 @@ export default class QueueScreen extends React.Component {
         fetch_error: null,
     };
 
+    static navigationOptions = ({navigation}) => {
+        return {
+            title: 'Queue Screen',
+            headerLeft: (
+                <HeaderButton navigation={navigation}/>
+            ),
+            headerRight: (
+                <Button style={styles.headerButtonStyle}
+                    onPress={navigation.getParam('fetchQueueData')}><Icon style={styles.iconStyle} name="reload"/></Button>
+            ),
+            gesturesEnabled: false
+        }
+    };
+
+
     async componentDidMount() {
         const username = await AsyncStorage.getItem('username');
         const queue_id = await this.props.navigation.getParam('queue_id', null);
@@ -38,7 +43,7 @@ export default class QueueScreen extends React.Component {
             queue_id: queue_id,
             office_hours_id: office_hours_id,
         })
-
+        this.props.navigation.setParams({ fetchQueueData: this.fetchQueueData });
         this.fetchQueueData()
 
     }
@@ -89,47 +94,28 @@ export default class QueueScreen extends React.Component {
         console.log("queue id:", this.state.queue_id)
         if (!loading) {
             return (
-                <Container>
-                    <Header>
-                        <Left style={{flex: 1}}>
-                        </Left>
-                        <Body style={{flex: 1}}>
-                            <Title>Queue</Title>
-                        </Body>
-                        <Right style={{flex: 1}}>
-                            <Button transparent onPress={() => this.fetchQueueData()}>
-                                <Icon name='refresh'/>
-                            </Button>
-                        </Right>
-                    </Header>
-                    <Tabs>
-                        <Tab heading="Currently Helping">
-                            <ScrollView style={styles.content}>
-                                <CurrentlyHelping tickets={ticketsCurrentlyHelping} updateTicket={this.updateTicket}/>
-                            </ScrollView>
-                        </Tab>
-                        <Tab heading="Queue">
-                            <ScrollView style={styles.content}>
-                                <QueueList tickets={ticketsShownInQueue} updateTicket={this.updateTicket}/>
-                            </ScrollView>
-                        </Tab>
+                <View style={{flex: 1}}>
+                    <ScrollView>
+                    <Tabs tabs={[{title: "Currently Helping"}, {title: "Queue"}]}>
+                                <ScrollView style={styles.content}>
+                                    <CurrentlyHelping tickets={ticketsCurrentlyHelping} updateTicket={this.updateTicket}/>
+                                </ScrollView>
+                                <ScrollView style={styles.content}>
+                                    <TicketList tickets={ticketsShownInQueue} updateTicket={this.updateTicket} showButtonOnStatus={"Open"}/>
+                                </ScrollView>
                     </Tabs>
-                    <Footer>
-                        <Button onPress={() => this.handleTADeparted()} style={{flex:1, justifyContent: 'center'}}>
-                            <Text>Leave Office Hours</Text>
+                    </ScrollView>
+                    <View>
+                        <Button type="warning" onPress={() => this.handleTADeparted()}>
+                            Leave Office Hours
                         </Button>
-                    </Footer>
-                </Container>
+                        <WhiteSpace/>
+                    </View>
+                </View>
             )
         } else {
-            return null
+            return <Loading/>
         }
 
     }
 }
-
-const styles = StyleSheet.create({
-    content:{
-        flex:1,
-    },
-});
