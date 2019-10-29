@@ -8,12 +8,14 @@
 
 import React from 'react';
 import {AsyncStorage, Platform, StyleSheet, Text, View} from 'react-native';
+// import AsyncStorage from '@react-native-community/async-storage';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation'
 import HomeScreenWithSidebar from "./src/index.js"
 import axios from "axios";
 import {BASE_URL} from './src/utils'
 
 import {InputItem, Button} from "@ant-design/react-native"
+import Loading from "./src/Common/components/Loading";
 
 const instructions = Platform.select({
     ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -27,10 +29,6 @@ class SignIn extends React.Component {
         username: '',
         password: '',
         login_error: ''
-    };
-
-    static navigationOptions = {
-            title: 'Login'
     };
 
     handle_login = async () => {
@@ -50,7 +48,7 @@ class SignIn extends React.Component {
 
     render() {
         return (
-            <View>
+            <View style={{paddingTop: '15%'}}>
                         <InputItem
                             clear
                             value={this.state.username}
@@ -81,9 +79,7 @@ class SignIn extends React.Component {
     }
 }
 
-class AuthLoadingScreen
-    extends React
-        .Component {
+class AuthLoadingScreen extends React.Component {
     constructor(props) {
         super(props);
         this._fetchToken()
@@ -92,16 +88,19 @@ class AuthLoadingScreen
     _fetchToken = async () => {
         try {
             const userToken = await AsyncStorage.getItem('userToken');
-
             this.props.navigation.navigate(userToken ? 'HomeScreen' : 'Auth')
         } catch (error) {
+            this.props.navigation.navigate('Auth')
             console.log('Error fetching token ', error)
         }
 
     };
 
     render() {
-        return <Text>Loading...</Text>
+        return (
+        <View style={{paddingTop: '10%'}}>
+            <Loading/>
+        </View>)
     }
 }
 
