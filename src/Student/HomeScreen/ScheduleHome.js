@@ -42,14 +42,14 @@ class ScheduleHome extends React.Component {
         this.props.navigation.setParams({'course_name': course_name})
         this.props.navigation.setParams({ 'refreshFetch': this.fetchOfficeHoursSchedule });
         let course_id = await AsyncStorage.getItem("last_visited_course_id")
-        console.log("course_name component did mount", course_name)
-        console.log("course_id component did mount", course_id)
         this.setState({
             course_name: course_name,
             course_id: course_id,
         }, () => {
             this.fetchOfficeHoursSchedule()
         });
+        // FIXME -- Only for testing purposes
+        this.props.navigation.navigate('StudentQueue')
     }
 
 
