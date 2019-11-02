@@ -48,20 +48,20 @@ export default class QueueScreen extends React.Component {
             "question": "Recursion is confusing me",
             "tags": [],
             "queue": 32,
-            "ta_helped": null,
+            "ta_helped": "Steve Mcgee",
             "public": false,
             "created_on": "2019-10-30T16:24:29.999209-04:00",
-            "opened_on": null,
+            "opened_on": "2019-10-30T18:24:29.999209-04:00",
             "closed_on": null,
-            "status": "Open"
+            "status": "In Progress"
         }
         this.setState({
             queue_id: 31,
             queue_size: 3,
-            student_ticket: null,
-            question_text: "",
-            // student_ticket: ticket,
-            // question_text: ticket.question,
+            // student_ticket: null,
+            // question_text: "",
+            student_ticket: ticket,
+            question_text: ticket.question,
             queue_position: 3,
             loading: false
         })
@@ -85,29 +85,38 @@ export default class QueueScreen extends React.Component {
         if (loading) {
             return <Loading/>
         }
-        if (student_ticket) {  // Show the students position in the queue
-            return (
-                <View>
-                    <QueueInfo text={"Current queue position"} value={queue_position}/>
-                    <WhiteSpace/>
+        if (student_ticket) {
+            if (student_ticket.status === "In Progress") {  // Show Student that they are currently being helped
+                return (
+                    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: '30%'}}>
+                        <Text style={styles.textStyle}>Currently being helped by:</Text>
+                        <WhiteSpace/>
+                        <Text style={{fontSize: 24, alignSelf: 'center'}}>{student_ticket.ta_helped}</Text>
+                    </View>)
+            } else {   // Show the students position in the queue
+                return (
                     <View>
-                        <Text style={styles.textStyle}>Question</Text>
-                        <InputItem clear
-                                   value={question_text}
-                                   onChange={value => {
-                                       this.setState({
-                                           question_text: value,
-                                       })
-                                   }}
-                                   editable={edit_question}/>
-                        {edit_question ?
-                            <View><Button
-                                onPress={() => this.setState({edit_question: false})}>Cancel</Button><Button
-                                onPress={this.editStudentTicket}>Update</Button></View> :
-                            <Button onPress={() => this.setState({edit_question: true})}>Edit</Button>}
+                        <QueueInfo text={"Current queue position"} value={queue_position}/>
+                        <WhiteSpace/>
+                        <View>
+                            <Text style={styles.textStyle}>Question</Text>
+                            <InputItem clear
+                                       value={question_text}
+                                       onChange={value => {
+                                           this.setState({
+                                               question_text: value,
+                                           })
+                                       }}
+                                       editable={edit_question}/>
+                            {edit_question ?
+                                <View><Button
+                                    onPress={() => this.setState({edit_question: false})}>Cancel</Button><Button
+                                    onPress={this.editStudentTicket}>Update</Button></View> :
+                                <Button onPress={() => this.setState({edit_question: true})}>Edit</Button>}
+                        </View>
                     </View>
-                </View>
-            );
+                );
+            }
         } else {
             // Show the queue size and give the student the opportunity to add a question
             return (
@@ -123,7 +132,7 @@ export default class QueueScreen extends React.Component {
                                            question_text: value,
                                        })
                                    }}/>
-                                   <Button onPress={this.createTicket}>Submit</Button>
+                        <Button onPress={this.createTicket}>Submit</Button>
                     </View>
                 </View>
             )

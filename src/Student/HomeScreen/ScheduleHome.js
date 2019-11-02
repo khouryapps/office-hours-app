@@ -7,7 +7,7 @@ import OfficeHoursSchedule from './OfficeHoursSchedule'
 import {apiFetchOfficeHoursSchedule} from "../api";
 import HeaderButton from "../../Common/components/HeaderButton";
 import Loading from "../../Common/components/Loading";
-import {Button, WhiteSpace} from "@ant-design/react-native";
+import {Button, WhiteSpace, ActivityIndicator} from "@ant-design/react-native";
 import RefreshButton from "../../Common/components/RefreshButton";
 
 
