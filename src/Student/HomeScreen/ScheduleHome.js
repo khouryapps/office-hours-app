@@ -7,7 +7,7 @@ import OfficeHoursSchedule from './OfficeHoursSchedule'
 import {apiFetchOfficeHoursSchedule} from "../api";
 import HeaderButton from "../../Common/components/HeaderButton";
 import Loading from "../../Common/components/Loading";
-import {Button, WhiteSpace, ActivityIndicator} from "@ant-design/react-native";
+import {Button, WhiteSpace} from "@ant-design/react-native";
 import RefreshButton from "../../Common/components/RefreshButton";
 
 
@@ -48,8 +48,27 @@ class ScheduleHome extends React.Component {
         }, () => {
             this.fetchOfficeHoursSchedule()
         });
-        // FIXME -- Only for testing purposes
-        this.props.navigation.navigate('StudentQueue')
+    }
+
+    getOpenQueue = () => {
+        const {office_hours} = this.state
+        // first filter by office hours that are scheduled for today
+
+        let day_end = new Date();
+        day_end.setHours(23,59,59,999);
+
+        const todays_schedule = [];
+        for (var i = 0; i < office_hours.length; i++) {
+            let hours = office_hours[i]
+            if (new Date(hours.start).getTime() < day_end.getTime()) {  // Check if the office hours are occurring today
+                if (hours.queue !== null) {
+                    this.setState({open_queue_id: hours.queue});
+                }
+            } else {
+                // Since the array is sorted we can leave the loop after the first office hours we see from the next day
+                return null;
+            }
+        }
     }
 
 
@@ -57,8 +76,9 @@ class ScheduleHome extends React.Component {
         const course_id = this.state.course_id
         if (course_id) {
             const {data, error} = await apiFetchOfficeHoursSchedule(course_id);
-            this.setState({office_hours: data.schedule, open_queue_id: data.queue_id, fetch_error: error, loading: false});
+            this.setState({office_hours: data, fetch_error: error, loading: false});
         }
+        this.getOpenQueue()
     }
 
 
@@ -68,7 +88,6 @@ class ScheduleHome extends React.Component {
 
         if ((course_id && course_id !== this.state.course_id) ||
             (course_id && course_name !== this.state.course_name)) {
-            console.log("course changed!")
             this.setState({
                 course_id: this.props.navigation.getParam('course_id'),
                 course_name: this.props.navigation.getParam('course_name'),
@@ -93,7 +112,7 @@ class ScheduleHome extends React.Component {
                                              office_hours={office_hours}/>
                     </ScrollView>
                     <View>
-                        <Button type="primary" disabled={!open_queue_id} onPress={() => this.props.navigation.navigate('StudentQueue')}>
+                        <Button type="primary" disabled={!open_queue_id} onPress={() => this.props.navigation.navigate('StudentQueue', {queue_id: open_queue_id})}>
                             Join Queue
                         </Button>
                         <WhiteSpace/>

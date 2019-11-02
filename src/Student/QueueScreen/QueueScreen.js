@@ -1,10 +1,11 @@
 import React from "react"
 import HeaderButton from "../../Common/components/HeaderButton";
 import RefreshButton from "../../Common/components/RefreshButton";
-import {View, Text, StyleSheet} from "react-native";
+import {View, Text, StyleSheet, AsyncStorage} from "react-native";
 import {Button, InputItem, WhiteSpace} from "@ant-design/react-native"
 import {apiEditTicket, apiCreateTicket} from "../api";
 import Loading from "../../Common/components/Loading";
+import {apiFetchQueueData} from "../../TA/api";
 
 export default class QueueScreen extends React.Component {
     constructor(props) {
@@ -13,6 +14,7 @@ export default class QueueScreen extends React.Component {
             queue_id: null,
             queue_size: null,
             queue_position: null,
+            tickets: null,
             student_ticket: null,
             edit_question: false,
             question_text: "",
@@ -33,37 +35,46 @@ export default class QueueScreen extends React.Component {
         }
     };
 
-    componentDidMount = () => {
-        // TODO -- Create an on navigated handler that will add the queue_id to the state
+    componentDidMount = async () => {
+        // TODO -- Create an on navigated handler that will add the queue_id to the state whenever the page is navigated to
+        this.props.navigation.setParams({ 'refreshFetch': this.fetchQueueData });
+        const queue_id = await this.props.navigation.getParam('queue_id', null);
+        this.setState({queue_id: queue_id})
+        await this.fetchQueueData();
 
-        // Add mock data, then hook into api later
-        const ticket = {
-            "id": 83,
-            "creator": {
-                "user": "willstenzel",
-                "full_name": "Will Stenzel",
-                "photo_url": "https://prod-web.neu.edu/wasapp/EnterprisePhotoService/PhotoServlet?vid=CCS&er=1a0dbdb53563b28b447a0fe1bda157cefd5ef9fabe7ea5daec59666e00eb0b05454f4aa1a569b8550e4e93a1eb75a1e1c492a55e23895a69"
-            },
-            "group": null,
-            "question": "Recursion is confusing me",
-            "tags": [],
-            "queue": 32,
-            "ta_helped": "Steve Mcgee",
-            "public": false,
-            "created_on": "2019-10-30T16:24:29.999209-04:00",
-            "opened_on": "2019-10-30T18:24:29.999209-04:00",
-            "closed_on": null,
-            "status": "In Progress"
+    }
+
+    fetchQueueData = async () => {
+        const {queue_id} = this.state
+
+        const {data, error} = await apiFetchQueueData(queue_id)
+        this.setState({
+            tickets: data.tickets.filter(ticket => (ticket.status !== "Closed")),
+            queue_id: queue_id,
+            fetch_error: error,
+            loading: false
+        })
+        this.getStudentTicket()
+    }
+
+
+    getStudentTicket = async () => {
+        const {tickets} = this.state
+        const my_username = await AsyncStorage.getItem('username');
+
+        for (let i = 0; i < tickets.length; i++) {
+            let ticket = tickets[i];
+            if (ticket.creator.user === my_username) {
+                this.setState({
+                    student_ticket: ticket,
+                    question_text: ticket.question
+                });
+                return;
+            }
         }
         this.setState({
-            queue_id: 31,
-            queue_size: 3,
-            // student_ticket: null,
-            // question_text: "",
-            student_ticket: ticket,
-            question_text: ticket.question,
-            queue_position: 3,
-            loading: false
+            student_ticket: null,
+            question_text: ""
         })
     }
 
@@ -80,7 +91,7 @@ export default class QueueScreen extends React.Component {
     }
 
     render() {
-        const {loading, student_ticket, queue_position, queue_size, edit_question, question_text} = this.state
+        const {loading, tickets, student_ticket, queue_position, queue_size, edit_question, question_text} = this.state
 
         if (loading) {
             return <Loading/>
@@ -96,7 +107,7 @@ export default class QueueScreen extends React.Component {
             } else {   // Show the students position in the queue
                 return (
                     <View>
-                        <QueueInfo text={"Current queue position"} value={queue_position}/>
+                        <QueueInfo text={"Current queue position"} value={tickets.indexOf(student_ticket)}/>
                         <WhiteSpace/>
                         <View>
                             <Text style={styles.textStyle}>Question</Text>
@@ -121,7 +132,7 @@ export default class QueueScreen extends React.Component {
             // Show the queue size and give the student the opportunity to add a question
             return (
                 <View>
-                    <QueueInfo text={"Current queue size"} value={queue_size}/>
+                    <QueueInfo text={"Current queue size"} value={tickets.length}/>
                     <WhiteSpace/>
                     <View>
                         <Text style={styles.textStyle}>Add a new Question!</Text>
