@@ -12,10 +12,7 @@ export default class QueueScreen extends React.Component {
         super(props);
         this.state = {
             queue_id: null,
-            queue_size: null,
-            queue_position: null,
-            tickets: null,
-            student_ticket: null,
+            tickets: [],
             edit_question: false,
             question_text: "",
             loading: true
@@ -39,7 +36,8 @@ export default class QueueScreen extends React.Component {
         // TODO -- Create an on navigated handler that will add the queue_id to the state whenever the page is navigated to
         this.props.navigation.setParams({ 'refreshFetch': this.fetchQueueData });
         const queue_id = await this.props.navigation.getParam('queue_id', null);
-        this.setState({queue_id: queue_id})
+        const my_username = await AsyncStorage.getItem('username');
+        this.setState({queue_id: queue_id, my_username: my_username})
         await this.fetchQueueData();
 
     }
@@ -54,45 +52,52 @@ export default class QueueScreen extends React.Component {
             fetch_error: error,
             loading: false
         })
-        this.getStudentTicket()
     }
 
 
-    getStudentTicket = async () => {
-        const {tickets} = this.state
-        const my_username = await AsyncStorage.getItem('username');
+    getStudentTicket = () => {
+        const {tickets, my_username} = this.state
 
         for (let i = 0; i < tickets.length; i++) {
             let ticket = tickets[i];
             if (ticket.creator.user === my_username) {
-                this.setState({
-                    student_ticket: ticket,
-                    question_text: ticket.question
-                });
+                    return ticket;
+            }
+        }
+        return null;
+    }
+
+    updateQueueWithTicket(new_ticket) {
+        const {tickets} = this.state
+        let updated_tickets = tickets  // Question: Is this a bad way to update because it is mutating the data?
+        for (let i = 0; i < updated_tickets.length; i++) {
+            let ticket = updated_tickets[i];
+            if (ticket.id === new_ticket.id) {
+                updated_tickets[i] = new_ticket  // update the list of tickets with the new ticket
+                this.setState({tickets: updated_tickets, edit_question: false, question_text: ""})
                 return;
             }
         }
-        this.setState({
-            student_ticket: null,
-            question_text: ""
-        })
+        // or add a new ticket to the end of the list
+        updated_tickets.push(new_ticket);
+        this.setState({tickets: updated_tickets, edit_question: false, question_text: ""});
     }
 
-    editStudentTicket = async () => {
-        const {student_ticket, question_text} = this.state
+    editStudentTicket = async (student_ticket) => {
+        const {question_text} = this.state
         const {data, error} = await apiEditTicket(student_ticket.id, question_text)
-        this.setState({student_ticket: data, edit_question: false})
+        this.updateQueueWithTicket(data)
     }
 
     createTicket = async () => {
         const {question_text, queue_id} = this.state
         const {data, error} = await apiCreateTicket(question_text, queue_id)
-        this.setState({student_ticket: data, question_text: data.question, edit_question: false})
+        this.updateQueueWithTicket(data)
     }
 
     render() {
-        const {loading, tickets, student_ticket, queue_position, queue_size, edit_question, question_text} = this.state
-
+        const {loading, tickets, edit_question, question_text} = this.state
+        const student_ticket = this.getStudentTicket()
         if (loading) {
             return <Loading/>
         }
@@ -112,7 +117,7 @@ export default class QueueScreen extends React.Component {
                         <View>
                             <Text style={styles.textStyle}>Question</Text>
                             <InputItem clear
-                                       value={question_text}
+                                       value={edit_question ? question_text : student_ticket.question}
                                        onChange={value => {
                                            this.setState({
                                                question_text: value,
@@ -121,9 +126,9 @@ export default class QueueScreen extends React.Component {
                                        editable={edit_question}/>
                             {edit_question ?
                                 <View><Button
-                                    onPress={() => this.setState({edit_question: false})}>Cancel</Button><Button
-                                    onPress={this.editStudentTicket}>Update</Button></View> :
-                                <Button onPress={() => this.setState({edit_question: true})}>Edit</Button>}
+                                    onPress={() => this.setState({edit_question: false, question_text: ""})}>Cancel</Button><Button
+                                    onPress={() => this.editStudentTicket(student_ticket)}>Update</Button></View> :
+                                <Button onPress={() => this.setState({edit_question: true, question_text: student_ticket.question})}>Edit</Button>}
                         </View>
                     </View>
                 );
