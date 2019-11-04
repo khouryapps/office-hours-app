@@ -33,13 +33,12 @@ export default class QueueScreen extends React.Component {
     };
 
     componentDidMount = async () => {
-        // TODO -- Create an on navigated handler that will add the queue_id to the state whenever the page is navigated to
-        this.props.navigation.setParams({'refreshFetch': this.fetchQueueData});
-        const queue_id = await this.props.navigation.getParam('queue_id', null);
+        const {navigation} = this.props
+        navigation.setParams({'refreshFetch': this.fetchQueueData});
+        const queue_id = await navigation.getParam('queue_id', null);
         const my_username = await AsyncStorage.getItem('username');
         this.setState({queue_id: queue_id, my_username: my_username})
         await this.fetchQueueData();
-
     }
 
     fetchQueueData = async () => {
