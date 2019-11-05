@@ -80,16 +80,15 @@ export default class SideBar extends React.Component {
                                             }
                                         }));
                                     this.props.navigation.closeDrawer();
-                                }
-                                }
+                                }}
                             >
                                 {course.name}
-                                {edit_courses ? <Text style={{textAlign: 'right'}}
+                                {edit_courses ? <Icon name="close-circle"
+                                                      style={{position: 'absolute', marginLeft: "90%"}}
                                                       onPress={() => {
-                                                          console.log("remove course", course.name)
                                                           this.updateStudentCourseList("DELETE", course.name)
                                                           // TODO -- Add error message if the selected course could not be deleted
-                                                      }}> (X)</Text> : null}
+                                                      }}/> : null}
                             </List.Item>
                         )
                     })}
