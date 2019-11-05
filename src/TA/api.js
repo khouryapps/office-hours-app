@@ -42,7 +42,7 @@ export const apiUpdateTicket = async (ticket_id, new_status) => {
 
      const response = await makeRequest({
          method: 'PATCH',
-         url: 'officehours/ticket/edit/' + ticket_id + '/',
+         url: 'officehours/ticket/status/' + ticket_id + '/',
          body: {
              status: new_status
          }

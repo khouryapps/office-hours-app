@@ -16,7 +16,7 @@ const HomeScreenWithSidebar = createDrawerNavigator(
         }
     },{
         contentComponent: props => <SideBar {...props} />,
-        initialRouteName: 'TA',
+        initialRouteName: 'Student',
     },
 
 );

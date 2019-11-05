@@ -2,13 +2,13 @@ import React from "react";
 import Settings from "../SettingsScreen/index.js";
 import {createStackNavigator} from "react-navigation";
 import ScheduleHome from "./ScheduleHome";
-import Queue from "./Queue";
+import QueueScreen from "../QueueScreen/QueueScreen";
 
 
 export default MainScreenNavigator = createStackNavigator(
     {
         Schedule: {screen: ScheduleHome},
-        Queue: {screen: Queue},
+        StudentQueue: {screen: QueueScreen},
         Settings: {screen: Settings},
     },
     {

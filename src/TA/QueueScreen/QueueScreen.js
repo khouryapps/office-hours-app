@@ -8,6 +8,7 @@ import { AsyncStorage, ScrollView, View, Text} from "react-native";
 import {apiFetchQueueData, apiUpdateTicket} from "../api";
 import Loading from "../../Common/components/Loading";
 import HeaderButton from "../../Common/components/HeaderButton";
+import RefreshButton from "../../Common/components/RefreshButton";
 
 
 export default class QueueScreen extends React.Component {
@@ -21,13 +22,12 @@ export default class QueueScreen extends React.Component {
 
     static navigationOptions = ({navigation}) => {
         return {
-            title: 'Queue Screen',
+            title: 'Queue',
             headerLeft: (
                 <HeaderButton navigation={navigation}/>
             ),
             headerRight: (
-                <Button style={styles.headerButtonStyle}
-                    onPress={navigation.getParam('fetchQueueData')}><Icon style={styles.iconStyle} name="reload"/></Button>
+                <RefreshButton navigation={navigation}/>
             ),
             gesturesEnabled: false
         }
@@ -43,7 +43,7 @@ export default class QueueScreen extends React.Component {
             queue_id: queue_id,
             office_hours_id: office_hours_id,
         })
-        this.props.navigation.setParams({ fetchQueueData: this.fetchQueueData });
+        this.props.navigation.setParams({ 'refreshFetch': this.fetchQueueData });
         this.fetchQueueData()
 
     }
