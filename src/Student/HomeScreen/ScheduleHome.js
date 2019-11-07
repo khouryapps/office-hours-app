@@ -76,7 +76,7 @@ class ScheduleHome extends React.Component {
         const course_id = this.state.course_id
         if (course_id) {
             const {data, error} = await apiFetchOfficeHoursSchedule(course_id);
-            this.setState({office_hours: data, fetch_error: error, loading: false});
+            this.setState({office_hours: data, fetch_error: error, loading: false, open_queue_id: null});
         }
         this.getOpenQueue()
     }
