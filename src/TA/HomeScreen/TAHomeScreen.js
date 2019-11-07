@@ -1,13 +1,11 @@
 import React from "react";
-import moment from 'moment'
-import {AsyncStorage, ScrollView, View, Text, StyleSheet} from "react-native";
-import OfficeHoursCard from '../../Common/components/OfficeHoursCard'
+import {ScrollView, View, Text} from "react-native";
+import {Button, Tabs, WingBlank} from "@ant-design/react-native"
 import {apiFetchUpcomingOfficeHours, apiUpdateTAStatus} from "../api";
 
-import {Button, Tabs, WingBlank} from "@ant-design/react-native"
+import OfficeHoursCard from '../../Common/components/OfficeHoursCard'
 import Loading from "../../Common/components/Loading";
 import HeaderButton from "../../Common/components/HeaderButton";
-import styles from "../../Style";
 
 export default class TAHomeScreen extends React.Component {
     constructor(props) {
@@ -42,7 +40,6 @@ export default class TAHomeScreen extends React.Component {
     taArrived = async () => {
         const current_office_hours_id = this.state.upcomingOfficeHours[0].id
         const {data, error} = await apiUpdateTAStatus(current_office_hours_id, 'arrived')
-        console.log("taArrived data:", data)
         const queue_id = data.id
         this.props.navigation.navigate('TAQueueScreen',
             {
