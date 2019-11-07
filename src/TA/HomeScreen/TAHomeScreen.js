@@ -4,7 +4,7 @@ import {AsyncStorage, ScrollView, View, Text, StyleSheet} from "react-native";
 import OfficeHoursCard from '../../Common/components/OfficeHoursCard'
 import {apiFetchUpcomingOfficeHours, apiUpdateTAStatus} from "../api";
 
-import {Button, Tabs} from "@ant-design/react-native"
+import {Button, Tabs, WingBlank} from "@ant-design/react-native"
 import Loading from "../../Common/components/Loading";
 import HeaderButton from "../../Common/components/HeaderButton";
 import styles from "../../Style";
@@ -56,39 +56,29 @@ export default class TAHomeScreen extends React.Component {
     filterHours = (interval) => {
         const {upcomingOfficeHours} = this.state;
 
-        if (interval === "all") {
-            if (upcomingOfficeHours.length) {
-                return (upcomingOfficeHours.map((el, index) => (
-                    <OfficeHoursCard key={index} id={el.id} index={index} {...el}>
-                        {index === 0 ?
-                            <Button onPress={this.taArrived}>
-                                <Text>I AM HERE</Text>
-                            </Button>
-                            : null}
-                    </OfficeHoursCard>)))
-            } else {
-                return (<Text>You have no upcoming office hours</Text>)
-            }
+        let filteredHours = upcomingOfficeHours
+
+        if (interval !== "semester") {
+
+            const intervals_to_num = {day: 1, week: 7};
+
+            let now = new Date();
+
+            let date_interval = new Date(now);
+            date_interval.setDate(date_interval.getDate() + intervals_to_num[interval]);
+            date_interval.setHours(0, 0, 0, 0);
+
+            filteredHours = upcomingOfficeHours.filter(officeHourBlock => {
+                const end_date = new Date(officeHourBlock.end)
+                return (end_date < date_interval)
+            })
         }
 
-        const intervals_to_num = {day: 1, week: 7};
-
-        let now = new Date();
-
-        let date_interval = new Date(now);
-        date_interval.setDate(date_interval.getDate() + intervals_to_num[interval]);
-        date_interval.setHours(0, 0, 0, 0);
-
-
-        const filteredHours = upcomingOfficeHours.filter(officeHourBlock => {
-            const end_date = new Date(officeHourBlock.end)
-            return (end_date < date_interval)
-        })
 
         if (filteredHours.length) {
             return (filteredHours.map((el, index) => (<OfficeHoursCard key={index} id={el.id} index={index} {...el}>
-                {index === 0 ?
-                    <Button onPress={this.taArrived}>
+                {index === 0 && interval === 'day' ?
+                    <Button type="ghost" onPress={this.taArrived}>
                         <Text>I AM HERE</Text>
                     </Button>
                     : null}
@@ -111,15 +101,21 @@ export default class TAHomeScreen extends React.Component {
                 return (
                     <View style={{flex: 1}}>
                         <Tabs tabs={[{title: "Today"}, {title: "This Week"}, {title: "All"}]}>
-                            <ScrollView>
-                                {this.filterHours('day')}
-                            </ScrollView>
-                            <ScrollView>
-                                {this.filterHours('week')}
-                            </ScrollView>
-                            <ScrollView>
-                                {this.filterHours('all')}
-                            </ScrollView>
+                            <WingBlank size="sm">
+                                <ScrollView>
+                                    {this.filterHours('day')}
+                                </ScrollView>
+                            </WingBlank>
+                            <WingBlank size="sm">
+                                <ScrollView>
+                                    {this.filterHours('week')}
+                                </ScrollView>
+                            </WingBlank>
+                            <WingBlank size="sm">
+                                <ScrollView>
+                                    {this.filterHours('semester')}
+                                </ScrollView>
+                            </WingBlank>
                         </Tabs>
 
                     </View>
