@@ -39,6 +39,9 @@ export default class QueueScreen extends React.Component {
         const my_username = await AsyncStorage.getItem('username');
         this.setState({queue_id: queue_id, my_username: my_username})
         await this.fetchQueueData();
+        this.focusListener = this.props.navigation.addListener('didFocus', () => {
+            this.fetchQueueData()
+        });
     }
 
     fetchQueueData = async () => {

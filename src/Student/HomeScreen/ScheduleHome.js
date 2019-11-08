@@ -48,6 +48,9 @@ class ScheduleHome extends React.Component {
         }, () => {
             this.fetchOfficeHoursSchedule()
         });
+        this.focusListener = this.props.navigation.addListener('didFocus', () => {
+            this.fetchOfficeHoursSchedule()
+        });
     }
 
     getOpenQueue = () => {

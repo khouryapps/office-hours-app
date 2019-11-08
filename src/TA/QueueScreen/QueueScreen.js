@@ -45,7 +45,9 @@ export default class QueueScreen extends React.Component {
         })
         this.props.navigation.setParams({ 'refreshFetch': this.fetchQueueData });
         this.fetchQueueData()
-
+        this.focusListener = this.props.navigation.addListener('didFocus', () => {
+            this.fetchQueueData()
+        });
     }
 
     fetchQueueData = async () => {
