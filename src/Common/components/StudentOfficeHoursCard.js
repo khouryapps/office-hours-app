@@ -21,7 +21,6 @@ const StudentOfficeHoursCard = (props) => {
                             extra={formatTime(start, end) + "\nRoom: " + room}
                         />
                     </Card>
-                    {props.children}
             </View>
         );
 }

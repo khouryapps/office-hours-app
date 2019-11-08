@@ -19,6 +19,7 @@ const TAOfficeHoursCard = (props) => {
                     extra={"Room: " + room}
                 />
             </Card>
+            {props.children}
         </View>
     );
 }
