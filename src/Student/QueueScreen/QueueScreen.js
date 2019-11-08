@@ -1,7 +1,7 @@
 import React from "react"
 import HeaderButton from "../../Common/components/HeaderButton";
 import RefreshButton from "../../Common/components/RefreshButton";
-import {View, Text, StyleSheet, AsyncStorage} from "react-native";
+import {View, ScrollView, Text, StyleSheet, AsyncStorage} from "react-native";
 import {Button, InputItem, WhiteSpace} from "@ant-design/react-native"
 import {apiEditTicket, apiCreateTicket} from "../api";
 import Loading from "../../Common/components/Loading";
@@ -33,13 +33,12 @@ export default class QueueScreen extends React.Component {
     };
 
     componentDidMount = async () => {
-        // TODO -- Create an on navigated handler that will add the queue_id to the state whenever the page is navigated to
-        this.props.navigation.setParams({ 'refreshFetch': this.fetchQueueData });
-        const queue_id = await this.props.navigation.getParam('queue_id', null);
+        const {navigation} = this.props
+        navigation.setParams({'refreshFetch': this.fetchQueueData});
+        const queue_id = await navigation.getParam('queue_id', null);
         const my_username = await AsyncStorage.getItem('username');
         this.setState({queue_id: queue_id, my_username: my_username})
         await this.fetchQueueData();
-
     }
 
     fetchQueueData = async () => {
@@ -61,7 +60,7 @@ export default class QueueScreen extends React.Component {
         for (let i = 0; i < tickets.length; i++) {
             let ticket = tickets[i];
             if (ticket.creator.user === my_username) {
-                    return ticket;
+                return ticket;
             }
         }
         return null;
@@ -95,12 +94,10 @@ export default class QueueScreen extends React.Component {
         this.updateQueueWithTicket(data)
     }
 
-    render() {
-        const {loading, tickets, edit_question, question_text} = this.state
+    renderPage = () => {
+        const {tickets, edit_question, question_text} = this.state
         const student_ticket = this.getStudentTicket()
-        if (loading) {
-            return <Loading/>
-        }
+
         if (student_ticket) {
             if (student_ticket.status === "In Progress") {  // Show Student that they are currently being helped
                 return (
@@ -126,9 +123,15 @@ export default class QueueScreen extends React.Component {
                                        editable={edit_question}/>
                             {edit_question ?
                                 <View><Button
-                                    onPress={() => this.setState({edit_question: false, question_text: ""})}>Cancel</Button><Button
+                                    onPress={() => this.setState({
+                                        edit_question: false,
+                                        question_text: ""
+                                    })}>Cancel</Button><Button
                                     onPress={() => this.editStudentTicket(student_ticket)}>Update</Button></View> :
-                                <Button onPress={() => this.setState({edit_question: true, question_text: student_ticket.question})}>Edit</Button>}
+                                <Button onPress={() => this.setState({
+                                    edit_question: true,
+                                    question_text: student_ticket.question
+                                })}>Edit</Button>}
                         </View>
                     </View>
                 );
@@ -150,6 +153,26 @@ export default class QueueScreen extends React.Component {
                                    }}/>
                         <Button onPress={this.createTicket}>Submit</Button>
                     </View>
+                </View>
+            )
+        }
+    }
+
+    render() {
+        const {loading} = this.state
+        if (loading) {
+            return <Loading/>
+        } else {
+            return (
+                <View style={{flex: 1}}>
+                    <ScrollView>
+                        {this.renderPage()}
+                    </ScrollView>
+                    <Button type="warning"
+                            onPress={() => this.props.navigation.navigate('Schedule')}>
+                        Leave Queue
+                    </Button>
+                    <WhiteSpace/>
                 </View>
             )
         }
