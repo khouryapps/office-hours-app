@@ -3,7 +3,7 @@ import {ScrollView, View, Text} from "react-native";
 import {Button, Tabs, WingBlank} from "@ant-design/react-native"
 import {apiFetchUpcomingOfficeHours, apiUpdateTAStatus} from "../api";
 
-import OfficeHoursCard from '../../Common/components/OfficeHoursCard'
+import TAOfficeHoursCard from '../../Common/components/TAOfficeHoursCard'
 import Loading from "../../Common/components/Loading";
 import HeaderButton from "../../Common/components/HeaderButton";
 
@@ -73,13 +73,13 @@ export default class TAHomeScreen extends React.Component {
 
 
         if (filteredHours.length) {
-            return (filteredHours.map((el, index) => (<OfficeHoursCard key={index} id={el.id} index={index} {...el}>
+            return (filteredHours.map((el, index) => (<TAOfficeHoursCard key={index} id={el.id} index={index} {...el}>
                 {index === 0 && interval === 'day' ?
                     <Button type="ghost" onPress={this.taArrived}>
                         <Text>I AM HERE</Text>
                     </Button>
                     : null}
-            </OfficeHoursCard>)))
+            </TAOfficeHoursCard>)))
         } else {
             return (<Text>You have no upcoming office hours for the {interval}</Text>)
         }

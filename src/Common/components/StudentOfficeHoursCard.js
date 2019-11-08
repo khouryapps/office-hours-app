@@ -8,7 +8,7 @@ const formatTime = (start, end) => {
     return (moment.parseZone(start).format('h:mm') + "-" + moment.parseZone(end).format('h:mm a'))
 }
 
-const OfficeHoursCard = (props) => {
+const StudentOfficeHoursCard = (props) => {
         const {ta_name, ta_photo, start, end, room, queue} = props;
 
         return (<View>
@@ -32,4 +32,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default OfficeHoursCard;
+export default StudentOfficeHoursCard;
