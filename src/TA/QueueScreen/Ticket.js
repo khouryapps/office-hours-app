@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Card, Button } from "@ant-design/react-native"
+import {Card, Button, WingBlank} from "@ant-design/react-native"
 import { Image, Text,} from "react-native";
 
 export default class Ticket extends React.Component {
@@ -30,7 +30,7 @@ export default class Ticket extends React.Component {
     getTagColor = () => {
         const {status} = this.props;
         if (status === "Open") {
-            return "deepskyblue"
+            return "rgb(0,140,255)"
         } else if (status === "In Progress") {
             return "limegreen"
         }
@@ -47,14 +47,16 @@ export default class Ticket extends React.Component {
                     extra={this.generate_button(status)}
                 />
                 <Card.Body>
-                    <Text>Question: {question}</Text>
+                    <WingBlank>
+                    <Text style={{fontSize: 20, opacity: 0.7}}>{question}</Text>
+                    </WingBlank>
                 {/*{tags.length ? (<CardItem>*/}
                 {/*        <Text>Tags: {tags}</Text>*/}
                 {/*    </CardItem>)*/}
                 {/*    : null}*/}
                 </Card.Body>
                 <Card.Footer content={<Button style={{alignSelf: 'flex-start', borderColor: this.getTagColor()}}  size="small">
-                    <Text style={{color: this.getTagColor()}}>{status}</Text></Button>}/>
+                    <Text style={{color: this.getTagColor(), fontSize: 15}}>{status}</Text></Button>}/>
             </Card>
         )
     }
