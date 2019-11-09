@@ -24,7 +24,7 @@ export default class TicketList extends React.Component {
                 </ScrollView>
             )
         } else {
-            return <Text>The current queue is empty</Text>
+            return <Text style={styles.headline}>Current queue is empty</Text>
         }
 
     }

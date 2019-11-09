@@ -84,29 +84,24 @@ export default class QueueScreen extends React.Component {
     }
 
     getTicketsCurrentlyHelping = () => {
-        const ticketsCurrentlyHelping = this.state.tickets.filter(ticket => (ticket.ta_helped === this.state.username && ticket.status === "In Progress"))
-        console.log("tickets Currently Helping: ", ticketsCurrentlyHelping)
-        return ticketsCurrentlyHelping
+        return  this.state.tickets.filter(ticket => (ticket.ta_helped === this.state.username && ticket.status === "In Progress"))
     }
 
     render() {
         const ticketsCurrentlyHelping = this.getTicketsCurrentlyHelping()
         const ticketsShownInQueue = this.state.tickets.filter(ticket => (ticket.status !== "Closed"))
         const {loading} = this.state
-        console.log("queue id:", this.state.queue_id)
         if (!loading) {
             return (
                 <View style={{flex: 1}}>
-                    <ScrollView>
                     <Tabs tabs={[{title: "Currently Helping"}, {title: "Queue"}]}>
-                                <ScrollView style={styles.content}>
+                                <ScrollView>
                                     <CurrentlyHelping tickets={ticketsCurrentlyHelping} updateTicket={this.updateTicket}/>
                                 </ScrollView>
                                 <ScrollView style={styles.content}>
                                     <TicketList tickets={ticketsShownInQueue} updateTicket={this.updateTicket} showButtonOnStatus={"Open"}/>
                                 </ScrollView>
                     </Tabs>
-                    </ScrollView>
                     <View>
                         <Button type="warning" onPress={() => this.handleTADeparted()}>
                             Leave Office Hours

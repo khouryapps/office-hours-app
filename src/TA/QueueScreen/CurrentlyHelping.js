@@ -2,6 +2,7 @@ import React from "react"
 import {View, Text} from "react-native"
 import {Button} from "@ant-design/react-native"
 import TicketList from "./TicketList"
+import styles from "../../Style"
 
 export default class CurrentlyHelping extends React.Component {
 
@@ -23,11 +24,13 @@ export default class CurrentlyHelping extends React.Component {
         } else {
             return (
                 <View>
-                    <Text>There are no students that you are currently helping</Text>
+                    <Text style={styles.headline}>No students currently helping</Text>
                 </View>
             )
         }
     }
 }
+
+
 
 

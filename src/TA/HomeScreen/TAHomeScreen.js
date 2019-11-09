@@ -6,6 +6,7 @@ import {apiFetchUpcomingOfficeHours, apiUpdateTAStatus} from "../api";
 import TAOfficeHoursCard from '../../Common/components/TAOfficeHoursCard'
 import Loading from "../../Common/components/Loading";
 import HeaderButton from "../../Common/components/HeaderButton";
+import styles from "../../Style";
 
 export default class TAHomeScreen extends React.Component {
     constructor(props) {
@@ -81,7 +82,7 @@ export default class TAHomeScreen extends React.Component {
                     : null}
             </TAOfficeHoursCard>)))
         } else {
-            return (<Text>You have no upcoming office hours for the {interval}</Text>)
+            return (<Text style={styles.headline}>No upcoming office hours for the {interval}</Text>)
         }
 
     }
@@ -99,7 +100,7 @@ export default class TAHomeScreen extends React.Component {
                     <View style={{flex: 1}}>
                         <Tabs tabs={[{title: "Today"}, {title: "This Week"}, {title: "All"}]}>
                             <WingBlank size="sm">
-                                <ScrollView>
+                                <ScrollView style={styles.scrollViewStyle}>
                                     {this.filterHours('day')}
                                 </ScrollView>
                             </WingBlank>
@@ -114,7 +115,6 @@ export default class TAHomeScreen extends React.Component {
                                 </ScrollView>
                             </WingBlank>
                         </Tabs>
-
                     </View>
                 );
             } else {

@@ -110,7 +110,7 @@ class ScheduleHome extends React.Component {
 
             return (
                 <View style={{flex: 1}}>
-                    <ScrollView>
+                    <ScrollView style={styles.scrollViewStyle}>
                         <OfficeHoursSchedule course_name={course_name} course_id={course_id}
                                              office_hours={office_hours}/>
                     </ScrollView>
