@@ -16,7 +16,20 @@ export const apiEditTicket = async (ticket_id, question_text) => {
         }
     })
 
-    console.log("apiEdit Ticket response", response)
+    console.log("api Edit Ticket response", response)
+    return response
+}
+
+export const apiDeleteTicket = async (ticket_id) => {
+    const response = await makeRequest({
+        method: 'PATCH',
+        url: 'officehours/ticket/edit/'+ ticket_id + '/',
+        body: {
+            "deleted": true,
+        }
+    })
+
+    console.log("api Delete Ticket response", response)
     return response
 }
 

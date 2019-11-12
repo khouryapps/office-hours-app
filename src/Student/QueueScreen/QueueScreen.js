@@ -2,12 +2,12 @@ import React from "react"
 import HeaderButton from "../../Common/components/HeaderButton";
 import RefreshButton from "../../Common/components/RefreshButton";
 import {View, ScrollView, Text, StyleSheet, AsyncStorage} from "react-native";
-import {Button, InputItem, WhiteSpace} from "@ant-design/react-native"
-import {apiEditTicket, apiCreateTicket} from "../api";
+import {Button, InputItem, WhiteSpace, Modal, Provider, WingBlank} from "@ant-design/react-native"
+import {apiEditTicket, apiCreateTicket, apiDeleteTicket} from "../api";
 import Loading from "../../Common/components/Loading";
 import {apiFetchQueueData} from "../../TA/api";
 
-export default class QueueScreen extends React.Component {
+class QueueScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -85,16 +85,34 @@ export default class QueueScreen extends React.Component {
         this.setState({tickets: updated_tickets, edit_question: false, question_text: ""});
     }
 
+
+    createTicket = async () => {
+        const {question_text, queue_id} = this.state
+        const {data, error} = await apiCreateTicket(question_text, queue_id)
+        this.updateQueueWithTicket(data)
+    }
+
     editStudentTicket = async (student_ticket) => {
         const {question_text} = this.state
         const {data, error} = await apiEditTicket(student_ticket.id, question_text)
         this.updateQueueWithTicket(data)
     }
 
-    createTicket = async () => {
-        const {question_text, queue_id} = this.state
-        const {data, error} = await apiCreateTicket(question_text, queue_id)
-        this.updateQueueWithTicket(data)
+    deleteTicketModal = () => {
+        Modal.alert('Confirm Delete', 'This action cannot be undone', [
+            {
+                text: 'Cancel',
+                style: 'cancel',
+            },
+            {text: 'Yes', onPress: () => this.deleteTicket()},
+        ]);
+    }
+
+    deleteTicket = async () => {
+        const student_ticket = this.getStudentTicket()
+        console.log("ticket deleted")
+        const {data, error} = await apiDeleteTicket(student_ticket.id)
+        this.setState({tickets: this.state.tickets.filter((ticket) => ticket.id !== data.id)})
     }
 
     renderPage = () => {
@@ -109,13 +127,16 @@ export default class QueueScreen extends React.Component {
                         <WhiteSpace/>
                         <Text style={{fontSize: 24, alignSelf: 'center'}}>{student_ticket.ta_helped}</Text>
                     </View>)
-            } else {   // Show the students position in the queue
+            } else {   // Show the students question and their position in the queue
                 return (
                     <View>
                         <QueueInfo text={"Current queue position"} value={tickets.indexOf(student_ticket)}/>
-                        <WhiteSpace/>
                         <View>
                             <Text style={styles.textStyle}>Question</Text>
+                            <WhiteSpace/>
+                            <Button onPress={this.deleteTicketModal}
+                                    style={{position: 'absolute', marginLeft: "85%", borderColor: 'red'}} size="small">
+                                <Text style={{color: 'red', fontSize: 12}}>Delete</Text></Button>
                             <InputItem clear
                                        value={edit_question ? question_text : student_ticket.question}
                                        onChange={value => {
@@ -124,13 +145,16 @@ export default class QueueScreen extends React.Component {
                                            })
                                        }}
                                        editable={edit_question}/>
+                            <WhiteSpace/>
                             {edit_question ?
                                 <View><Button
                                     onPress={() => this.setState({
                                         edit_question: false,
                                         question_text: ""
-                                    })}>Cancel</Button><Button
-                                    onPress={() => this.editStudentTicket(student_ticket)}>Update</Button></View> :
+                                    })}>Cancel</Button>
+                                    <WhiteSpace/>
+                                    <Button type="ghost"
+                                            onPress={() => this.editStudentTicket(student_ticket)}>Update</Button></View> :
                                 <Button onPress={() => this.setState({
                                     edit_question: true,
                                     question_text: student_ticket.question
@@ -167,16 +191,20 @@ export default class QueueScreen extends React.Component {
             return <Loading/>
         } else {
             return (
-                <View style={{flex: 1}}>
-                    <ScrollView>
-                        {this.renderPage()}
-                    </ScrollView>
-                    <Button type="warning"
-                            onPress={() => this.props.navigation.navigate('Schedule')}>
-                        Leave Queue
-                    </Button>
-                    <WhiteSpace/>
-                </View>
+                <Provider>
+                    <View style={{flex: 1}}>
+                        <ScrollView>
+                            <WingBlank size="sm">
+                                {this.renderPage()}
+                            </WingBlank>
+                        </ScrollView>
+                        <Button type="warning"
+                                onPress={() => this.props.navigation.navigate('Schedule')}>
+                            Leave Queue
+                        </Button>
+                        <WhiteSpace/>
+                    </View>
+                </Provider>
             )
         }
     }
@@ -202,3 +230,6 @@ const styles = StyleSheet.create({
         paddingLeft: '2%',
     }
 })
+
+
+export default QueueScreen;
