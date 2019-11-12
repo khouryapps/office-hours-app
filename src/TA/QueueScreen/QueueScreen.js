@@ -94,7 +94,7 @@ export default class QueueScreen extends React.Component {
         if (!loading) {
             return (
                 <View style={{flex: 1}}>
-                    <Tabs tabs={[{title: "Currently Helping"}, {title: "Queue"}]}>
+                    <Tabs tabs={[{title: "Currently Helping"}, {title: "Queue"}]} initialPage={1}>
                                 <ScrollView>
                                     <CurrentlyHelping tickets={ticketsCurrentlyHelping} updateTicket={this.updateTicket}/>
                                 </ScrollView>
