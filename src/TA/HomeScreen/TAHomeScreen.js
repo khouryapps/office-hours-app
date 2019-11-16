@@ -68,7 +68,7 @@ export default class TAHomeScreen extends React.Component {
 
             filteredHours = upcomingOfficeHours.filter(officeHourBlock => {
                 const end_date = new Date(officeHourBlock.end)
-                return (end_date < date_interval)
+                return (end_date <= date_interval)
             })
         }
 
