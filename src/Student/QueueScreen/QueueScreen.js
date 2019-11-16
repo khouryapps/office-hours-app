@@ -130,7 +130,7 @@ class QueueScreen extends React.Component {
             } else {   // Show the students question and their position in the queue
                 return (
                     <View>
-                        <QueueInfo text={"Current queue position"} value={tickets.indexOf(student_ticket)}/>
+                        <QueueInfo text={"Current queue position"} value={tickets.indexOf(student_ticket) + 1}/>
                         <View>
                             <Text style={styles.textStyle}>Question</Text>
                             <WhiteSpace/>
