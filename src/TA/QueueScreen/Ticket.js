@@ -18,7 +18,7 @@ export default class Ticket extends React.Component {
             else if (current_status === "In Progress") {
                 return (
                     <Button warning onPress={() => this.props.updateTicket(id, "Closed")}>
-                        <Text>Fishing Helping</Text>
+                        <Text>Finish Helping</Text>
                     </Button>
                 )
             }
