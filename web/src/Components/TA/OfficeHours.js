@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import AppComponent from "../AppComponent";
-import Content from "../Content";
-import { renderStatus } from "../Utils";
+import AppComponent from "../AdminComponents/AppComponent";
+import Content from "../AdminComponents/Content";
+import { renderStatus } from "../AdminComponents/Utils";
+import moment from "moment-timezone";
 
 import {
   Table,
@@ -23,7 +24,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
 const { Meta } = Card;
-import moment from "moment-timezone";
+
 
 class Queue extends AppComponent {
   state = {
@@ -285,7 +286,7 @@ export default class OfficeHours extends AppComponent {
           { text: semester }
         ]}
       >
-        <p>Welcome to the new Offie hours Tracker</p>
+        <p>Welcome to the new Office hours Tracker</p>
         <React.Fragment>
           <Divider orientation="left">Select the course</Divider>
           <Table

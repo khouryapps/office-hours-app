@@ -4,7 +4,7 @@ import Markdown from 'react-markdown';
 import AppComponent from './AppComponent';
 import { add_dividers, format_percent, format_decimal, add_brs, if_empty } from './Utils';
 
-import { PageHeader, Table, Form, Switch, Card, List, Layout, Tooltip, Icon, Menu, Dropdown, Spin, Calendar, Divider, Col, Statistic, Row, Badge, Select, Breadcrumb, message } from 'antd';
+import { PageHeader, Table, Form, Switch, Card, List, Layout, Tooltip, Icon, Menu, Dropdown, Spin, Calendar, Divider, Col, Statistic, Row, Badge, Select, Breadcrumb, message } from 'antd/lib/index';
 const FormItem = Form.Item;
 const Option = Select.Option;
 

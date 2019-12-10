@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import NumberFormat from "react-number-format";
-import key from "weak-key";
+import key from "weak-key/index";
 import moment from "moment-timezone";
 
-import { Divider, Tooltip, Tag, Icon, Spin as AntSpin, message } from "antd";
+import { Divider, Tooltip, Tag, Icon, Spin as AntSpin, message } from "antd/lib/index";
 
 export function copy(o) {
   var output, v, key;

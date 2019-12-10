@@ -7,7 +7,7 @@ import {
   withRouter
 } from "react-router-dom";
 import queryString from "query-string";
-import key from "weak-key";
+import key from "weak-key/index";
 
 import {
   Layout,
@@ -20,7 +20,7 @@ import {
   Spin,
   Divider,
   message
-} from "antd";
+} from "antd/lib/index";
 const { SubMenu } = Menu;
 const { Content, Sider, Footer } = Layout;
 
@@ -37,7 +37,8 @@ class LoggedInComponent extends Component {
   }
 
   getAuthorizationHeader = () => {
-    return "Token " + this.props.token;
+    return "Token 181287ecb4cf53c1fb678ccbc7840694b99951e8";
+    // return "Token " + this.props.token;
   };
 
   doFetch = (
@@ -49,7 +50,11 @@ class LoggedInComponent extends Component {
     expected_content_type,
     func
   ) => {
+    console.log("do fetch\n")
+    console.log("\nmethod: ", method)
+    console.log("\mendpoint: ", endpoint)
     headers["Authorization"] = this.getAuthorizationHeader();
+    console.log("\mAuthorization: ", headers["Authorization"])
 
     fetch(endpoint, {
       headers: headers,

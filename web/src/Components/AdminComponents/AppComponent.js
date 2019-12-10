@@ -7,7 +7,7 @@ import {
   withRouter
 } from "react-router-dom";
 import queryString from "query-string";
-import key from "weak-key";
+import key from "weak-key/index";
 import LoggedInComponent from "./LoggedInComponent";
 import { oxford } from "./Utils";
 
@@ -22,7 +22,7 @@ import {
   Spin,
   Divider,
   message
-} from "antd";
+} from "antd/lib/index";
 const { SubMenu } = Menu;
 const { Content, Sider, Footer } = Layout;
 
