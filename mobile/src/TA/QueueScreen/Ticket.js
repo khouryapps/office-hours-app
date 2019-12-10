@@ -7,24 +7,22 @@ export default class Ticket extends React.Component {
 
     generate_button = (current_status) => {
         const {id, showButtonOnStatus} = this.props
-        if (showButtonOnStatus === current_status) {
-            if (current_status === "Open") {
-                return (
-                    <Button onPress={() => this.props.updateTicket(id, "In Progress")}>
-                        <Text>Begin Helping</Text>
-                    </Button>
-                )
-            }
-            else if (current_status === "In Progress") {
-                return (
-                    <Button warning onPress={() => this.props.updateTicket(id, "Closed")}>
-                        <Text>Finish Helping</Text>
-                    </Button>
-                )
-            }
-        } else {
-            return null
+
+        if (current_status === "In Line" || current_status === "Deferred") {
+            return (
+                <Button onPress={() => this.props.updateTicket(id, "In Progress")}>
+                    <Text>Begin Helping</Text>
+                </Button>
+            )
         }
+        else if (current_status === "Open") {
+            return (
+                <Button warning onPress={() => this.props.updateTicket(id, "Closed")}>
+                    <Text>Finish Helping</Text>
+                </Button>
+            )
+        }
+
     };
 
     getTagColor = () => {

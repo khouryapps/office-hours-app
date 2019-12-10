@@ -99,7 +99,7 @@ export default class QueueScreen extends React.Component {
                                     <CurrentlyHelping tickets={ticketsCurrentlyHelping} updateTicket={this.updateTicket}/>
                                 </ScrollView>
                                 <ScrollView style={styles.content}>
-                                    <TicketList tickets={ticketsShownInQueue} updateTicket={this.updateTicket} showButtonOnStatus={"Open"}/>
+                                    <TicketList tickets={ticketsShownInQueue} updateTicket={this.updateTicket} showButtonOnStatus={["In Line","Deferred"]}/>
                                 </ScrollView>
                     </Tabs>
                     <View>
