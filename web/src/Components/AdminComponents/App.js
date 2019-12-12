@@ -12,8 +12,7 @@ import {CannotImpersonate, NoGroups, NoInstructor } from "./Login/Fail";
 import ErrorBoundary from "./ErrorBoundary";
 import LoggedInComponent from "./LoggedInComponent";
 import Content from "./Content";
-import OfficeHoursStudent from "../Student/OfficeHours"
-import OfficeHoursTA from "../TA/OfficeHours"
+import OfficeHours from "../CourseSelector"
 
 import { PageHeader, Layout, Menu, Breadcrumb, Icon, Table, Tag, Tooltip, Spin, Divider, Form, Switch, message, Modal, List, Card, InputNumber, Alert, Tabs, Upload, Button, Select } from 'antd/lib/index';
 
@@ -411,13 +410,13 @@ class App extends LoggedInComponent {
     this.loadDataDefault("method_list", "/api/method/");
     this.loadDataDefault("subject_list", "/api/subject/");
     this.loadDataDefault("room_list", "/api/room/");
-
   }
 
-  isCompletelyLoaded = () => {
-    const { user, campus_list, semester_list, course_list, room_list, campus, semester, subject_list, grade_list} = this.state;
 
-    return user && semester_list && campus_list && course_list && room_list && subject_list && grade_list && campus && semester;
+  isCompletelyLoaded = () => {
+    const { user, campus_list, semester_list, course_list, room_list, campus, semester, subject_list} = this.state;
+
+    return user && semester_list && campus_list && course_list && room_list && subject_list && campus && semester;
   }
 
   handle_userrequirements = (data) => {
@@ -631,15 +630,14 @@ class Students extends AppModule {
 
   render() {
     const sidemenu = this.renderSider(Students.submodules(this.props));
-
     return (
       <Layout>
         { sidemenu }
         <Layout style={{ padding: '0 0 0 0', marginTop: this.top_margin(), minHeight: "calc(100vh - " + this.top_margin() + "px)" }}>
           <ErrorBoundary {...this.props}>
             <RouterSwitch>
-              <Route path="/students/officehours/student/" render={(props) => <OfficeHoursStudent {...this.props} {...props} /> }/>
-              <Route path="/students/officehours/ta/" render={(props) => <OfficeHoursTA {...this.props} {...props} /> }/>
+              <Route path="/students/officehours/student/" render={(props) => <OfficeHours {...this.props} {...props} isTA={false}/> }/>
+              <Route path="/students/officehours/ta/" render={(props) => <OfficeHours {...this.props} {...props} isTA={true}/> }/>
               <Route path="/students/" render={(props) => <StudentHome {...this.props} {...props} submodules={ Students.submodules(this.props) } /> }/>
             </RouterSwitch>
           </ErrorBoundary>

@@ -25,7 +25,6 @@ const Option = Select.Option;
 const { TextArea } = Input;
 const { Meta } = Card;
 
-
 class Queue extends AppComponent {
   state = {
     enpoint_tickets: "/api/officehours/ticket/",
@@ -58,6 +57,8 @@ class Queue extends AppComponent {
     this.doPatch(
       this.state.enpoint_tickets + id + "/status/",
       () => {
+        this.setState({ loading: true });
+
         this.getData();
       },
       JSON.stringify({ status: action })
@@ -107,13 +108,13 @@ class Queue extends AppComponent {
                         </a>,
                         <a
                           key="list-edit"
-                          onClick={() => this.action(item.id, "Resolved")}
+                          onClick={() => this.action(item.id, "Deferred")}
                         >
                           Deferred
                         </a>,
                         <a
                           key="list-edit"
-                          onClick={() => this.action(item.id, "Resolved")}
+                          onClick={() => this.action(item.id, "No Show")}
                         >
                           No Show
                         </a>
@@ -164,13 +165,7 @@ class Schedule extends AppComponent {
     this.setState({ attend: false });
 
     this.doGet(
-      this.state.endpoint +
-        // "?semester_id=" +
-        // this.props.semesters.join(",")[0] +
-        // "&campus_id=" +
-        // this.props.campus +
-        "?course_id=" +
-        this.props.course_id,
+      this.state.endpoint + "?course_id=" + this.props.course_id,
       data => this.setState({ data: data, loading: false })
     );
   };
@@ -187,7 +182,6 @@ class Schedule extends AppComponent {
 
     return (
       <React.Fragment>
-        {/* <Divider orientation="left">Today </Divider> */}
         <Row gutter={16}>
           {!loading &&
             data.map(item => (
@@ -195,13 +189,11 @@ class Schedule extends AppComponent {
                 <Card
                   style={{ marginBottom: "1.5em" }}
                   actions={[
-                    // <Icon type="setting" key="setting" />,
                     <Icon
                       type="team"
                       key="edit"
                       onClick={() => this.attendOfficeHours(item.queue)}
                     />
-                    // <Icon type="ellipsis" key="ellipsis" />
                   ]}
                 >
                   <Meta title={item.ta_name} description={item.room} />
@@ -243,7 +235,7 @@ export default class OfficeHours extends AppComponent {
   getData = () => {
     this.doGet(
       this.state.endpoint + "?semester=" + this.props.semesters.join(","),
-      data => this.setState({ courses: data, loading: false })
+      data => { console.log("DATA", data); this.setState({ courses: data, loading: false })}
     );
   };
 
@@ -265,6 +257,7 @@ export default class OfficeHours extends AppComponent {
     };
 
     console.log(courses);
+
 
     const columns = [
       {

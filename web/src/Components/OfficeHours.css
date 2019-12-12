@@ -1,0 +1,34 @@
+.Queue {
+  width: 30%;
+  margin: 0px auto;
+  padding: 0px;
+}
+
+.QueueSteps {
+  margin: 20px auto;
+}
+
+.InfoBlock {
+  width: 80%;
+}
+
+.Calendar {
+  width: 100%;
+  margin: 0px auto;
+}
+
+.TACard {
+  border-style: solid;
+  border-color: red;
+}
+
+.ActiveDay {
+  font-weight: bold;
+}
+@media only screen and (max-width: 600px) {
+  .Queue {
+    width: 80%;
+    margin: 0px auto;
+    padding: 0px;
+  }
+}
