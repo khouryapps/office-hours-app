@@ -4,8 +4,16 @@ import {makeRequest} from '../utils'
 // NOTE - All functions start with api prefix to distinguish between the functions
 // being used in the component and the functions in this file
 
-export const apiFetchUpcomingOfficeHours = async () => {
-    const response = await makeRequest({method: 'GET', url: 'officehours/schedule/upcoming/'})
+export const apiFetchTADetails = async () => {
+    const response = await makeRequest({method: 'GET', url: 'officehours/ta/'})
+    console.log('Fetched TA data:', response)
+    return response;
+}
+
+export const apiFetchUpcomingOfficeHours = async (course_id, semester_id) => {
+    const response = await makeRequest({method: 'GET', url: 'officehours/schedule/?course_id=' + course_id + '&semester_id=' + semester_id + '&is_ta=true'})
+    // Filter the schedule for only the TA's hours
+
     console.log('Fetched TA schedule:', response)
     return response;
 }
@@ -42,7 +50,7 @@ export const apiUpdateTicket = async (ticket_id, new_status) => {
 
      const response = await makeRequest({
          method: 'PATCH',
-         url: 'officehours/ticket/status/' + ticket_id + '/',
+         url: 'officehours/ticket/' + ticket_id + '/status/',
          body: {
              status: new_status
          }

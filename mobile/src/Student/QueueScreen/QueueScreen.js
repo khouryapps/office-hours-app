@@ -49,7 +49,7 @@ class QueueScreen extends React.Component {
 
         const {data, error} = await apiFetchQueueData(queue_id)
         this.setState({
-            tickets: data.tickets.filter(ticket => (ticket.status !== "Closed")),
+            tickets: data.tickets.filter(ticket => (ticket.status !== "Resolved")),
             queue_id: queue_id,
             fetch_error: error,
             loading: false
@@ -120,7 +120,7 @@ class QueueScreen extends React.Component {
         const student_ticket = this.getStudentTicket()
 
         if (student_ticket) {
-            if (student_ticket.status === "In Progress") {  // Show Student that they are currently being helped
+            if (student_ticket.status === "Open") {  // Show Student that they are currently being helped
                 return (
                     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: '30%'}}>
                         <Text style={styles.textStyle}>Currently being helped by:</Text>

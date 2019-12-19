@@ -84,12 +84,12 @@ export default class QueueScreen extends React.Component {
     }
 
     getTicketsCurrentlyHelping = () => {
-        return  this.state.tickets.filter(ticket => (ticket.ta_helped === this.state.username && ticket.status === "In Progress"))
+        return  this.state.tickets.filter(ticket => (ticket.ta_helped === this.state.username && ticket.status === "Open"))
     }
 
     render() {
         const ticketsCurrentlyHelping = this.getTicketsCurrentlyHelping()
-        const ticketsShownInQueue = this.state.tickets.filter(ticket => (ticket.status !== "Closed"))
+        const ticketsShownInQueue = this.state.tickets.filter(ticket => (ticket.status !== "Resolved" && ticket.status !== "No Show"))
         const {loading} = this.state
         if (!loading) {
             return (

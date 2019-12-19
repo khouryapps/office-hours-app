@@ -10,7 +10,7 @@ export const apiFetchOfficeHoursSchedule = async (course_id) => {
 export const apiEditTicket = async (ticket_id, question_text) => {
     const response = await makeRequest({
         method: 'PATCH',
-        url: 'officehours/ticket/edit/'+ ticket_id + '/',
+        url: 'officehours/ticket/'+ ticket_id + '/edit/',
         body: {
             "question": question_text,
         }
@@ -23,7 +23,7 @@ export const apiEditTicket = async (ticket_id, question_text) => {
 export const apiDeleteTicket = async (ticket_id) => {
     const response = await makeRequest({
         method: 'PATCH',
-        url: 'officehours/ticket/edit/'+ ticket_id + '/',
+        url: 'officehours/ticket/'+ ticket_id + '/edit/',
         body: {
             "deleted": true,
         }

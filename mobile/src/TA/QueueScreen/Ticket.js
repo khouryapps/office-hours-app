@@ -10,14 +10,14 @@ export default class Ticket extends React.Component {
 
         if (current_status === "In Line" || current_status === "Deferred") {
             return (
-                <Button onPress={() => this.props.updateTicket(id, "In Progress")}>
+                <Button onPress={() => this.props.updateTicket(id, "Open")}>
                     <Text>Begin Helping</Text>
                 </Button>
             )
         }
         else if (current_status === "Open") {
             return (
-                <Button warning onPress={() => this.props.updateTicket(id, "Closed")}>
+                <Button warning onPress={() => this.props.updateTicket(id, "Resolved")}>
                     <Text>Finish Helping</Text>
                 </Button>
             )
@@ -29,7 +29,7 @@ export default class Ticket extends React.Component {
         const {status} = this.props;
         if (status === "Open") {
             return "rgb(0,140,255)"
-        } else if (status === "In Progress") {
+        } else if (status === "Open") {
             return "limegreen"
         }
     }

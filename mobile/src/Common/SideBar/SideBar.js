@@ -36,7 +36,7 @@ export default class SideBar extends React.Component {
     };
 
     renderCourses = () => {
-
+        // TODO -- Break out the course rendering part of the sidebar into a smaller function
     }
 
 

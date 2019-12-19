@@ -1,7 +1,7 @@
 import React from "react";
-import {ScrollView, View, Text} from "react-native";
+import {ScrollView, View, Text, AsyncStorage} from "react-native";
 import {Button, Tabs, WingBlank} from "@ant-design/react-native"
-import {apiFetchUpcomingOfficeHours, apiUpdateTAStatus} from "../api";
+import {apiFetchTADetails, apiFetchUpcomingOfficeHours, apiUpdateTAStatus} from "../api";
 
 import TAOfficeHoursCard from '../../Common/components/TAOfficeHoursCard'
 import Loading from "../../Common/components/Loading";
@@ -27,8 +27,26 @@ export default class TAHomeScreen extends React.Component {
     };
 
     componentDidMount = async () => {
-        const {data, error} = await apiFetchUpcomingOfficeHours()
+        // const {data, error} = await apiFetchUpcomingOfficeHours()
+        // this.setState({upcomingOfficeHours: data, fetch_error: error, loading: false})
+
+        // const {data, error} = await apiFetchTADetails()  // TODO -- Changed to get this data from the local storage or shared component that fetches from the officehours/me (officehours/ta) endopoint
+        // this.setState({courses: data})
+        // await this.getUpcomingOfficeHours();
+        const current_course_id = await AsyncStorage.getItem('last_visited_course_id');
+        const {data, error} = await apiFetchUpcomingOfficeHours(current_course_id, 654)  // TODO -- Figure out how to always get info from the current semester, maybe using redux or a shared state component
         this.setState({upcomingOfficeHours: data, fetch_error: error, loading: false})
+    }
+
+    getUpcomingOfficeHours = async () => {
+        // Maybe I could just pull the data from the Sidebar that contains the current course instead of all the TA data ?
+
+        //Just pull from the "last_visited_course_id" in local storage
+        for (course in this.state.courses) {
+            const {data, error} = await apiFetchUpcomingOfficeHours(course.id, course.semester)  // TODO -- Figure out how to always get info form the current semester
+            // FIXME -- Set the state for the office hours of all the TA's courses
+            this.setState({upcomingOfficeHours: data, fetch_error: error, loading: false})
+        }
     }
 
     taDeparted = async () => {
