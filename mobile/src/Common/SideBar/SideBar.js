@@ -4,7 +4,7 @@ import {NavigationActions} from 'react-navigation';
 import {Button, List, SegmentedControl, InputItem, WhiteSpace, WingBlank, Icon} from '@ant-design/react-native'
 
 
-import {apiFetchStudentCourseList, apiUpdateStudentCourseList} from "../../Common/api";
+import {apiFetchUserDetails, apiUpdateStudentCourseList} from "../../Common/api";
 
 
 export default class SideBar extends React.Component {
@@ -12,7 +12,7 @@ export default class SideBar extends React.Component {
         photo: "http://s3.amazonaws.com/37assets/svn/765-default-avatar.png",
         student_name: null,
         courses_list: [],
-        is_ta: true,  // FIXME -- figure out the best way to determine is someone is a ta or not
+        is_ta: false,
         edit_courses: false,
         add_course_text: '',
         loading: true,
@@ -25,14 +25,13 @@ export default class SideBar extends React.Component {
     }
 
     async componentDidMount() {
-        const {data, error} = await apiFetchStudentCourseList();
-        this.setState({courses_list: data.courses, student_name: data.full_name, fetch_error: error, loading: false})
+        const {data, error} = await apiFetchUserDetails();
+        const is_ta = Array.isArray(data.ta) && (data.ta.length > 0)
+        this.setState({courses_list: data.student.courses, student_name: data.student.full_name, is_ta: is_ta, fetch_error: error, loading: false})
     }
-
 
     onValueChange = value => {
         this.props.navigation.navigate(value)
-
     };
 
     renderCourses = () => {
@@ -59,7 +58,6 @@ export default class SideBar extends React.Component {
                         />
                     </View>
                     : null}
-                {/*<Text style={{marginTop: 100, alignSelf: 'center'}}>Courses List</Text>*/}
                 <List
                     renderHeader={'Courses'}
                     style={{marginTop: 50}}>
@@ -148,7 +146,6 @@ export default class SideBar extends React.Component {
 };
 
 const StudentInfo = (props) => {
-
     return (
         <View>
             <Image
