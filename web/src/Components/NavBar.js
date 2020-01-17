@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import Media from 'react-media';
-import key from "weak-key";
-import queryString from 'query-string'
+import Media from 'react-media/index';
+import key from "weak-key/index";
+import queryString from 'query-string/index'
 import MenuSelect from "./MenuSelect";
 import { Feedback } from "./Feedback";
 import AppComponent from "./AppComponent";
 import { format_nuid, oxford } from "./Utils";
 
 import { NotificationCenter } from "./Notifications";
-import { Layout, Menu, Input, Alert, Icon, Popover, Button, Tooltip, Drawer, Divider, List, Badge, Modal, Select, Form } from 'antd';
+import { Layout, Menu, Input, Alert, Icon, Popover, Button, Tooltip, Drawer, Divider, List, Badge, Modal, Select, Form } from 'antd/lib/index';
 
 const { Header } = Layout;
 const Option = Select.Option;

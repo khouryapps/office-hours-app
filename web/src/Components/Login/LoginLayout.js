@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Layout, Card, List, Table, Form, Switch, Button, Modal, Input, Alert, InputNumber, Radio, Select, Menu, Dropdown, Icon, Tooltip, Checkbox, Divider, message } from 'antd';
+import { Layout, Card, List, Table, Form, Switch, Button, Modal, Input, Alert, InputNumber, Radio, Select, Menu, Dropdown, Icon, Tooltip, Checkbox, Divider, message } from 'antd/lib/index';
 const { Header, Content } = Layout;
 
 class LoginLayout extends Component {

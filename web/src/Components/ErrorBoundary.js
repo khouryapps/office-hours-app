@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import AppComponent from './AppComponent';
 import Content from './Content';
 
-import { Divider } from 'antd';
+import { Divider } from 'antd/lib/index';
 
 class ErrorBoundary extends AppComponent {
   state = {

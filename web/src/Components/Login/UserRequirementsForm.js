@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Layout, Card, List, Table, Form, Switch, Button, Modal, Input, Alert, InputNumber, Radio, Select, Menu, Dropdown, Icon, Tooltip, Checkbox, Divider, Popconfirm, message } from 'antd';
+import { Layout, Card, List, Table, Form, Switch, Button, Modal, Input, Alert, InputNumber, Radio, Select, Menu, Dropdown, Icon, Tooltip, Checkbox, Divider, Popconfirm, message } from 'antd/lib/index';
 
 import AppComponent from '../AppComponent';
 import LoginLayout from './LoginLayout';

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import AppComponent from "./AdminComponents/AppComponent";
-import Content from "./AdminComponents/Content";
+import AppComponent from "../AppComponent";
+import Content from "../Content";
 import Schedule from "./Schedule";
 import { AddCourseForm, FeedbackForm } from "./Forms";
 
@@ -46,7 +46,7 @@ export default class CourseSelector extends AppComponent {
           data => this.setState({ courses: data, loading: false })
         )
       : this.doGet(this.state.endpoint_profile, data => {
-          this.setState({ courses: data.courses, loading: false });
+          this.setState({ courses: data.student.courses, loading: false });
           this.handleSubmit();
         });
   };

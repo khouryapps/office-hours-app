@@ -6,7 +6,7 @@ import {
   Link,
   withRouter
 } from "react-router-dom";
-import queryString from "query-string";
+import queryString from "query-string/index";
 import key from "weak-key/index";
 
 import {

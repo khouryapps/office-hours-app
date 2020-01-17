@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import AppComponent from "./AdminComponents/AppComponent";
-import { renderStatus } from "./AdminComponents/Utils";
+import AppComponent from "../AppComponent";
+import { renderStatus } from "../Utils";
 // import WebSocketInstance from "./WebSocket";
 import { FeedbackForm } from "./Forms";
 import { QueueForm } from "./Forms";

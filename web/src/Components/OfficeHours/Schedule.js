@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import AppComponent from "./AdminComponents/AppComponent";
-import Content from "./AdminComponents/Content";
-import { renderStatus } from "./AdminComponents/Utils";
+import AppComponent from "../AppComponent";
+import Content from "../Content";
+import { renderStatus } from "../Utils";
 // import WebSocketInstance from "./WebSocket";
 import Queue from "./Queue";
 import {
@@ -14,7 +14,7 @@ import {
   Alert,
   Typography,
   Radio
-} from "antd";
+} from "antd/lib/index";
 import moment from "moment-timezone";
 
 const { TabPane } = Tabs;

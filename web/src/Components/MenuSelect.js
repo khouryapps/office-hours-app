@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import key from "weak-key";
+import key from "weak-key/index";
 
-import { Select, Form } from 'antd';
+import { Select, Form } from 'antd/lib/index';
 import AppComponent from './AppComponent';
 
 const Option = Select.Option;

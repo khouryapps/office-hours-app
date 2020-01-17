@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import AppComponent from "./AdminComponents/AppComponent";
-import { renderStatus } from "./AdminComponents/Utils";
+import AppComponent from "../AppComponent";
+import { renderStatus } from "../Utils";
 
-import { Form, Input, Select, Button, Typography, Radio, Modal } from "antd";
+import { Form, Input, Select, Button, Typography, Radio, Modal } from "antd/lib/index";
 
 const { Text } = Typography;
 const Option = Select.Option;
@@ -228,7 +228,7 @@ const AddCourseForm = Form.create({ name: "add_course" })(
       this.doGet(
         this.state.endpoint_sections +
           "?semester=" +
-          this.props.semesters.join(","),
+         this.props.semesters.join(","),
         data => this.setState({ sections: data, loading_sections: false })
       );
     };

@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import moment from "moment-timezone";
 import { Link } from "react-router-dom";
-import Media from 'react-media';
-import key from "weak-key";
-import queryString from 'query-string'
+import Media from 'react-media/index';
+import key from "weak-key/index";
+import queryString from 'query-string/index'
 import Content from './Content';
 
-import { PageHeader, Button, Tag, Collapse, Popover, Modal, Table, Alert, Form, Switch, Card, Radio, List, Layout, Input, InputNumber, Tooltip, Icon, Menu, Dropdown, Spin, Calendar, Divider, Col, Statistic, Row, Badge, Select, Breadcrumb, Checkbox, message } from 'antd';
+import { PageHeader, Button, Tag, Collapse, Popover, Modal, Table, Alert, Form, Switch, Card, Radio, List, Layout, Input, InputNumber, Tooltip, Icon, Menu, Dropdown, Spin, Calendar, Divider, Col, Statistic, Row, Badge, Select, Breadcrumb, Checkbox, message } from 'antd/lib/index';
 
 import AppComponent from "./AppComponent";
 const FormItem = Form.Item;

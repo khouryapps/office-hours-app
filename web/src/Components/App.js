@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Switch as RouterSwitch, Route, Link, Redirect } from "react-router-dom";
 import moment from "moment-timezone";
 import QRCode from 'qrcode.react';
-import Moment from 'react-moment';
-import queryString from 'query-string';
+import Moment from 'react-moment/dist/index';
+import queryString from 'query-string/index';
 import AppComponent from './AppComponent';
 import NavBar from "./NavBar";
 import Login from "./Login/Login";
@@ -12,7 +12,7 @@ import {CannotImpersonate, NoGroups, NoInstructor } from "./Login/Fail";
 import ErrorBoundary from "./ErrorBoundary";
 import LoggedInComponent from "./LoggedInComponent";
 import Content from "./Content";
-import OfficeHours from "../CourseSelector"
+import OfficeHours from "officehours"
 
 import { PageHeader, Layout, Menu, Breadcrumb, Icon, Table, Tag, Tooltip, Spin, Divider, Form, Switch, message, Modal, List, Card, InputNumber, Alert, Tabs, Upload, Button, Select } from 'antd/lib/index';
 
