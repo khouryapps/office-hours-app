@@ -133,11 +133,7 @@ class NavBar extends AppComponent {
     );
 
     const menu = [
-      { permission: this.permission("can", "faculty"), right: false, content: "Faculty", link: this.getLink("/faculty") },
-      { permission: this.permission("can", "staff"), right: false, content: "Staff", link: this.getLink("/staff") },
       { permission: this.permission("can", "students"), right: false, content: "Students", link: this.getLink("/students") },
-      { permission: true, right: false, content: "Teaching", link: this.getLink("/teaching") },
-      { permission: this.permission("can", "admin"), right: false, content: "Admin", link: this.getLink("/admin") },
       { permission: true, right: true, content: ( <Popover placement="bottomRight" title={ user.first_name + " "  + user.last_name } content={ usermenu } trigger="click" arrowPointAtCenter><Icon type="user" style={{ fontSize: '16px'}}/></Popover> ) },
       { permission: true, right: true, content: ( <NotificationCenter {...this.props} />) },
       { permission: true, right: true, title: "Semester", content: this.get_semester_select() },

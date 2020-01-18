@@ -4,14 +4,19 @@ import Content from "../Content";
 import Schedule from "./Schedule";
 import { AddCourseForm, FeedbackForm } from "./Forms";
 
-import { Table, Divider, Icon } from "antd";
+import { Table, Divider, Icon, Alert } from "antd";
 
 export default class CourseSelector extends AppComponent {
   state = {
-    endpoint_profile: "/api/officehours/me/",
-    endpoint_ta: "/api/officehours/ta/",
-    endpoint_courses: "/api/officehours/courses/",
-    endpoint_mytickets: "/api/officehours/myticket/",
+    endpoint_oh: "/api/officehours/ta/",
+    endpoint_courses: "/api/officehours/profile/course/",
+    endpoint_mytickets: "/api/officehours/profile/ticket/",
+
+    endpoint_ta: "/api/ta/student/",
+    ta: null,
+
+    endpoint_sections: "/api/schedule/",
+    sections: [],
 
     loading: true,
     courses: [],
@@ -20,6 +25,66 @@ export default class CourseSelector extends AppComponent {
     selected_course: null,
     ticket_id: null,
     selectedRowKeys: []
+  };
+
+  // get courses user is registered at the current semester
+  getStudent = () => {
+    const { user } = this.props;
+    this.doGet(
+      this.state.endpoint_sections +
+        "?semester=" +
+        this.props.semesters.join(",") +
+        "&deleted=False",
+      sections => {
+        this.doGet(
+          this.state.endpoint_ta +
+            "?student__profile__user__username=" +
+            this.props.user.username,
+          ta => {
+            // ta = ta && ta.length > 0 ? ta[0] : null;
+            const course_list = this.course_list_from_sections(sections).map(
+              c => {
+                c.local =
+                  sections.filter(
+                    s => s.course == c.id && user.campuses.includes(s.campus)
+                  ).length > 0;
+                c.online =
+                  sections.filter(s => s.course == c.id && s.campus == 118)
+                    .length > 0;
+                return c;
+              }
+            );
+            const courses_local = course_list.filter(
+              el => el.local || el.online
+            );
+            this.setState({
+              courses: courses_local.filter(el =>
+                ta[0].transcript
+                  .filter(
+                    a =>
+                      !a.withdrawn &&
+                      this.get_semester(a.semester).code ==
+                        this.get_semester(this.props.semesters[0]).code
+                  )
+                  .map(a => a.course)
+                  .includes(el.id)
+              ),
+              loading: false
+            });
+            this.checkIfFeedbackIsRequired();
+          }
+        );
+      }
+    );
+  };
+
+  getTA = () => {
+    this.doGet(
+      this.state.endpoint_oh + "?semester=" + this.props.semesters.join(","),
+      data => {
+        this.setState({ courses: data, loading: false });
+      }
+    );
   };
 
   componentDidMount() {
@@ -38,20 +103,11 @@ export default class CourseSelector extends AppComponent {
   getData = () => {
     const { isTA } = this.props;
     this.setState({ loading: true });
-    isTA
-      ? this.doGet(
-          this.state.endpoint_ta +
-            "?semester=" +
-            this.props.semesters.join(","),
-          data => this.setState({ courses: data, loading: false })
-        )
-      : this.doGet(this.state.endpoint_profile, data => {
-          this.setState({ courses: data.student.courses, loading: false });
-          this.handleSubmit();
-        });
+    isTA ? this.getTA() : this.getStudent();
   };
 
-  handleSubmit = () => {
+  // checks if the previously attended office hours require student's feedback
+  checkIfFeedbackIsRequired = () => {
     this.doGet(this.state.endpoint_mytickets, data => {
       console.log(data);
       if (data.length) {
@@ -68,6 +124,7 @@ export default class CourseSelector extends AppComponent {
     });
   };
 
+  // select the course
   onSelectChange = selectedRowKeys => {
     if (selectedRowKeys.length > 1) {
       const lastSelectedRowIndex = [...selectedRowKeys].pop();
@@ -76,6 +133,7 @@ export default class CourseSelector extends AppComponent {
     this.setState({ selectedRowKeys });
   };
 
+  // delete the course from the list
   handleDelete = id => {
     this.doDelete(
       this.state.endpoint_courses,
@@ -95,37 +153,6 @@ export default class CourseSelector extends AppComponent {
       type: "radio"
     };
 
-    const columns = [
-      {
-        title: "Course",
-        key: "course",
-        render: (text, record, idx) =>
-          this.print_course(record.id) + " " + this.get_course(record.id).title
-      },
-      {
-        title: "Action",
-        dataIndex: "action",
-        key: "action",
-        width: 90,
-        render: (text, record, idx) => (
-          <a
-            key="approval"
-            href="#"
-            onClick={e => {
-              e.preventDefault();
-              this.handleDelete(record.id);
-            }}
-          >
-            <Icon
-              style={{ fontSize: "1.5em" }}
-              type="close-square"
-              theme="twoTone"
-            />
-          </a>
-        )
-      }
-    ];
-
     const TAcolumns = [
       {
         title: "Course",
@@ -134,6 +161,7 @@ export default class CourseSelector extends AppComponent {
           this.print_course(record.id) + " " + this.get_course(record.id).title
       }
     ];
+
     return (
       <Content
         {...this.props}
@@ -144,41 +172,50 @@ export default class CourseSelector extends AppComponent {
           { text: semester }
         ]}
       >
-        <p>Welcome to the new Office hours Tracker</p>
-        <React.Fragment>
-          <Divider orientation="left">Select the course</Divider>
-          <div
-            style={{
-              marginBottom: "20px",
-              textAlign: "right"
-            }}
-          >
-            {!isTA && <AddCourseForm {...this.props} update={this.getData} />}
-          </div>
-          <Table
-            rowSelection={rowSelection}
-            dataSource={courses}
-            columns={isTA ? TAcolumns : columns}
-            loading={loading}
-            pagination={false}
-            rowKey="id"
+        <p>Welcome to the new Office Hours Tracker</p>
+        {!loading && !courses.length && isTA ? (
+          <Alert
+            message="You are not a TA this semester"
+            description="this tab is meant for TA usage only"
+            type="info"
+            showIcon
           />
+        ) : (
+          <div>
+            <Divider orientation="left">Select a course</Divider>
+            <div
+              style={{
+                marginBottom: "20px",
+                textAlign: "right"
+              }}
+            >
+              {/* {!isTA && <AddCourseForm {...this.props} update={this.getData} />} */}
+            </div>
 
-          {selectedRowKeys[0] != null && (
-            <React.Fragment>
-              <Schedule {...this.props} course_id={selectedRowKeys[0]} />
-            </React.Fragment>
-          )}
-        </React.Fragment>
-        <FeedbackForm
-          {...this.props}
-          ticket_id={this.state.ticket_id}
-          visible={this.state.expectingFeedback}
-          handleSubmit={this.handleSubmit}
-          question={this.state.question}
-          ta_helped={this.state.ta_helped}
-          status={this.state.status}
-        />
+            <Table
+              rowSelection={rowSelection}
+              dataSource={courses}
+              columns={TAcolumns}
+              loading={loading}
+              pagination={false}
+              rowKey="id"
+            />
+            {selectedRowKeys[0] != null && (
+              <React.Fragment>
+                <Schedule {...this.props} course_id={selectedRowKeys[0]} />
+              </React.Fragment>
+            )}
+            <FeedbackForm
+              {...this.props}
+              ticket_id={this.state.ticket_id}
+              visible={this.state.expectingFeedback}
+              handleSubmit={this.checkIfFeedbackIsRequired}
+              question={this.state.question}
+              ta_helped={this.state.ta_helped}
+              status={this.state.status}
+            />
+          </div>
+        )}
       </Content>
     );
   }

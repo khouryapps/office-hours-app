@@ -8,13 +8,26 @@
   margin: 20px auto;
 }
 
+.InfoText {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
 .InfoBlock {
   width: 80%;
+}
+
+.ErrorBlock {
+  width: 265px;
 }
 
 .Calendar {
   width: 100%;
   margin: 0px auto;
+}
+
+.TAInfo {
+  float: right;
 }
 
 .TACard {
@@ -25,10 +38,15 @@
 .ActiveDay {
   font-weight: bold;
 }
+
 @media only screen and (max-width: 600px) {
   .Queue {
     width: 80%;
     margin: 0px auto;
     padding: 0px;
+  }
+  .TAInfo {
+    float: none;
+    text-align: center;
   }
 }

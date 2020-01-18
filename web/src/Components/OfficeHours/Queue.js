@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import AppComponent from "../AppComponent";
 import { renderStatus } from "../Utils";
 // import WebSocketInstance from "./WebSocket";
-import { FeedbackForm } from "./Forms";
+import { FeedbackForm, EnterQueueForm } from "./Forms";
 import { QueueForm } from "./Forms";
 import "./OfficeHours.css";
+import moment from "moment-timezone";
 
 import {
   Input,
@@ -14,24 +15,41 @@ import {
   Steps,
   Typography,
   Radio,
-  Divider
+  Divider,
+  Alert
 } from "antd";
 
 const { Title } = Typography;
 const { TextArea } = Input;
 
+const stage = {
+  enter_oh: 0,
+  ask_question: 1,
+  wait: 2,
+  get_help: 3,
+  leave_feedback: 4
+};
+
+const status = {
+  close: 0,
+  open: 1,
+  over: 2
+};
+
 export default class Queue extends AppComponent {
   state = {
-    endpoint_status: "/api/officehours/ticket/status/",
     endpoint_tickets: "/api/officehours/ticket/",
-
+    endpoint_schedule: "/api/officehours/schedule/",
     stage: 0,
     loading: true,
     is_edit: false,
-    is_feedback: false,
+    is_open: false,
+    is_over: false,
+    is_validated: false,
     tickets: []
   };
 
+  // Fetch data every 1 minute to get the updates about the queue
   componentDidMount() {
     this.getData();
     setInterval(() => {
@@ -83,12 +101,25 @@ export default class Queue extends AppComponent {
     }
   }
 
+  changeStatus = data => {
+    this.setState({
+      oh_status:
+        data.ta_arrived_on == null && data.ta_departed_on == null
+          ? status.close
+          : data.ta_arrived_on != null && data.ta_departed_on == null
+          ? status.open
+          : status.over
+    });
+  };
+
   getData = () => {
     const { isTA } = this.props;
     isTA ? this.getDataTA() : this.getDataStudent();
   };
 
+  // if the user is a TA
   getDataTA = () => {
+    // get tickets for the queue
     this.doGet(
       this.state.endpoint_tickets + "?queue=" + this.props.queue_id,
       data =>
@@ -97,59 +128,86 @@ export default class Queue extends AppComponent {
           tickets: data.slice()
         })
     );
+    // check if the oh block is open
+    this.doGet(this.state.endpoint_schedule + this.props.oh_id + "/", data =>
+      this.changeStatus(data)
+    );
   };
 
+  // if the user is a Student
   getDataStudent = () => {
+    // TODO: pass the TA info in the props
+    // check if the oh block is open; get TA info
+    this.doGet(this.state.endpoint_schedule + this.props.oh_id + "/", data => {
+      this.changeStatus(data);
+      this.setState({
+        ta_name: data.ta_name,
+        ta_photo: data.ta_photo
+      });
+    });
+    // get tickets
     this.doGet(
       this.state.endpoint_tickets + "?queue=" + this.props.queue_id,
       data => {
-        console.log(data);
         let tickets = data.slice();
+        // find student's position in the queue
         let position = tickets.findIndex(
           item => item.creator.user == this.props.user.username
         );
+        // find student's ticket
         let my_ticket = tickets.filter(
           item => item.creator.user == this.props.user.username
         )[0];
+        // show only tickets that are infront of the student
         tickets = tickets.slice(0, position);
 
         this.setState({
           loading: false,
           tickets: tickets,
-          position: position,
-          my_ticket: my_ticket
+          position: position
         });
 
+        if (my_ticket) {
+            this.setState({
+                stage: stage.wait,
+                is_edit: false,
+                ticket_id: my_ticket.id,
+                my_ticket: my_ticket,
+                question: my_ticket.question,
+                public: my_ticket.public,
+                status: my_ticket.status
+            });
+        }
+        // check if the ticket ahs been just resolved
+        const just_resolved =
+          this.state.my_ticket != my_ticket &&
+          this.state.stage == stage.get_help;
+
+        // define the current stage/state of the queue
         my_ticket
           ? my_ticket.status == "Open"
             ? this.setState({
-                stage: 2,
-                is_edit: false,
-                is_feedback: true,
-                ticket_id: my_ticket.id,
-                question: my_ticket.question,
-                public: my_ticket.public
+                stage: stage.get_help
               })
             : this.setState({
-                stage: 1,
-                is_edit: false,
-                question: my_ticket.question,
-                ta_helped: my_ticket.ta_helped,
-                status: my_ticket.status,
-                public: my_ticket.public
+                stage: stage.wait
               })
-          : this.state.is_feedback
-          ? this.setState({ stage: 3, is_feedback: false })
-          : this.setState({ stage: 0 });
+          : just_resolved
+          ? this.setState({ stage: stage.leave_feedback })
+          : this.state.is_validated
+          ? this.setState({ stage: stage.ask_question })
+          : this.setState({ stage: stage.enter_oh });
       }
     );
   };
 
+  // on form submit, move to the next stage
   handleSubmit = () => {
-    this.setState({ stage: (this.state.stage + 1) % 4 });
+    this.setState({ stage: (this.state.stage + 1) % 5, is_validated: true });
     this.getData();
   };
 
+  // on ticket delete
   handleDelete = id => {
     this.doDelete(
       this.state.endpoint_tickets + id + "/edit/",
@@ -161,25 +219,24 @@ export default class Queue extends AppComponent {
     );
   };
 
+  // on ticket save (after editing)
   handleSave = id => {
-    console.log(id);
-      if (this.state.my_ticket.question) {
-          this.doPatch(
-              this.state.endpoint_tickets + id + "/edit/",
-              () => {
-                  this.getData();
-              },
-              JSON.stringify({
-                  question: this.state.question,
-                  public: this.state.public
-              })
-          )
-      } else {
-          return null;
-      }
+    if (this.state.my_ticket.question) {
+        this.doPatch(
+            this.state.endpoint_tickets + id + "/edit/",
+            () => {
+                this.getData();
+            },
+            JSON.stringify({
+                question: this.state.question,
+                public: this.state.public
+            })
+        )
+    }
     this.setState({ is_edit: !this.state.is_edit });
   };
 
+  // render student's current queue state/position
   renderPositionInQueue = () => {
     const { my_ticket } = this.state;
 
@@ -235,10 +292,10 @@ export default class Queue extends AppComponent {
     ) : null;
   };
 
+  // change the ticket status (by TA)
   action = (id, action) => {
-    console.log(id);
     this.doPatch(
-      this.state.endpoint_tickets + id + "/status/",
+      this.state.endpoint_tickets + id + "/edit/",
       () => {
         this.setState({ loading: true });
 
@@ -248,6 +305,7 @@ export default class Queue extends AppComponent {
     );
   };
 
+  // render TA's view on the ticket list
   renderTicketListTA = () => {
     return (
       <List
@@ -301,6 +359,7 @@ export default class Queue extends AppComponent {
     );
   };
 
+  // render student's view on the ticket list
   renderTicketListStudent = () => {
     return this.state.tickets.length ? (
       <List
@@ -326,9 +385,9 @@ export default class Queue extends AppComponent {
     ) : null;
   };
 
+  // render student's ticket
   renderMyTicket = () => {
     const { my_ticket } = this.state;
-    console.log(my_ticket);
     const edit_buttons = [
       <a key="list-edit" onClick={() => this.handleSave(my_ticket.id)}>
         save
@@ -381,6 +440,7 @@ export default class Queue extends AppComponent {
     ) : null;
   };
 
+  // render edit ticket view
   renderQuestionEditBlock = () => {
     return (
       <div>
@@ -400,12 +460,14 @@ export default class Queue extends AppComponent {
     );
   };
 
+  // render queue stages
   renderQueueSteps = () => {
     const { Step } = Steps;
 
     return (
       <Steps className="QueueSteps" size="small" current={this.state.stage}>
-        <Step title="Submit a question to enter the queue" />
+        <Step title="Submit the secret code" />
+        <Step title="Ask your question" />
         <Step title="Wait" />
         <Step title="Get help" />
         <Step title="Leave feedback"></Step>
@@ -413,33 +475,98 @@ export default class Queue extends AppComponent {
     );
   };
 
+  // render student's view
   renderStudent = () => {
-    return (
+    return this.state.oh_status == status.open ? (
       <React.Fragment>
         <div className="QueueSteps">{this.renderQueueSteps()}</div>
+        <div className="TAInfo">
+          <Avatar shape="square" size={100} src={this.state.ta_photo} />
+          <Title style={{ marginTop: 10 }} level={4}>
+            {this.state.ta_name}
+          </Title>
+        </div>
+        {this.state.stage == stage.enter_oh && (
+          <EnterQueueForm {...this.props} handleSubmit={this.handleSubmit} />
+        )}
         <div className="Queue">
-          {this.renderPositionInQueue()}
-          {this.renderTicketListStudent()}
-          {this.renderMyTicket()}
-          {this.state.stage == 0 && (
+          {(this.state.stage == stage.wait ||
+            this.state.stage == stage.get_help) && (
+            <div>
+              {this.renderPositionInQueue()}
+              {this.renderTicketListStudent()}
+              {this.renderMyTicket()}
+            </div>
+          )}
+          {this.state.stage == stage.ask_question && (
             <QueueForm {...this.props} handleSubmit={this.handleSubmit} />
           )}
         </div>
         <FeedbackForm
           {...this.props}
           ticket_id={this.state.ticket_id}
-          visible={this.state.stage == 3}
+          visible={this.state.stage == stage.leave_feedback}
           handleSubmit={this.handleSubmit}
           question={this.state.question}
           ta_helped={this.state.ta_helped}
           status={this.state.status}
         />
       </React.Fragment>
+    ) : (
+      <Alert
+        message="TA should open the office hour block to start the queue"
+        type="info"
+        banner
+      />
     );
   };
 
+  // open or close the office hour block (by TA)
+  queueOpenClose = () => {
+    this.doPatch(
+      this.state.endpoint_schedule + this.props.oh_id + "/",
+      data => {
+        this.getData();
+      },
+      JSON.stringify({
+        oh_status: this.state.oh_status + 1
+      })
+    );
+  };
+
+  // render TA's view
   renderTA = () => {
-    return <React.Fragment>{this.renderTicketListTA()}</React.Fragment>;
+    return (
+      <React.Fragment>
+        <div style={{ display: "flex" }}>
+          <span
+            style={{
+              display: "flex",
+              marginLeft: "auto"
+            }}
+          >
+            <Button
+              style={{ marginBottom: 20 }}
+              type={
+                this.state.oh_status == status.open
+                  ? "danger"
+                  : this.state.oh_status == status.close
+                  ? "primary"
+                  : "secondary"
+              }
+              disabled={this.state.oh_status == status.over}
+              icon={this.state.oh_status == status.open ? "lock" : "unlock"}
+              onClick={this.queueOpenClose}
+            >
+              {this.state.oh_status == status.open
+                ? "End Office Hours"
+                : "Start Office Hours"}
+            </Button>
+          </span>
+        </div>
+        {this.state.oh_status == status.open && this.renderTicketListTA()}
+      </React.Fragment>
+    );
   };
 
   render() {

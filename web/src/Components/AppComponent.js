@@ -6,8 +6,8 @@ import {
   Link,
   withRouter
 } from "react-router-dom";
-import queryString from "query-string/index";
-import key from "weak-key/index";
+import queryString from "query-string";
+import key from "weak-key";
 import LoggedInComponent from "./LoggedInComponent";
 import { oxford } from "./Utils";
 
@@ -22,7 +22,7 @@ import {
   Spin,
   Divider,
   message
-} from "antd/lib/index";
+} from "antd";
 const { SubMenu } = Menu;
 const { Content, Sider, Footer } = Layout;
 
@@ -87,8 +87,8 @@ class AppComponent extends LoggedInComponent {
     } else if (type == "is") {
       return perm.includes(required);
     }
-  }
-  
+  };
+
   // Due to Django stupidity, it will return multiple copies of sections due to sorting.  We keep only the first one here.
   deduplicateSections = data => {
     const ids = [];
@@ -143,10 +143,10 @@ class AppComponent extends LoggedInComponent {
     return year_id;
   };
 
-  calendar_year = (semester_id) => {
+  calendar_year = semester_id => {
     const str = this.get_semester(semester_id).name;
-    return str.substring(str.length-4);
-  }
+    return str.substring(str.length - 4);
+  };
 
   get_committee = committee_id => {
     return this.lookup(committee_id, this.props.committee_list, "committee");
@@ -194,6 +194,10 @@ class AppComponent extends LoggedInComponent {
 
   get_degree = degree_id => {
     return this.lookup(degree_id, this.props.degree_list, "degree");
+  };
+
+  get_area = area_id => {
+    return this.lookup(area_id, this.props.area_list, "area");
   };
 
   get_instructorrank = rank_id => {
@@ -436,6 +440,12 @@ class AppComponent extends LoggedInComponent {
     return this.lookup_list("instructor_list", this.instructor_comparator);
   };
 
+  area_list = () => {
+    return this.lookup_list("area_list", (a, b) =>
+      a.name.localeCompare(b.name)
+    );
+  };
+
   instructorrank_list = () => {
     return this.lookup_list("instructorrank_list", (a, b) =>
       a.mytype_id == b.mytype_id
@@ -445,9 +455,12 @@ class AppComponent extends LoggedInComponent {
   };
 
   instructortype_list = () => {
-    const r = this.instructorrank_list().reduce((r, a) => { r[a.mytype] = { id: a.mytype_id, mytype: a.mytype }; return r; }, {});
+    const r = this.instructorrank_list().reduce((r, a) => {
+      r[a.mytype] = { id: a.mytype_id, mytype: a.mytype };
+      return r;
+    }, {});
     return Object.values(r);
-  }
+  };
 
   major_list = () => {
     return this.lookup_list("major_list", (a, b) =>
@@ -563,86 +576,6 @@ class AppComponent extends LoggedInComponent {
     return this.get_position(position_id).description;
   };
 
-  link_committee = committee_id => {
-    return (
-      <Link
-        key={committee_id}
-        to={this.getLink("/faculty/committees/" + committee_id + "/")}
-      >
-        {this.print_committee(committee_id)}
-      </Link>
-    );
-  };
-
-  link_position = position_id => {
-    return (
-      <Link
-        key={position_id}
-        to={this.getLink("/faculty/positions/" + position_id + "/")}
-      >
-        {this.print_position(position_id)}
-      </Link>
-    );
-  };
-
-  print_committeeassignment = ca => {
-    return this.print_committee(ca.committee) + (ca.chair ? " (Chair)" : "");
-  };
-
-  print_committeemembership_instructor = cm => {
-    return [this.link_full_instructor(cm.instructor)]
-      .concat(
-        cm.chair
-          ? [
-              "\u00a0",
-              <Tag size="small" key={"chair-" + cm.id} color="orange">
-                Chair
-              </Tag>
-            ]
-          : []
-      )
-      .concat(
-        cm.ex_officio
-          ? [
-              "\u00a0",
-              <Tag size="small" key={"ex_officio-" + cm.id} color="green">
-                Ex officio
-              </Tag>
-            ]
-          : []
-      );
-  };
-
-  print_fund = fund_id => {
-    return this.get_fund(fund_id).index;
-  };
-
-  print_full_fund = fund_id => {
-    const fund = this.get_fund(fund_id);
-    return fund.index + " " + fund.name;
-  };
-
-  print_grade = grade_id => {
-    if (!grade_id) {
-      return "";
-    }
-    return this.get_grade(grade_id).grade;
-  };
-
-  link_committeeassignment = ca => {
-    return [
-      this.link_committee(ca.committee),
-      ca.chair
-        ? [
-            "\u00a0",
-            <Tag key={"chair-" + ca.id} color="orange">
-              Chair
-            </Tag>
-          ]
-        : ""
-    ];
-  };
-
   print_course = course_id => {
     const course = this.get_course(course_id);
     const subject = this.get_subject(course.subject);
@@ -663,6 +596,12 @@ class AppComponent extends LoggedInComponent {
   print_subject = subject_id => {
     const subject = this.get_subject(subject_id);
     return subject.name;
+  };
+
+  print_subject_from_course = course_id => {
+    const course = this.get_course(course_id);
+    const subject = this.get_subject(course.subject);
+    return subject.abbrv;
   };
 
   print_subject_code = subject_id => {
@@ -737,39 +676,6 @@ class AppComponent extends LoggedInComponent {
     );
   };
 
-  print_nupath = nupath_id => {
-    const NUPATH_COLORS = {
-      AD: "volcano",
-      FQ: "green",
-      ND: "geekblue",
-      WI: "gold",
-      CE: "magenta",
-      ER: "purple"
-    };
-    const nupath = this.get_nupath(nupath_id);
-    return (
-      <Tooltip title={nupath.name} key={nupath.code}>
-        <Tag color={NUPATH_COLORS[nupath.code]}>{nupath.code}</Tag>
-      </Tooltip>
-    );
-  };
-
-  print_nucore = nucore_id => {
-    const NUCORE_COLORS = {
-      T1: "orange",
-      M1: "blue",
-      M2: "red",
-      W2: "cyan",
-      C1: "lime"
-    };
-    const nucore = this.get_nucore(nucore_id);
-    return (
-      <Tooltip title={nucore.name} key={nucore.code}>
-        <Tag color={NUCORE_COLORS[nucore.code]}>{nucore.code}</Tag>
-      </Tooltip>
-    );
-  };
-
   print_campus = campus_id => {
     if (!campus_id) {
       return "";
@@ -802,28 +708,6 @@ class AppComponent extends LoggedInComponent {
     return room.building.abbrv + " " + room.number;
   };
 
-  link_room = room_id => {
-    if (!room_id) {
-      return "";
-    }
-    return (
-      <Link key={room_id} to={this.getLink("/teaching/rooms/" + room_id + "/")}>
-        {this.print_room(room_id)}
-      </Link>
-    );
-  };
-
-  link_full_room = room_id => {
-    if (!room_id) {
-      return "";
-    }
-    return (
-      <Link key={room_id} to={this.getLink("/teaching/rooms/" + room_id + "/")}>
-        {this.print_full_room(room_id)}
-      </Link>
-    );
-  };
-
   print_instructor = instructor_id => {
     if (!instructor_id) {
       return "";
@@ -832,76 +716,6 @@ class AppComponent extends LoggedInComponent {
     return instructor.lastname + ", " + instructor.firstname[0] + ".";
   };
 
-  print_instructor_list = instructors => {
-    return oxford(instructors.map(el => this.print_instructor(el)));
-  };
-
-  print_full_instructor = instructor_id => {
-    if (!instructor_id) {
-      return "";
-    }
-    const instructor = this.get_instructor(instructor_id);
-    return instructor.firstname + " " + instructor.lastname;
-  };
-
-  link_instructor = instructor_id => {
-    return this.permission("can", "admin") ? (
-      <Link
-        key={instructor_id}
-        to={this.getLink("/faculty/instructors/" + instructor_id + "/")}
-      >
-        {this.print_instructor(instructor_id)}
-      </Link>
-    ) : (
-      this.print_instructor(instructor_id)
-    );
-  };
-
-  link_full_instructor = instructor_id => {
-    return this.permission("can", "admin") ? (
-      <Link
-        key={instructor_id}
-        to={this.getLink("/faculty/instructors/" + instructor_id + "/")}
-      >
-        {this.print_full_instructor(instructor_id)}
-      </Link>
-    ) : (
-      this.print_full_instructor(instructor_id)
-    );
-  };
-
-  print_instructorrank = rank_id => {
-    if (!rank_id) {
-      return "";
-    }
-    const rank = this.get_instructorrank(rank_id);
-    return rank.rank;
-  };
-
-  print_full_instructorrank = rank_id => {
-    if (!rank_id) {
-      return "";
-    }
-    const rank = this.get_instructorrank(rank_id);
-    return rank.rank + " (" + rank.mytype + ")";
-  };
-
-  print_instructortype = type_id => {
-    if (!type_id) {
-      return "";
-    }
-    const type = this.get_instructortype(type_id);
-    return type.mytype;
-  };
-
-  print_meetingtime = meetingtime_id => {
-    if (!meetingtime_id) {
-      return "";
-    }
-    const meetingtime = this.get_meetingtime(meetingtime_id);
-    //    return ( meetingtime.popular ? "(" + meetingtime.sequence + ") " : "") + meetingtime.name;
-    return meetingtime.name;
-  };
 }
 
 export default AppComponent;

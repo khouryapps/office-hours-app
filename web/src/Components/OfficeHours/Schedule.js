@@ -3,6 +3,7 @@ import AppComponent from "../AppComponent";
 import Content from "../Content";
 import { renderStatus } from "../Utils";
 // import WebSocketInstance from "./WebSocket";
+import moment from "moment-timezone";
 import Queue from "./Queue";
 import {
   Divider,
@@ -14,8 +15,7 @@ import {
   Alert,
   Typography,
   Radio
-} from "antd/lib/index";
-import moment from "moment-timezone";
+} from "antd";
 
 const { TabPane } = Tabs;
 const { Meta } = Card;
@@ -25,7 +25,6 @@ const { Text } = Typography;
 export default class Schedule extends AppComponent {
   state = {
     endpoint_schedule: "/api/officehours/schedule/",
-    endpoint_upcoming: "/api/officehours/schedule/upcoming/",
 
     loading: true,
     attend: false,
@@ -50,15 +49,21 @@ export default class Schedule extends AppComponent {
     this.setState({ attend: false, loading: true });
     const { isTA } = this.props;
     this.doGet(
-      this.state.endpoint_schedule + "?course_id=" + this.props.course_id,
+      this.state.endpoint_schedule +
+        "?course_id=" +
+        this.props.course_id +
+        "&semester_id=" +
+        this.props.semesters.join(","),
       data => this.setState({ data: data, loading: false })
     );
   };
 
-  attendOfficeHours = id => {
-    this.setState({ attend: true, queue_id: id });
+  // select the office hour block
+  attendOfficeHours = (queue_id, oh_id) => {
+    this.setState({ attend: true, queue_id: queue_id, oh_id: oh_id });
   };
 
+  // render the week view
   renderCalendar = () => {
     const { data } = this.state;
     console.log(moment().format("dddd"));
@@ -118,11 +123,17 @@ export default class Schedule extends AppComponent {
                     // style={{ marginBottom: "1.5em" }}
                     className={item.ta_name == name ? "TACard" : null}
                     actions={[
-                      <Icon
-                        type="team"
-                        key="edit"
-                        onClick={() => this.attendOfficeHours(item.queue)}
-                      />
+                      item.ta_name == name || !this.props.isTA ? (
+                        <Icon
+                          type="team"
+                          key="edit"
+                          onClick={() =>
+                            this.attendOfficeHours(item.queue, item.id)
+                          }
+                        />
+                      ) : (
+                        <Icon type="team" key="edit" theme="filled" />
+                      )
                     ]}
                   >
                     <Meta title={item.ta_name} description={item.room} />
@@ -141,6 +152,7 @@ export default class Schedule extends AppComponent {
     );
   };
 
+  // render student's view
   renderStudent = () => {
     const isMobile = window.innerWidth < 480;
     const { data } = this.state;
@@ -185,7 +197,9 @@ export default class Schedule extends AppComponent {
                         <Icon
                           type="team"
                           key="edit"
-                          onClick={() => this.attendOfficeHours(item.queue)}
+                          onClick={() =>
+                            this.attendOfficeHours(item.queue, item.id)
+                          }
                         />
                       ]}
                     >
@@ -214,6 +228,7 @@ export default class Schedule extends AppComponent {
     );
   };
 
+  // render TA's view
   renderTA = () => {
     const { data } = this.state;
     const ta_data = data.filter(
@@ -223,30 +238,40 @@ export default class Schedule extends AppComponent {
     );
     return (
       <React.Fragment>
-        <Row gutter={16}>
-          {ta_data.map(item => (
-            <Col span={8}>
-              <Card
-                style={{ marginBottom: "1.5em" }}
-                actions={[
-                  <Icon
-                    type="team"
-                    key="edit"
-                    onClick={() => this.attendOfficeHours(item.queue)}
-                  />
-                ]}
-              >
-                <Meta title={item.room} />
-                {moment(item.start).format("dddd, MMM Do")}
-                <br />
-                {moment(item.start).format("h:mm a")}
-                {" - "}
-                {moment(item.end).format("h:mm a")}
-                {item.ta_name}
-              </Card>
-            </Col>
-          ))}
-        </Row>
+        {ta_data.length ? (
+          <Row gutter={16}>
+            {ta_data.map(item => (
+              <Col span={8}>
+                <Card
+                  style={{ marginBottom: "1.5em" }}
+                  actions={[
+                    <Icon
+                      type="team"
+                      key="edit"
+                      onClick={() =>
+                        this.attendOfficeHours(item.queue, item.id)
+                      }
+                    />
+                  ]}
+                >
+                  <Meta title={item.room} />
+                  {moment(item.start).format("dddd, MMM Do")}
+                  <br />
+                  {moment(item.start).format("h:mm a")}
+                  {" - "}
+                  {moment(item.end).format("h:mm a")}
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        ) : (
+          <Alert
+            message="No upcoming office hours"
+            description="You don't have any office hours asssigned to you this week"
+            type="info"
+            banner
+          />
+        )}
       </React.Fragment>
     );
   };
@@ -289,7 +314,11 @@ export default class Schedule extends AppComponent {
             : this.renderStudent()
           : null}
         {this.state.attend && (
-          <Queue {...this.props} queue_id={this.state.queue_id} />
+          <Queue
+            {...this.props}
+            queue_id={this.state.queue_id}
+            oh_id={this.state.oh_id}
+          />
         )}
       </React.Fragment>
     );
