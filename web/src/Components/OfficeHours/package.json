@@ -1,0 +1,10 @@
+{
+  "name": "officehours",
+  "version": "1.0.0",
+  "description": "office hours react app",
+  "main": "CourseSelector.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "ISC"
+}
