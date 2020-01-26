@@ -4,7 +4,7 @@ import {NavigationActions} from 'react-navigation';
 import {Button, List, SegmentedControl, InputItem, WhiteSpace, WingBlank, Icon} from '@ant-design/react-native'
 
 
-import {apiFetchUserDetails, apiUpdateStudentCourseList} from "../../Common/api";
+import {apiFetchUserDetails} from "../../Common/api";
 
 
 export default class SideBar extends React.Component {
@@ -13,16 +13,9 @@ export default class SideBar extends React.Component {
         student_name: null,
         courses_list: [],
         is_ta: false,
-        edit_courses: false,
-        add_course_text: '',
         loading: true,
         fetch_error: null,
     };
-
-    updateStudentCourseList = async (method_type, course_name) => {
-        const {data, error} = await apiUpdateStudentCourseList(method_type, course_name)
-        this.setState({courses_list: data.courses, error: error})
-    }
 
     async componentDidMount() {
         const {data, error} = await apiFetchUserDetails();
@@ -40,7 +33,7 @@ export default class SideBar extends React.Component {
 
 
     render() {
-        const {is_ta, courses_list, edit_courses} = this.state
+        const {is_ta, courses_list} = this.state
         return (
             <View>
                 <StudentInfo student_name={this.state.student_name} photo={this.state.photo}/>
@@ -90,37 +83,9 @@ export default class SideBar extends React.Component {
                             </List.Item>
                         )
                     })}
-                    {edit_courses ?
-                        <List.Item>
-                            <InputItem
-                                clear
-                                value={this.state.add_course_text}
-                                onChange={value => {
-                                    this.setState({
-                                        add_course_text: value,
-                                    });
-                                }}
-                                placeholder="e.g. CS 2500"
-                            />
-                            <Button type="primary"
-                                onPress={() => {
-                                this.updateStudentCourseList("PATCH", this.state.add_course_text);
-                                // TODO -- Add error message if the selected course could not be added
-                                this.setState({add_course_text: ''})
-                            }}>
-                                Add
-                            </Button>
-                        </List.Item>
-                        : null}
                 </List>
                 <WingBlank>
                 <WhiteSpace/>
-                <Button
-                        onPress={() => {
-                            this.setState({edit_courses: !edit_courses})
-                        }}>
-                    {edit_courses ? "Stop Editing" : "Edit Courses"}
-                </Button>
 
                 <WhiteSpace/>
                 <Button

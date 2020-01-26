@@ -6,13 +6,3 @@ export const apiFetchUserDetails = async () => {
     return response
 }
 
-export const apiUpdateStudentCourseList = async (method_type, course_name) => {
-    const response = await makeRequest({
-            method: method_type,
-            url: 'officehours/courses/',
-            body: JSON.stringify({course: course_name})
-        }
-    )
-    console.log('Updated student course list:', response)
-    return response
-}
