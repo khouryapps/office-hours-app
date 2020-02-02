@@ -8,7 +8,7 @@ export default class Ticket extends React.Component {
     generate_button = (current_status) => {
         const {id, showButtonOnStatus} = this.props
 
-        if (current_status === "In Line" || current_status === "Deferred") {
+        if (current_status === "Queued" || current_status === "Deferred") {
             return (
                 <Button onPress={() => this.props.updateTicket(id, "Open")}>
                     <Text>Begin Helping</Text>
