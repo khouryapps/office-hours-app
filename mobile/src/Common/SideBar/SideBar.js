@@ -74,12 +74,6 @@ export default class SideBar extends React.Component {
                                 }}
                             >
                                 {course.name}
-                                {edit_courses ? <Icon name="close-circle"
-                                                      style={{position: 'absolute', marginLeft: "90%"}}
-                                                      onPress={() => {
-                                                          this.updateStudentCourseList("DELETE", course.name)
-                                                          // TODO -- Add error message if the selected course could not be deleted
-                                                      }}/> : null}
                             </List.Item>
                         )
                     })}
