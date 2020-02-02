@@ -3,7 +3,6 @@ import AppComponent from "../AppComponent";
 import Content from "../Content";
 import { renderStatus } from "../Utils";
 // import WebSocketInstance from "./WebSocket";
-import moment from "moment-timezone";
 import Queue from "./Queue";
 import {
   Divider,
@@ -21,6 +20,7 @@ const { TabPane } = Tabs;
 const { Meta } = Card;
 const { Text } = Typography;
 
+import moment from "moment-timezone";
 
 export default class Schedule extends AppComponent {
   state = {
@@ -48,13 +48,19 @@ export default class Schedule extends AppComponent {
   getData = () => {
     this.setState({ attend: false, loading: true });
     const { isTA } = this.props;
+    console.log(this.props.course_id);
+
     this.doGet(
       this.state.endpoint_schedule +
         "?course_id=" +
         this.props.course_id +
         "&semester_id=" +
         this.props.semesters.join(","),
-      data => this.setState({ data: data, loading: false })
+      data => {
+        console.log(data);
+        console.log(this.props.course_id);
+        this.setState({ data: data, loading: false });
+      }
     );
   };
 
@@ -66,10 +72,13 @@ export default class Schedule extends AppComponent {
   // render the week view
   renderCalendar = () => {
     const { data } = this.state;
-    console.log(moment().format("dddd"));
     const name = this.props.user.first_name + " " + this.props.user.last_name;
 
     const calendar = [
+      {
+        name: "Sunday",
+        data: data.filter(item => moment(item.start).weekday() == 0)
+      },
       {
         name: "Monday",
         data: data.filter(item => moment(item.start).weekday() == 1)
@@ -93,10 +102,6 @@ export default class Schedule extends AppComponent {
       {
         name: "Saturday",
         data: data.filter(item => moment(item.start).weekday() == 6)
-      },
-      {
-        name: "Sunday",
-        data: data.filter(item => moment(item.start).weekday() == 7)
       }
     ];
     return (
@@ -106,6 +111,7 @@ export default class Schedule extends AppComponent {
             {calendar.map(item => (
               <Col
                 span={3}
+                key={item.name}
                 style={{
                   textAlign: "center"
                 }}
@@ -116,11 +122,13 @@ export default class Schedule extends AppComponent {
                   }
                 >
                   {item.name}
+                  {/* , {moment(item.data[0].start).format("MMM Do")} */}
                 </Text>
                 <br />
                 {item.data.map(item => (
                   <Card
                     // style={{ marginBottom: "1.5em" }}
+                    key={item.id}
                     className={item.ta_name == name ? "TACard" : null}
                     actions={[
                       item.ta_name == name || !this.props.isTA ? (
@@ -159,15 +167,13 @@ export default class Schedule extends AppComponent {
     const list = [
       {
         name: "Today",
-        data: data.filter(item => moment(item.start).isSame(moment(), "day")),
-        key: "1"
+        data: data.filter(item => moment(item.start).isSame(moment(), "day"))
       },
       {
         name: "Tomorrow",
         data: data.filter(item =>
           moment(item.start).isSame(moment(new Date()).add(1, "days"), "day")
-        ),
-        key: "2"
+        )
       },
       {
         name: "Later this week",
@@ -179,19 +185,19 @@ export default class Schedule extends AppComponent {
             ) &&
             !moment(item.start).isSame(moment(), "day") &&
             moment(item.start).isSame(moment(), "week")
-        ),
-        key: "3"
+        )
       }
     ];
     return (
       <React.Fragment>
-        <Tabs defaultActiveKey="1" tabPosition={isMobile ? "top" : "left"}>
+        <Tabs defaultActiveKey="Today" tabPosition={isMobile ? "top" : "left"}>
           {list.map(item => (
-            <TabPane tab={item.name} key={item.key}>
+            <TabPane tab={item.name} key={item.name}>
               <Row gutter={(16, 16)}>
                 {item.data.map(item => (
-                  <Col xs={24} sm={12} md={8} lg={8} xl={6}>
+                  <Col xs={24} sm={12} md={8} lg={8} xl={6} key={item.id}>
                     <Card
+                      key={item.id}
                       style={{ marginBottom: "1.5em" }}
                       actions={[
                         <Icon

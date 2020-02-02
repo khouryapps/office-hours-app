@@ -57,19 +57,22 @@ export default class CourseSelector extends AppComponent {
             const courses_local = course_list.filter(
               el => el.local || el.online
             );
+            let courses = courses_local.filter(el =>
+              ta[0].transcript
+                .filter(
+                  a =>
+                    !a.withdrawn &&
+                    this.get_semester(a.semester).code ==
+                      this.get_semester(this.props.semesters[0]).code
+                )
+                .map(a => a.course)
+                .includes(el.id)
+            );
+            console.log(courses);
             this.setState({
-              courses: courses_local.filter(el =>
-                ta[0].transcript
-                  .filter(
-                    a =>
-                      !a.withdrawn &&
-                      this.get_semester(a.semester).code ==
-                        this.get_semester(this.props.semesters[0]).code
-                  )
-                  .map(a => a.course)
-                  .includes(el.id)
-              ),
-              loading: false
+              courses: courses,
+              loading: false,
+              selectedRowKeys: [courses[0].id]
             });
             this.checkIfFeedbackIsRequired();
           }
@@ -82,7 +85,12 @@ export default class CourseSelector extends AppComponent {
     this.doGet(
       this.state.endpoint_oh + "?semester=" + this.props.semesters.join(","),
       data => {
-        this.setState({ courses: data, loading: false });
+        console.log(data);
+        this.setState({
+          courses: data,
+          loading: false,
+          selectedRowKeys: [data[0].id]
+        });
       }
     );
   };

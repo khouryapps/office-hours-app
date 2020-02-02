@@ -53,7 +53,6 @@ export default class Queue extends AppComponent {
   componentDidMount() {
     this.getData();
     setInterval(() => {
-      console.log("fetch");
       this.getData();
     }, 60000);
 
@@ -95,7 +94,8 @@ export default class Queue extends AppComponent {
     if (
       prevProps.isTA !== this.props.isTA ||
       prevProps.semester !== this.props.semester ||
-      prevProps.queue_id !== this.props.queue_id
+      prevProps.queue_id !== this.props.queue_id ||
+      prevProps.oh_id !== this.props.oh_id
     ) {
       this.getData();
     }
@@ -120,13 +120,19 @@ export default class Queue extends AppComponent {
   // if the user is a TA
   getDataTA = () => {
     // get tickets for the queue
+    // filter the ta_id on the back end
     this.doGet(
       this.state.endpoint_tickets + "?queue=" + this.props.queue_id,
-      data =>
+      data => {
+        let tickets = data.slice();
+        let open_tickets = tickets.filter(item => item.status == "Open");
+        tickets = tickets.filter(item => item.status == "In Line");
         this.setState({
           loading: false,
-          tickets: data.slice()
-        })
+          open_tickets: open_tickets,
+          tickets: tickets
+        });
+      }
     );
     // check if the oh block is open
     this.doGet(this.state.endpoint_schedule + this.props.oh_id + "/", data =>
@@ -150,6 +156,8 @@ export default class Queue extends AppComponent {
       this.state.endpoint_tickets + "?queue=" + this.props.queue_id,
       data => {
         let tickets = data.slice();
+        let open_tickets = tickets.filter(item => item.status == "Open");
+        tickets = tickets.filter(item => item.status == "In Line");
         // find student's position in the queue
         let position = tickets.findIndex(
           item => item.creator.user == this.props.user.username
@@ -164,21 +172,23 @@ export default class Queue extends AppComponent {
         this.setState({
           loading: false,
           tickets: tickets,
+          open_tickets: open_tickets,
           position: position
         });
 
-        if (my_ticket) {
-            this.setState({
-                stage: stage.wait,
-                is_edit: false,
-                ticket_id: my_ticket.id,
-                my_ticket: my_ticket,
-                question: my_ticket.question,
-                public: my_ticket.public,
-                status: my_ticket.status
-            });
-        }
-        // check if the ticket ahs been just resolved
+        my_ticket
+          ? this.setState({
+              stage: stage.wait,
+              is_edit: false,
+              ticket_id: my_ticket.id,
+              my_ticket: my_ticket,
+              question: my_ticket.question,
+              public: my_ticket.public,
+              status: my_ticket.status
+            })
+          : null;
+
+        // check if the ticket ahs has been just resolved
         const just_resolved =
           this.state.my_ticket != my_ticket &&
           this.state.stage == stage.get_help;
@@ -221,18 +231,18 @@ export default class Queue extends AppComponent {
 
   // on ticket save (after editing)
   handleSave = id => {
-    if (this.state.my_ticket.question) {
-        this.doPatch(
-            this.state.endpoint_tickets + id + "/edit/",
-            () => {
-                this.getData();
-            },
-            JSON.stringify({
-                question: this.state.question,
-                public: this.state.public
-            })
+    this.state.my_ticket.question
+      ? this.doPatch(
+          this.state.endpoint_tickets + id + "/edit/",
+          () => {
+            this.getData();
+          },
+          JSON.stringify({
+            question: this.state.question,
+            public: this.state.public
+          })
         )
-    }
+      : null;
     this.setState({ is_edit: !this.state.is_edit });
   };
 
@@ -264,7 +274,7 @@ export default class Queue extends AppComponent {
                 textAlign: "center"
               }}
             >
-              There are {this.state.position} people in front of you
+              There are {this.state.position} people in front of you in the line
             </Title>
           ) : (
             <Title
@@ -308,36 +318,55 @@ export default class Queue extends AppComponent {
   // render TA's view on the ticket list
   renderTicketListTA = () => {
     return (
-      <List
-        style={{ width: "500px", margin: "20px auto" }}
-        dataSource={this.state.tickets}
-        renderItem={item => (
-          <List.Item
-            key={item.id}
-            actions={
-              this.state.tickets[0].id == item.id
-                ? item.status == "Open"
+      <div>
+        <div className="OpenTickets">
+          <List
+            style={{ width: "500px", margin: "20px auto" }}
+            dataSource={this.state.open_tickets}
+            renderItem={item => (
+              <List.Item
+                key={item.id}
+                actions={[
+                  <a
+                    key="list-edit"
+                    onClick={() => this.action(item.id, "Resolved")}
+                  >
+                    Resolved
+                  </a>,
+                  <a
+                    key="list-edit"
+                    onClick={() => this.action(item.id, "Deferred")}
+                  >
+                    Deferred
+                  </a>,
+                  <a
+                    key="list-edit"
+                    onClick={() => this.action(item.id, "No Show")}
+                  >
+                    No Show
+                  </a>
+                ]}
+              >
+                <List.Item.Meta
+                  avatar={<Avatar size="large" src={item.creator.photo_url} />}
+                  title={<a>{item.creator.full_name}</a>}
+                  description={item.question}
+                />
+              </List.Item>
+            )}
+          ></List>
+        </div>
+
+        <List
+          style={{ width: "500px", margin: "20px auto" }}
+          dataSource={this.state.tickets}
+          renderItem={item => (
+            <List.Item
+              key={item.id}
+              actions={
+                this.state.tickets[0].id == item.id &&
+                this.state.open_tickets.length < 3
                   ? [
-                      <a
-                        key="list-edit"
-                        onClick={() => this.action(item.id, "Resolved")}
-                      >
-                        Resolved
-                      </a>,
-                      <a
-                        key="list-edit"
-                        onClick={() => this.action(item.id, "Deferred")}
-                      >
-                        Deferred
-                      </a>,
-                      <a
-                        key="list-edit"
-                        onClick={() => this.action(item.id, "No Show")}
-                      >
-                        No Show
-                      </a>
-                    ]
-                  : [
                       <a
                         key="list-edit"
                         onClick={() => this.action(item.id, "Open")}
@@ -345,17 +374,18 @@ export default class Queue extends AppComponent {
                         Help
                       </a>
                     ]
-                : []
-            }
-          >
-            <List.Item.Meta
-              avatar={<Avatar size="large" src={item.creator.photo_url} />}
-              title={<a>{item.creator.full_name}</a>}
-              description={item.question}
-            />
-          </List.Item>
-        )}
-      ></List>
+                  : []
+              }
+            >
+              <List.Item.Meta
+                avatar={<Avatar size="large" src={item.creator.photo_url} />}
+                title={<a>{item.creator.full_name}</a>}
+                description={item.question}
+              />
+            </List.Item>
+          )}
+        ></List>
+      </div>
     );
   };
 
@@ -363,7 +393,7 @@ export default class Queue extends AppComponent {
   renderTicketListStudent = () => {
     return this.state.tickets.length ? (
       <List
-        dataSource={this.state.tickets}
+        dataSource={this.state.open_tickets.concat(this.state.tickets)}
         renderItem={item => (
           <List.Item
             style={{
@@ -373,12 +403,17 @@ export default class Queue extends AppComponent {
           >
             <List.Item.Meta
               avatar={<Avatar size="large" src={item.creator.photo_url} />}
-              title={item.creator.full_name}
+              title={
+                <div>
+                  {" "}
+                  <div className="TAInfo">{renderStatus(item.status)}</div>
+                  {item.creator.full_name}{" "}
+                </div>
+              }
               description={
                 item.public ? item.question : "[-Message is Hidden-]"
               }
             />
-            <div> {renderStatus(item.status)}</div>
           </List.Item>
         )}
       ></List>
@@ -428,14 +463,21 @@ export default class Queue extends AppComponent {
       >
         <List.Item.Meta
           avatar={<Avatar src={my_ticket.creator.photo_url} />}
-          title={my_ticket.creator.full_name}
+          title={
+            <div>
+              {" "}
+              {!this.state.is_edit && (
+                <div className="TAInfo">{renderStatus(my_ticket.status)}</div>
+              )}
+              {my_ticket.creator.full_name}{" "}
+            </div>
+          }
           description={
             !this.state.is_edit
               ? my_ticket.question
               : this.renderQuestionEditBlock()
           }
         />
-        {!this.state.is_edit && <div> {renderStatus(my_ticket.status)}</div>}
       </List.Item>
     ) : null;
   };
@@ -513,11 +555,7 @@ export default class Queue extends AppComponent {
         />
       </React.Fragment>
     ) : (
-      <Alert
-        message="TA should open the office hour block to start the queue"
-        type="info"
-        banner
-      />
+      <Alert message="The queue is closed" type="info" banner />
     );
   };
 
