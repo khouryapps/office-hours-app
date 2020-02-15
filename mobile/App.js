@@ -38,7 +38,7 @@ class SignIn extends React.Component {
             const user_token = response.data.key
             AsyncStorage.setItem('userToken', user_token);
             AsyncStorage.setItem('username', this.state.username);
-            this.props.navigation.navigate('App')
+            this.props.navigation.navigate('HomeScreen')
         } catch (error) {
             this.setState({login_error: error});
             console.log('Error Logging In: ', error)
