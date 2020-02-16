@@ -2,7 +2,7 @@ import React from "react"
 import HeaderButton from "../../Common/components/HeaderButton";
 import RefreshButton from "../../Common/components/RefreshButton";
 import {View, ScrollView, Text, StyleSheet, AsyncStorage} from "react-native";
-import {Button, InputItem, WhiteSpace, Modal, Provider, WingBlank} from "@ant-design/react-native"
+import {Button, InputItem, WhiteSpace, Modal, Provider, WingBlank, TextareaItem} from "@ant-design/react-native"
 import {apiEditTicket, apiCreateTicket, apiDeleteTicket} from "../api";
 import Loading from "../../Common/components/Loading";
 import {apiFetchQueueData} from "../../TA/api";
@@ -171,7 +171,8 @@ class QueueScreen extends React.Component {
                     <WhiteSpace/>
                     <View>
                         <Text style={styles.textStyle}>Add a new Question!</Text>
-                        <InputItem clear
+                        <TextareaItem
+                                placeholder={"Enter your question here"}
                                    value={question_text}
                                    onChange={value => {
                                        this.setState({

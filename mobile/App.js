@@ -58,6 +58,7 @@ class SignIn extends React.Component {
                                 });
                             }}
                             placeholder="Username"
+                            autoCapitalize={'none'}
                         />
                         <InputItem
                             type="password"
