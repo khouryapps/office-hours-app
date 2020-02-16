@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing TA Home Screen Renders the correct number of office hours 1`] = `<TAHomeScreen />`;
+
+exports[`Testing TA Home Screen Renders without crashing 1`] = `""`;
