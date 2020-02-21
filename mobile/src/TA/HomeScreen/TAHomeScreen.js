@@ -34,8 +34,13 @@ export default class TAHomeScreen extends React.Component {
         // this.setState({courses: data})
         // await this.getUpcomingOfficeHours();
         const current_course_id = await AsyncStorage.getItem('last_visited_course_id');
+        // QUESTION: Why do these two lines only work when not within a helper function?
         const {data, error} = await apiFetchUpcomingOfficeHours(current_course_id, 654)  // TODO -- Figure out how to always get info from the current semester, maybe using redux or a shared state component
         this.setState({upcomingOfficeHours: data, fetch_error: error, loading: false})
+        this.focusListener = this.props.navigation.addListener('didFocus', async () => {
+            const {data, error} = await apiFetchUpcomingOfficeHours(current_course_id, 654)  // TODO -- Figure out how to always get info from the current semester, maybe using redux or a shared state component
+            this.setState({upcomingOfficeHours: data, fetch_error: error, loading: false})
+        });
     }
 
     getUpcomingOfficeHours = async () => {
@@ -71,6 +76,7 @@ export default class TAHomeScreen extends React.Component {
 
     filterHours = (interval) => {
         const {upcomingOfficeHours} = this.state;
+        console.log("upcoming office hours " , upcomingOfficeHours)
 
         let filteredHours = upcomingOfficeHours
 
@@ -84,14 +90,13 @@ export default class TAHomeScreen extends React.Component {
             date_interval.setDate(date_interval.getDate() + intervals_to_num[interval]);
             date_interval.setHours(0, 0, 0, 0);
 
-            filteredHours = upcomingOfficeHours.filter(officeHourBlock => {
+            filteredHours = upcomingOfficeHours && upcomingOfficeHours.filter(officeHourBlock => {
                 const end_date = new Date(officeHourBlock.end)
                 return (end_date <= date_interval)
             })
         }
 
-
-        if (filteredHours.length) {
+        if (filteredHours && filteredHours.length) {
             return (filteredHours.map((el, index) => (<TAOfficeHoursCard key={index} id={el.id} index={index} {...el}>
                 {index === 0 && interval === 'day' ?
                     <Button type="ghost" onPress={this.taArrived}>
@@ -107,7 +112,7 @@ export default class TAHomeScreen extends React.Component {
 
     hasCurrentlyOpenOfficeHours = () => {
         const {upcomingOfficeHours} = this.state;
-        return upcomingOfficeHours.length && upcomingOfficeHours[0].queue !== null
+        return upcomingOfficeHours && upcomingOfficeHours.length && upcomingOfficeHours[0].queue !== null
     }
 
     render() {
