@@ -1,8 +1,8 @@
 import React from "react"
 import HeaderButton from "../../Common/components/HeaderButton";
 import RefreshButton from "../../Common/components/RefreshButton";
-import {View, ScrollView, Text, StyleSheet, AsyncStorage} from "react-native";
-import {Button, InputItem, WhiteSpace, Modal, Provider, WingBlank, TextareaItem} from "@ant-design/react-native"
+import {View, ScrollView, Text, StyleSheet, AsyncStorage, Alert} from "react-native";
+import {Button, InputItem, WhiteSpace, WingBlank, TextareaItem} from "@ant-design/react-native"
 import {apiEditTicket, apiCreateTicket, apiDeleteTicket} from "../api";
 import Loading from "../../Common/components/Loading";
 import {apiFetchQueueData} from "../../TA/api";
@@ -99,7 +99,7 @@ class QueueScreen extends React.Component {
     }
 
     deleteTicketModal = () => {
-        Modal.alert('Confirm Delete', 'This action cannot be undone', [
+        Alert.alert('Confirm Delete', 'This action cannot be undone', [
             {
                 text: 'Cancel',
                 style: 'cancel',
@@ -192,7 +192,6 @@ class QueueScreen extends React.Component {
             return <Loading/>
         } else {
             return (
-                <Provider>
                     <View style={{flex: 1}}>
                         <ScrollView>
                             <WingBlank size="sm">
@@ -205,7 +204,6 @@ class QueueScreen extends React.Component {
                         </Button>
                         <WhiteSpace/>
                     </View>
-                </Provider>
             )
         }
     }
