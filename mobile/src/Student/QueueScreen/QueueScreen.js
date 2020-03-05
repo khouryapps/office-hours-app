@@ -137,7 +137,8 @@ class QueueScreen extends React.Component {
                             <Button onPress={this.deleteTicketModal}
                                     style={{position: 'absolute', marginLeft: "85%", borderColor: 'red'}} size="small">
                                 <Text style={{color: 'red', fontSize: 12}}>Delete</Text></Button>
-                            <InputItem clear
+                            <TextareaItem clear
+                                       rows={4}
                                        value={edit_question ? question_text : student_ticket.question}
                                        onChange={value => {
                                            this.setState({
@@ -167,12 +168,14 @@ class QueueScreen extends React.Component {
             // Show the queue size and give the student the opportunity to add a question
             return (
                 <View>
+                    <WhiteSpace/>
                     <QueueInfo text={"Current queue size"} value={tickets.length}/>
                     <WhiteSpace/>
                     <View>
                         <Text style={styles.textStyle}>Add a new Question!</Text>
                         <TextareaItem
                                 placeholder={"Enter your question here"}
+                                rows={4}
                                    value={question_text}
                                    onChange={value => {
                                        this.setState({

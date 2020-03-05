@@ -50,9 +50,9 @@ export const apiUpdateTicket = async (ticket_id, new_status) => {
 
      const response = await makeRequest({
          method: 'PATCH',
-         url: 'officehours/ticket/' + ticket_id + '/status/',
+         url: 'officehours/ticket/' + ticket_id + '/edit/',
          body: {
-             status: new_status
+             "status": new_status
          }
      })
 
