@@ -16,6 +16,7 @@ import {BASE_URL} from './src/utils'
 
 import {InputItem, Button} from "@ant-design/react-native"
 import Loading from "./src/Common/components/Loading";
+import LoginView from "./src/Common/components/LoginView";
 
 const instructions = Platform.select({
     ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -23,62 +24,6 @@ const instructions = Platform.select({
         'Double tap R on your keyboard to reload,\n' +
         'Shake or press menu button for dev menu',
 });
-
-class SignIn extends React.Component {
-    state = {
-        username: '',
-        password: '',
-        login_error: ''
-    };
-
-    handle_login = async () => {
-        const body = {username: this.state.username, password: this.state.password};
-        try {
-            const response = await axios.post(BASE_URL + 'rest-auth/login/', body)
-            const user_token = response.data.key
-            AsyncStorage.setItem('userToken', user_token);
-            AsyncStorage.setItem('username', this.state.username);
-            this.props.navigation.navigate('HomeScreen')
-        } catch (error) {
-            this.setState({login_error: error});
-            console.log('Error Logging In: ', error)
-        }
-    }
-
-
-    render() {
-        return (
-            <View style={{paddingTop: '15%'}}>
-                        <InputItem
-                            clear
-                            value={this.state.username}
-                            onChange={value => {
-                                this.setState({
-                                    username: value,
-                                });
-                            }}
-                            placeholder="Username"
-                            autoCapitalize={'none'}
-                        />
-                        <InputItem
-                            type="password"
-                            value={this.state.password}
-                            onChange={value => {
-                                this.setState({
-                                    password: value,
-                                });
-                            }}
-                            placeholder="Password"
-                        />
-                        <Button type="primary" onPress={() => {
-                            this.handle_login()
-                        }}>
-                            <Text>Login</Text>
-                        </Button>
-            </View>
-        );
-    }
-}
 
 class AuthLoadingScreen extends React.Component {
     constructor(props) {
@@ -113,7 +58,7 @@ const Root = createSwitchNavigator(
     {
         AuthLoading: AuthLoadingScreen,
         HomeScreen: HomeScreenWithSidebar,
-        Auth: SignIn,
+        Auth: LoginView,
     },
     {
         initialRouteName: 'AuthLoading',
