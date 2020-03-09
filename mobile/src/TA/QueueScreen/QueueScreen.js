@@ -4,11 +4,12 @@ import {Button, Tabs, WhiteSpace, Icon} from "@ant-design/react-native"
 import CurrentlyHelping from './CurrentlyHelping'
 import styles from "../../Style"
 import TicketList from './TicketList'
-import { AsyncStorage, ScrollView, View, Text} from "react-native";
+import { AsyncStorage, ScrollView, View, Text, Alert} from "react-native";
 import {apiFetchQueueData, apiUpdateTicket} from "../api";
 import Loading from "../../Common/components/Loading";
 import HeaderButton from "../../Common/components/HeaderButton";
 import RefreshButton from "../../Common/components/RefreshButton";
+import {getQueueSize} from "../../utils";
 
 
 export default class QueueScreen extends React.Component {
@@ -76,6 +77,23 @@ export default class QueueScreen extends React.Component {
         this.setState({tickets: new_ticket_arr, error: error})
     }
 
+
+    handleTADepartedModal = () => {
+        if(getQueueSize(this.state.tickets) > 0) {
+            Alert.alert('Confirm Departure', 'Please confirm that another TA is present if there is still at queue', [
+                {
+                    text: 'Stay',
+                    style: 'cancel',
+                },
+                {text: 'Leave', onPress: this.handleTADeparted},
+            ]);
+
+        }
+        else {
+            this.handleTADeparted()
+        }
+    }
+
     handleTADeparted = async () => {
         const office_hours_id = await this.props.navigation.getParam('office_hours_id', null);
         const taDeparted = this.props.navigation.getParam('taDeparted')
@@ -93,22 +111,22 @@ export default class QueueScreen extends React.Component {
         const {loading} = this.state
         if (!loading) {
             return (
-                <View style={{flex: 1}}>
-                    <Tabs tabs={[{title: "Currently Helping"}, {title: "Queue"}]} initialPage={1}>
-                                <ScrollView>
-                                    <CurrentlyHelping tickets={ticketsCurrentlyHelping} updateTicket={this.updateTicket}/>
-                                </ScrollView>
-                                <ScrollView style={styles.content}>
-                                    <TicketList tickets={ticketsShownInQueue} updateTicket={this.updateTicket} showButtonOnStatus={["Queued","Deferred"]}/>
-                                </ScrollView>
-                    </Tabs>
-                    <View>
-                        <Button type="warning" onPress={() => this.handleTADeparted()}>
-                            Leave Office Hours
-                        </Button>
-                        <WhiteSpace/>
+                    <View style={{flex: 1}}>
+                        <Tabs tabs={[{title: "Currently Helping"}, {title: "Queue"}]} initialPage={1}>
+                                    <ScrollView>
+                                        <CurrentlyHelping tickets={ticketsCurrentlyHelping} updateTicket={this.updateTicket}/>
+                                    </ScrollView>
+                                    <ScrollView style={styles.content}>
+                                        <TicketList tickets={ticketsShownInQueue} updateTicket={this.updateTicket} showButtonOnStatus={["Queued","Deferred"]}/>
+                                    </ScrollView>
+                        </Tabs>
+                        <View>
+                            <Button type="warning" onPress={this.handleTADepartedModal}>
+                                Leave Office Hours
+                            </Button>
+                            <WhiteSpace/>
+                        </View>
                     </View>
-                </View>
             )
         } else {
             return <Loading/>

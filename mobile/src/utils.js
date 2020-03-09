@@ -39,3 +39,9 @@ export const makeRequest = async ({method, url, query_params=null, body=null}) =
         return {data: null, error: error}
     }
 }
+
+export const getQueueSize = (tickets) => {
+    return tickets.filter((ticket) => {
+        return ticket.status === "Open" || ticket.status === "Queued" || ticket.status === "Deferred"
+    }).length
+}
