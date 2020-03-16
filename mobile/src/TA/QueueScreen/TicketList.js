@@ -9,7 +9,6 @@ import {getQueueSize} from "../../utils";
 export default class TicketList extends React.Component {
 
 
-
     render() {
         const {tickets} = this.props
         if (tickets.length) {
