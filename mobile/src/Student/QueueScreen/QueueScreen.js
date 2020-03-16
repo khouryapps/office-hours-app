@@ -112,7 +112,7 @@ class QueueScreen extends React.Component {
         const student_ticket = this.getStudentTicket()
         console.log("ticket deleted")
         const {data, error} = await apiDeleteTicket(student_ticket.id)
-        this.setState({tickets: this.state.tickets.filter((ticket) => ticket.id !== data.id)})
+        this.setState({tickets: this.state.tickets.filter((ticket) => ticket.id !== student_ticket.id)})
     }
 
     renderPage = () => {
