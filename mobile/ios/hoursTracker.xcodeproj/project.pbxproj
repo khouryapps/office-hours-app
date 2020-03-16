@@ -26,13 +26,14 @@
 		2D16E6881FA4F8E400B85C8A /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D16E6891FA4F8E400B85C8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* hoursTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* hoursTrackerTests.m */; };
 		2DF0FFEE2056DD460020B375 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
-		4ACB472AE2A68EF4FE6AE73F /* libPods-hoursTracker-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3CD6426D9CA549806DFB132 /* libPods-hoursTracker-tvOS.a */; };
-		8B4525CC853812BBEF710012 /* libPods-hoursTrackerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64A45C15B889E479670AAA8C /* libPods-hoursTrackerTests.a */; };
-		93557B1DD47BDA18F1892C2A /* libPods-hoursTracker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D3A33F3DC2B93574FC5FAAC6 /* libPods-hoursTracker.a */; };
+		69B9E661368F6444687E1545 /* libPods-hoursTrackerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C5C3DF513D961C82B0F9AF56 /* libPods-hoursTrackerTests.a */; };
+		730214463BE3497B4107B83D /* libPods-hoursTracker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FC67EFC6F537E7948959D8B7 /* libPods-hoursTracker.a */; };
 		BD44420423684A5200E222A8 /* antfill.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FB47E9FBC24D4E1A977D2D44 /* antfill.ttf */; };
 		BD44422B23684A5F00E222A8 /* antoutline.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A25B40F1AF344C482EC8CEE /* antoutline.ttf */; };
+		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		ED2971652150620600B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2971642150620600B7C4FE /* JavaScriptCore.framework */; };
-		F395FB8222E4D610B5E8E84F /* libPods-hoursTracker-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E3066DC9DA3B66490B2954C /* libPods-hoursTracker-tvOSTests.a */; };
+		ED612D0355E68E74AF8EEAD6 /* libPods-hoursTracker-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B6E53A5F249C4795A0BC8EF4 /* libPods-hoursTracker-tvOSTests.a */; };
+		F58A7B7D050D6D2A8F7F33F4 /* libPods-hoursTracker-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 287C4E6AC65DE4D0D28DCD4B /* libPods-hoursTracker-tvOS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -328,9 +329,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* hoursTrackerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = hoursTrackerTests.m; sourceTree = "<group>"; };
 		010A17A3B0894F0EA1F6A4AB /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/native-base/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
-		0117FCD15BFDA2D17562074D /* Pods-hoursTrackerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hoursTrackerTests.debug.xcconfig"; path = "Target Support Files/Pods-hoursTrackerTests/Pods-hoursTrackerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		0321409EBD0F4BB88A65F242 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/native-base/Fonts/Feather.ttf"; sourceTree = "<group>"; };
-		0EDA3FC7B8CFC0A23BCF94F7 /* Pods-hoursTracker-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hoursTracker-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-hoursTracker-tvOS/Pods-hoursTracker-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* hoursTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hoursTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -345,20 +344,23 @@
 		18D3282543844B599E8CD30B /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		1C69A2B3C4164AB7974B119B /* Roboto_medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto_medium.ttf; path = "../node_modules/native-base/Fonts/Roboto_medium.ttf"; sourceTree = "<group>"; };
 		23226C8CCA3F4A0E97438DFD /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		28648B3EF4BC2024883330F3 /* Pods-hoursTracker-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hoursTracker-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-hoursTracker-tvOSTests/Pods-hoursTracker-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		287C4E6AC65DE4D0D28DCD4B /* libPods-hoursTracker-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-hoursTracker-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AAA31367C0C4BB1A85AAD4E /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/native-base/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* hoursTracker-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "hoursTracker-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* hoursTracker-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "hoursTracker-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2FBBD3693A1912B429CC2573 /* Pods-hoursTracker-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hoursTracker-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-hoursTracker-tvOSTests/Pods-hoursTracker-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		30463CB01FB64BFAAC1D0186 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/native-base/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		31C0C846412E4259AF6E0332 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		43E807EB13184CA99924B0BA /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/native-base/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		4DFB01F1C6844C52A7E0A1A6 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
-		52F3E0C363EFC05BB5BEED8A /* Pods-hoursTracker-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hoursTracker-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-hoursTracker-tvOSTests/Pods-hoursTracker-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4F9ABC9D236F3C88D644ACE2 /* Pods-hoursTracker-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hoursTracker-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-hoursTracker-tvOS/Pods-hoursTracker-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		54BA02C109164966A638DBD8 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/native-base/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		54DD0CEE2FEB55FE079FFEEE /* Pods-hoursTracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hoursTracker.debug.xcconfig"; path = "Target Support Files/Pods-hoursTracker/Pods-hoursTracker.debug.xcconfig"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		5E97396590274AEB907BF035 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		605A63BAEE194D44AF3B12C0 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
-		64A45C15B889E479670AAA8C /* libPods-hoursTrackerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-hoursTrackerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		67418E08EA1C45D29F9191F1 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/native-base/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		7893293EA0334285B388E6F3 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/native-base/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
@@ -367,36 +369,35 @@
 		7F61CE54E8824D698EADDA43 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		822FF7B162E44E498A5A0A95 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/native-base/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		861916CFA8F9FE8F813DD0AF /* Pods-hoursTracker-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hoursTracker-tvOS.release.xcconfig"; path = "Target Support Files/Pods-hoursTracker-tvOS/Pods-hoursTracker-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		88241DB363698848E7EE0E81 /* Pods-hoursTracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hoursTracker.release.xcconfig"; path = "Target Support Files/Pods-hoursTracker/Pods-hoursTracker.release.xcconfig"; sourceTree = "<group>"; };
+		884ED6DBDE9947DCC21C1F48 /* Pods-hoursTrackerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hoursTrackerTests.debug.xcconfig"; path = "Target Support Files/Pods-hoursTrackerTests/Pods-hoursTrackerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8E1513DEA0384F578CBCA18E /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/native-base/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		95684E9BF3B4414B8F9EE568 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
-		9600CC0B002BC0AA7045FB1D /* Pods-hoursTracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hoursTracker.debug.xcconfig"; path = "Target Support Files/Pods-hoursTracker/Pods-hoursTracker.debug.xcconfig"; sourceTree = "<group>"; };
 		9A25B40F1AF344C482EC8CEE /* antoutline.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = antoutline.ttf; path = "../node_modules/@ant-design/icons-react-native/fonts/antoutline.ttf"; sourceTree = "<group>"; };
 		9A970DF6FA8D46FBB2362238 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/native-base/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		9B30BD8DD49B47E9A3E30262 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
-		9E3066DC9DA3B66490B2954C /* libPods-hoursTracker-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-hoursTracker-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A08FF8DAEC1449FEA3648A72 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		A2B7344FF9354212B7C56C48 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		B1F5E526859F424680AD9FA3 /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
 		B4005A395949412B8F7EBB5A /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
-		B4193EF22A4AD07E54762C19 /* Pods-hoursTracker-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hoursTracker-tvOS.release.xcconfig"; path = "Target Support Files/Pods-hoursTracker-tvOS/Pods-hoursTracker-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		BD4CF0F0BD8DF8F1A1F6354C /* Pods-hoursTrackerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hoursTrackerTests.release.xcconfig"; path = "Target Support Files/Pods-hoursTrackerTests/Pods-hoursTrackerTests.release.xcconfig"; sourceTree = "<group>"; };
-		BDD6A1612404BC83007C3718 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B4567F27982896199035D4AC /* Pods-hoursTrackerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hoursTrackerTests.release.xcconfig"; path = "Target Support Files/Pods-hoursTrackerTests/Pods-hoursTrackerTests.release.xcconfig"; sourceTree = "<group>"; };
+		B6E53A5F249C4795A0BC8EF4 /* libPods-hoursTracker-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-hoursTracker-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BDEBB7632418718B0026668D /* NUJ_iN7u_400x400.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = NUJ_iN7u_400x400.jpg; path = ../../../../Downloads/NUJ_iN7u_400x400.jpg; sourceTree = "<group>"; };
 		C121CFEEB82548AA93B8ACF0 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		C5C3DF513D961C82B0F9AF56 /* libPods-hoursTrackerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-hoursTrackerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C80D0BD9067D487992513744 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		C896B9D03791461F9A6B7D3F /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		C9B533971B7C4714AEE26E65 /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "rubicon-icon-font.ttf"; path = "../node_modules/native-base/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; };
 		CAE55FA3FA8B4991BE2B2E71 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/native-base/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		CB948A001AC840FBAFD595C6 /* Roboto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto.ttf; path = "../node_modules/native-base/Fonts/Roboto.ttf"; sourceTree = "<group>"; };
 		CF56A413C55B43B781F453CF /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/native-base/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
-		D3A33F3DC2B93574FC5FAAC6 /* libPods-hoursTracker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-hoursTracker.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D434CB70FA0A663D4D21916A /* Pods-hoursTracker-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hoursTracker-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-hoursTracker-tvOSTests/Pods-hoursTracker-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		D8EBA37167734D9AED277D17 /* Pods-hoursTracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hoursTracker.release.xcconfig"; path = "Target Support Files/Pods-hoursTracker/Pods-hoursTracker.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F061124B567B4E8E97246626 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
-		F3CD6426D9CA549806DFB132 /* libPods-hoursTracker-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-hoursTracker-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB47E9FBC24D4E1A977D2D44 /* antfill.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = antfill.ttf; path = "../node_modules/@ant-design/icons-react-native/fonts/antfill.ttf"; sourceTree = "<group>"; };
+		FC67EFC6F537E7948959D8B7 /* libPods-hoursTracker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-hoursTracker.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -405,7 +406,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */,
-				8B4525CC853812BBEF710012 /* libPods-hoursTrackerTests.a in Frameworks */,
+				69B9E661368F6444687E1545 /* libPods-hoursTrackerTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -413,7 +414,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				93557B1DD47BDA18F1892C2A /* libPods-hoursTracker.a in Frameworks */,
+				ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */,
+				730214463BE3497B4107B83D /* libPods-hoursTracker.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,7 +432,7 @@
 				2D02E4C61E0B4AEC006451C7 /* libRCTSettings-tvOS.a in Frameworks */,
 				2D02E4C71E0B4AEC006451C7 /* libRCTText-tvOS.a in Frameworks */,
 				2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */,
-				4ACB472AE2A68EF4FE6AE73F /* libPods-hoursTracker-tvOS.a in Frameworks */,
+				F58A7B7D050D6D2A8F7F33F4 /* libPods-hoursTracker-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -439,7 +441,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2DF0FFEE2056DD460020B375 /* libReact.a in Frameworks */,
-				F395FB8222E4D610B5E8E84F /* libPods-hoursTracker-tvOSTests.a in Frameworks */,
+				ED612D0355E68E74AF8EEAD6 /* libPods-hoursTracker-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -523,6 +525,7 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
+				BDEBB7632418718B0026668D /* NUJ_iN7u_400x400.jpg */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
@@ -598,31 +601,15 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BDD6A1612404BC83007C3718 /* libRNVectorIcons.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
-				D3A33F3DC2B93574FC5FAAC6 /* libPods-hoursTracker.a */,
-				F3CD6426D9CA549806DFB132 /* libPods-hoursTracker-tvOS.a */,
-				9E3066DC9DA3B66490B2954C /* libPods-hoursTracker-tvOSTests.a */,
-				64A45C15B889E479670AAA8C /* libPods-hoursTrackerTests.a */,
+				FC67EFC6F537E7948959D8B7 /* libPods-hoursTracker.a */,
+				287C4E6AC65DE4D0D28DCD4B /* libPods-hoursTracker-tvOS.a */,
+				B6E53A5F249C4795A0BC8EF4 /* libPods-hoursTracker-tvOSTests.a */,
+				C5C3DF513D961C82B0F9AF56 /* libPods-hoursTrackerTests.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		5CFD482A92763CE85CEA29B7 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				9600CC0B002BC0AA7045FB1D /* Pods-hoursTracker.debug.xcconfig */,
-				D8EBA37167734D9AED277D17 /* Pods-hoursTracker.release.xcconfig */,
-				0EDA3FC7B8CFC0A23BCF94F7 /* Pods-hoursTracker-tvOS.debug.xcconfig */,
-				B4193EF22A4AD07E54762C19 /* Pods-hoursTracker-tvOS.release.xcconfig */,
-				52F3E0C363EFC05BB5BEED8A /* Pods-hoursTracker-tvOSTests.debug.xcconfig */,
-				D434CB70FA0A663D4D21916A /* Pods-hoursTracker-tvOSTests.release.xcconfig */,
-				0117FCD15BFDA2D17562074D /* Pods-hoursTrackerTests.debug.xcconfig */,
-				BD4CF0F0BD8DF8F1A1F6354C /* Pods-hoursTrackerTests.release.xcconfig */,
-			);
-			path = Pods;
 			sourceTree = "<group>";
 		};
 		5E91572E1DD0AC6500FF2AA8 /* Products */ = {
@@ -700,7 +687,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				1A00380C208A45AD8BC2880B /* Resources */,
 				BD8731022303766A00F43515 /* Recovered References */,
-				5CFD482A92763CE85CEA29B7 /* Pods */,
+				F3E894BE839ADB0C146BFFD4 /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -734,6 +721,21 @@
 			name = "Recovered References";
 			sourceTree = "<group>";
 		};
+		F3E894BE839ADB0C146BFFD4 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				54DD0CEE2FEB55FE079FFEEE /* Pods-hoursTracker.debug.xcconfig */,
+				88241DB363698848E7EE0E81 /* Pods-hoursTracker.release.xcconfig */,
+				4F9ABC9D236F3C88D644ACE2 /* Pods-hoursTracker-tvOS.debug.xcconfig */,
+				861916CFA8F9FE8F813DD0AF /* Pods-hoursTracker-tvOS.release.xcconfig */,
+				28648B3EF4BC2024883330F3 /* Pods-hoursTracker-tvOSTests.debug.xcconfig */,
+				2FBBD3693A1912B429CC2573 /* Pods-hoursTracker-tvOSTests.release.xcconfig */,
+				884ED6DBDE9947DCC21C1F48 /* Pods-hoursTrackerTests.debug.xcconfig */,
+				B4567F27982896199035D4AC /* Pods-hoursTrackerTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -741,7 +743,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "hoursTrackerTests" */;
 			buildPhases = (
-				D807AFA3D004A1B555565386 /* [CP] Check Pods Manifest.lock */,
+				67C4FA6B7C9B5B2B08532492 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
@@ -760,12 +762,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "hoursTracker" */;
 			buildPhases = (
-				8CC9D7CF9116D3F5AF718735 /* [CP] Check Pods Manifest.lock */,
+				F0580CBC8C900D2AFAB093B6 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				E00573F21D8E622E266F2420 /* [CP] Copy Pods Resources */,
+				38C21AD7D38C44ACD5E88D9E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -780,7 +782,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "hoursTracker-tvOS" */;
 			buildPhases = (
-				928EDB5645E735B68FB8C04F /* [CP] Check Pods Manifest.lock */,
+				1F9734CBEBCA33A599A45C80 /* [CP] Check Pods Manifest.lock */,
 				2D02E4771E0B4A5D006451C7 /* Sources */,
 				2D02E4781E0B4A5D006451C7 /* Frameworks */,
 				2D02E4791E0B4A5D006451C7 /* Resources */,
@@ -799,7 +801,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "hoursTracker-tvOSTests" */;
 			buildPhases = (
-				217860F908B13455C01FCFF5 /* [CP] Check Pods Manifest.lock */,
+				C6C4532FCA9A6C1FF11FA3DF /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
 				2D02E48E1E0B4A5D006451C7 /* Resources */,
@@ -829,15 +831,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = MP3GY6B9M8;
-						ProvisioningStyle = Manual;
-						SystemCapabilities = {
-							com.apple.BackgroundModes = {
-								enabled = 1;
-							};
-							com.apple.Maps.iOS = {
-								enabled = 0;
-							};
-						};
+						ProvisioningStyle = Automatic;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1246,65 +1240,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		217860F908B13455C01FCFF5 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-hoursTracker-tvOSTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Bundle React Native Code And Images";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
-		};
-		8CC9D7CF9116D3F5AF718735 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-hoursTracker-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		928EDB5645E735B68FB8C04F /* [CP] Check Pods Manifest.lock */ = {
+		1F9734CBEBCA33A599A45C80 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1326,29 +1262,21 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D807AFA3D004A1B555565386 /* [CP] Check Pods Manifest.lock */ = {
+		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
 			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
+			name = "Bundle React Native Code And Images";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-hoursTrackerTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		E00573F21D8E622E266F2420 /* [CP] Copy Pods Resources */ = {
+		38C21AD7D38C44ACD5E88D9E /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1394,6 +1322,72 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-hoursTracker/Pods-hoursTracker-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		67C4FA6B7C9B5B2B08532492 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-hoursTrackerTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C6C4532FCA9A6C1FF11FA3DF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-hoursTracker-tvOSTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F0580CBC8C900D2AFAB093B6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-hoursTracker-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1463,7 +1457,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0117FCD15BFDA2D17562074D /* Pods-hoursTrackerTests.debug.xcconfig */;
+			baseConfigurationReference = 884ED6DBDE9947DCC21C1F48 /* Pods-hoursTrackerTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1487,7 +1481,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BD4CF0F0BD8DF8F1A1F6354C /* Pods-hoursTrackerTests.release.xcconfig */;
+			baseConfigurationReference = B4567F27982896199035D4AC /* Pods-hoursTrackerTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -1508,13 +1502,11 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9600CC0B002BC0AA7045FB1D /* Pods-hoursTracker.debug.xcconfig */;
+			baseConfigurationReference = 54DD0CEE2FEB55FE079FFEEE /* Pods-hoursTracker.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Alexander Grob (4N2HTCTC4M)";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = MP3GY6B9M8;
@@ -1528,20 +1520,18 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.khouryapps.officehours;
 				PRODUCT_NAME = hoursTracker;
-				PROVISIONING_PROFILE_SPECIFIER = "Khoury Office Hours TestFlight Profile";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D8EBA37167734D9AED277D17 /* Pods-hoursTracker.release.xcconfig */;
+			baseConfigurationReference = 88241DB363698848E7EE0E81 /* Pods-hoursTracker.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Alexander Grob (4N2HTCTC4M)";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = MP3GY6B9M8;
 				HEADER_SEARCH_PATHS = "$(inherited)";
@@ -1554,14 +1544,14 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.khouryapps.officehours;
 				PRODUCT_NAME = hoursTracker;
-				PROVISIONING_PROFILE_SPECIFIER = "Khoury Office Hours TestFlight Profile";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0EDA3FC7B8CFC0A23BCF94F7 /* Pods-hoursTracker-tvOS.debug.xcconfig */;
+			baseConfigurationReference = 4F9ABC9D236F3C88D644ACE2 /* Pods-hoursTracker-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1590,7 +1580,7 @@
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B4193EF22A4AD07E54762C19 /* Pods-hoursTracker-tvOS.release.xcconfig */;
+			baseConfigurationReference = 861916CFA8F9FE8F813DD0AF /* Pods-hoursTracker-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1619,7 +1609,7 @@
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 52F3E0C363EFC05BB5BEED8A /* Pods-hoursTracker-tvOSTests.debug.xcconfig */;
+			baseConfigurationReference = 28648B3EF4BC2024883330F3 /* Pods-hoursTracker-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1647,7 +1637,7 @@
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D434CB70FA0A663D4D21916A /* Pods-hoursTracker-tvOSTests.release.xcconfig */;
+			baseConfigurationReference = 2FBBD3693A1912B429CC2573 /* Pods-hoursTracker-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
